@@ -13,8 +13,8 @@ export default function Experience() {
     if (!pageRef.current) return;
     const els = pageRef.current.querySelectorAll('.reveal');
     gsap.fromTo(els,
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out', delay: 0.2 }
+      { opacity: 0, y: 24 },
+      { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out', delay: 0.15 }
     );
   }, []);
 
@@ -23,25 +23,25 @@ export default function Experience() {
     : experienceData.filter(e => e.type === activeFilter);
 
   return (
-    <div ref={pageRef} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div ref={pageRef} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
       {/* Header */}
-      <div className="reveal mb-10">
+      <div className="reveal space-y-4">
         <Breadcrumb path="experience" />
-        <h1 className="text-3xl sm:text-4xl font-bold mt-4 mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-          cat{' '}<span style={{ color: 'var(--terminal-green)' }}>experience.log</span>
+        <h1 className="text-3xl sm:text-4xl font-extrabold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
+          cat <span style={{ color: 'var(--terminal-green)' }}>experience.log</span>
         </h1>
-        <p className="text-sm" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-          # Internships, research, leadership, and open source contributions
+        <p className="text-sm leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+          # Chronology of work history, research roles, and technical leadership
         </p>
       </div>
 
       {/* Filters */}
-      <div className="reveal mb-8 flex flex-wrap gap-2">
+      <div className="reveal flex flex-wrap gap-2.5">
         {filters.map((filter) => (
           <button
             key={filter}
             onClick={() => setActiveFilter(filter)}
-            className="px-4 py-1.5 rounded text-xs transition-all duration-200"
+            className="px-4 py-1.5 rounded text-xs font-semibold transition-all duration-200 cursor-pointer"
             style={{
               fontFamily: 'var(--font-mono)',
               background: activeFilter === filter ? 'rgba(0,255,136,0.1)' : 'rgba(255,255,255,0.03)',
@@ -55,34 +55,9 @@ export default function Experience() {
       </div>
 
       {/* Experience Timeline */}
-      <div className="relative">
-        <div
-          className="absolute left-5 top-0 bottom-0 w-px"
-          style={{ background: 'linear-gradient(to bottom, var(--terminal-green), transparent)', opacity: 0.25 }}
-        />
-
-        <div className="space-y-6">
-          {filtered.map((exp) => (
-            <ExperienceCard key={exp.id} exp={exp} />
-          ))}
-        </div>
-      </div>
-
-      {/* Summary Stats */}
-      <div className="reveal mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {summaryStats.map(({ label, value, color }) => (
-          <div
-            key={label}
-            className="terminal-card p-4 text-center"
-            style={{ borderColor: `${color}22`, background: `${color}06` }}
-          >
-            <div className="text-xl font-bold mb-1" style={{ fontFamily: 'var(--font-mono)', color }}>
-              {value}
-            </div>
-            <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-              {label}
-            </div>
-          </div>
+      <div className="relative pl-8 border-l border-gray-800 space-y-10">
+        {filtered.map((exp) => (
+          <ExperienceCard key={exp.id} exp={exp} />
         ))}
       </div>
     </div>
@@ -91,6 +66,8 @@ export default function Experience() {
 
 function ExperienceCard({ exp }: { exp: typeof experienceData[0] }) {
   const [expanded, setExpanded] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const detailsRef = useRef<HTMLDivElement>(null);
 
   const typeColors: Record<string, string> = {
     Internship: 'var(--terminal-cyan)',
@@ -101,115 +78,127 @@ function ExperienceCard({ exp }: { exp: typeof experienceData[0] }) {
 
   const color = typeColors[exp.type] || 'var(--text-muted)';
 
-  return (
-    <div className="reveal relative pl-14">
-      {/* Timeline dot */}
-      <div
-        className="absolute left-3.5 top-6 w-3 h-3 rounded-full border-2 transform -translate-x-1/2 z-10"
-        style={{
-          background: color,
-          borderColor: color,
-          boxShadow: `0 0 8px ${color}60`,
-        }}
-      />
+  useEffect(() => {
+    if (expanded && detailsRef.current) {
+      gsap.fromTo(detailsRef.current,
+        { height: 0, opacity: 0 },
+        { height: 'auto', opacity: 1, duration: 0.4, ease: 'power2.out' }
+      );
+    }
+  }, [expanded]);
 
+  return (
+    <div className="relative space-y-3">
+      {/* Timeline connector dot */}
       <div
-        className="terminal-card p-5 cursor-pointer"
-        onClick={() => setExpanded(!expanded)}
-        style={{ transition: 'all 0.25s ease' }}
+        className="absolute -left-[38px] top-6 w-4.5 h-4.5 rounded-full border-2 bg-primary flex items-center justify-center z-10"
+        style={{
+          borderColor: color,
+          boxShadow: `0 0 12px ${color}60`,
+        }}
       >
-        {/* Header */}
-        <div className="flex items-start justify-between gap-4 flex-wrap">
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1 flex-wrap">
+        <span className="w-2 h-2 rounded-full" style={{ background: color }} />
+      </div>
+
+      {/* Card Content */}
+      <div
+        ref={cardRef}
+        className="terminal-card p-6 cursor-pointer space-y-4"
+        onClick={() => setExpanded(!expanded)}
+        onMouseEnter={() => {
+          if (cardRef.current) cardRef.current.style.borderColor = color;
+        }}
+        onMouseLeave={() => {
+          if (cardRef.current) cardRef.current.style.borderColor = 'rgba(0, 255, 136, 0.12)';
+        }}
+        style={{ transition: 'border-color 0.3s ease' }}
+      >
+        {/* Header Block */}
+        <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+          <div className="flex items-start gap-4">
+            {/* Logo */}
+            <div
+              className="w-12 h-12 rounded-xl flex items-center justify-center font-bold shrink-0 text-lg"
+              style={{
+                background: `${exp.color}15`,
+                border: `1px solid ${exp.color}35`,
+                color: exp.color,
+                fontFamily: 'var(--font-mono)',
+              }}
+            >
+              {exp.logo}
+            </div>
+
+            <div className="space-y-1 text-left">
               <span
-                className="text-xs px-2 py-0.5 rounded"
+                className="text-[0.62rem] font-bold px-2 py-0.5 rounded uppercase"
                 style={{
                   fontFamily: 'var(--font-mono)',
-                  background: `${color}15`,
-                  border: `1px solid ${color}30`,
+                  background: `${color}08`,
+                  border: `1px solid ${color}25`,
                   color,
-                  fontSize: '0.65rem',
                 }}
               >
                 {exp.type}
               </span>
-              <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', fontSize: '0.65rem' }}>
-                {exp.duration}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-3 mb-0.5">
-              {/* Company Logo */}
-              <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shrink-0"
-                style={{
-                  background: `${exp.color}20`,
-                  border: `1px solid ${exp.color}40`,
-                  color: exp.color,
-                  fontFamily: 'var(--font-mono)',
-                }}
-              >
-                {exp.logo}
+              <h3 className="text-base font-bold text-primary-custom" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
+                {exp.role}
+              </h3>
+              <div className="text-xs font-medium" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
+                {exp.company} — <span style={{ color: 'var(--text-muted)' }}>{exp.team}</span>
               </div>
-              <div>
-                <h3 className="text-sm font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                  {exp.role}
-                </h3>
-                <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color }}>
-                  {exp.company} — {exp.team}
-                </div>
-              </div>
-            </div>
-            <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-              📍 {exp.location}
             </div>
           </div>
 
-          <button
-            className="text-xs shrink-0 mt-1"
-            style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}
-          >
-            {expanded ? '▲ less' : '▼ more'}
-          </button>
+          {/* Time & Location details */}
+          <div className="text-left sm:text-right text-xs space-y-1" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+            <div>📅 {exp.duration}</div>
+            <div>📍 {exp.location}</div>
+          </div>
         </div>
 
-        {/* Description */}
-        <p className="text-xs leading-relaxed mt-3" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
+        {/* Short description */}
+        <p className="text-xs leading-relaxed text-secondary-custom" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
           {exp.description}
         </p>
 
-        {/* Expanded Content */}
-        {expanded && (
-          <div className="mt-4 space-y-4">
-            {/* Achievements */}
-            <div>
-              <div className="text-xs mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-                ▸ key_achievements
+        {/* Collapsible content container */}
+        {expanded ? (
+          <div ref={detailsRef} className="space-y-4 pt-4 border-t border-gray-800 overflow-hidden text-left">
+            {/* Responsibilities list */}
+            <div className="space-y-2">
+              <div className="text-xs font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
+                ▸ key_responsibilities_and_contributions
               </div>
-              <div className="space-y-1.5">
-                {exp.achievements.map((a, i) => (
-                  <div key={i} className="flex items-start gap-2">
-                    <span className="text-xs mt-0.5" style={{ color: 'var(--terminal-green)' }}>✓</span>
-                    <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-                      {a}
+              <div className="space-y-2">
+                {exp.achievements.map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-3">
+                    <span style={{ color: 'var(--terminal-green)', fontSize: '0.85rem' }}>✓</span>
+                    <span className="text-xs leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
+                      {item}
                     </span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Tech */}
-            <div>
-              <div className="text-xs mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-                ▸ tech_used
+            {/* Tech tag list */}
+            <div className="space-y-2">
+              <div className="text-xs font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
+                ▸ technologies_deployed
               </div>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2">
                 {exp.tech.map((t) => (
-                  <span key={t} className="tech-tag" style={{ fontSize: '0.65rem' }}>{t}</span>
+                  <span key={t} className="tech-tag" style={{ fontSize: '0.6rem' }}>
+                    {t}
+                  </span>
                 ))}
               </div>
             </div>
+          </div>
+        ) : (
+          <div className="pt-2 text-center text-[0.68rem] text-muted-custom" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+            [ Click to expand responsibilities & technologies ]
           </div>
         )}
       </div>
@@ -227,10 +216,3 @@ function Breadcrumb({ path }: { path: string }) {
     </div>
   );
 }
-
-const summaryStats = [
-  { label: 'Internships', value: '2', color: 'var(--terminal-cyan)' },
-  { label: 'Research Papers', value: '1+', color: 'var(--terminal-blue)' },
-  { label: 'OSS PRs Merged', value: '47', color: 'var(--terminal-green)' },
-  { label: 'Leadership Roles', value: '2', color: 'var(--terminal-purple)' },
-];

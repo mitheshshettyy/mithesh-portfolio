@@ -9,160 +9,166 @@ export default function Education() {
     if (!pageRef.current) return;
     const els = pageRef.current.querySelectorAll('.reveal');
     gsap.fromTo(els,
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out', delay: 0.2 }
+      { opacity: 0, y: 24 },
+      { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out', delay: 0.15 }
     );
   }, []);
 
   return (
-    <div ref={pageRef} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div ref={pageRef} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
       {/* Header */}
-      <div className="reveal mb-10">
+      <div className="reveal space-y-4">
         <Breadcrumb path="education" />
-        <h1 className="text-3xl sm:text-4xl font-bold mt-4 mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-          cat{' '}<span style={{ color: 'var(--terminal-green)' }}>education.log</span>
+        <h1 className="text-3xl sm:text-4xl font-extrabold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
+          cat <span style={{ color: 'var(--terminal-green)' }}>education.log</span>
         </h1>
-        <p className="text-sm" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-          # Academic background and formal training
+        <p className="text-sm leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+          # Academic path, coursework, achievements, and professional certifications
         </p>
       </div>
 
-      {/* Timeline */}
-      <div className="relative">
-        {/* Vertical line */}
-        <div
-          className="absolute left-4 top-0 bottom-0 w-px"
-          style={{ background: 'linear-gradient(to bottom, var(--terminal-green), transparent)', opacity: 0.3 }}
-        />
-
-        <div className="space-y-8">
+      {/* SECTION 1: EDUCATION TIMELINE */}
+      <div className="reveal space-y-8">
+        <h2 className="text-xl font-bold border-b border-gray-800 pb-2 text-terminal-green" style={{ fontFamily: 'var(--font-mono)' }}>
+          :: Academic History
+        </h2>
+        <div className="relative pl-8 border-l border-gray-800 space-y-12">
           {educationData.map((edu) => (
-            <div key={edu.id} className="reveal relative pl-12">
-              {/* Timeline dot */}
+            <div key={edu.id} className="relative space-y-3">
+              {/* Timeline marker */}
               <div
-                className="absolute left-2.5 top-6 w-3 h-3 rounded-full border-2 transform -translate-x-1/2"
+                className="absolute -left-[38px] top-1.5 w-4.5 h-4.5 rounded-full border-2 bg-primary flex items-center justify-center"
                 style={{
-                  background: edu.status === 'Current' ? 'var(--terminal-green)' : 'var(--bg-secondary)',
                   borderColor: edu.status === 'Current' ? 'var(--terminal-green)' : 'var(--text-muted)',
-                  boxShadow: edu.status === 'Current' ? '0 0 10px var(--terminal-green)' : 'none',
+                  boxShadow: edu.status === 'Current' ? '0 0 12px var(--terminal-green)' : 'none',
                 }}
-              />
+              >
+                {edu.status === 'Current' && (
+                  <span className="w-2 h-2 rounded-full" style={{ background: 'var(--terminal-green)' }} />
+                )}
+              </div>
 
-              <div className="terminal-card p-6">
-                {/* Status badge */}
-                <div className="flex items-start justify-between flex-wrap gap-3 mb-4">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span
-                        className="text-xs px-2 py-0.5 rounded"
-                        style={{
-                          fontFamily: 'var(--font-mono)',
-                          background: edu.status === 'Current' ? 'rgba(0,255,136,0.12)' : 'rgba(255,255,255,0.05)',
-                          color: edu.status === 'Current' ? 'var(--terminal-green)' : 'var(--text-muted)',
-                          border: `1px solid ${edu.status === 'Current' ? 'rgba(0,255,136,0.3)' : 'rgba(255,255,255,0.1)'}`,
-                        }}
-                      >
-                        {edu.status}
-                      </span>
-                      <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                        {edu.duration}
-                      </span>
-                    </div>
-                    <h2 className="text-lg font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
+              {/* Card Container */}
+              <div className="terminal-card p-6 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                  <div className="space-y-1">
+                    <span
+                      className="text-[0.65rem] font-bold px-2 py-0.5 rounded uppercase"
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        background: edu.status === 'Current' ? 'rgba(0,255,136,0.08)' : 'rgba(255,255,255,0.05)',
+                        color: edu.status === 'Current' ? 'var(--terminal-green)' : 'var(--text-muted)',
+                        border: `1px solid ${edu.status === 'Current' ? 'rgba(0,255,136,0.2)' : 'rgba(255,255,255,0.1)'}`,
+                      }}
+                    >
+                      {edu.status}
+                    </span>
+                    <h3 className="text-lg font-bold pt-1" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
                       {edu.institution}
-                    </h2>
-                    <div className="text-sm" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
+                    </h3>
+                    <div className="text-sm font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
                       {edu.degree} — {edu.field}
                     </div>
                   </div>
 
-                  {/* Score */}
+                  {/* CGPA Badge */}
                   <div
-                    className="text-right p-3 rounded-lg"
+                    className="p-3 rounded-lg text-center shrink-0 w-24"
                     style={{
-                      background: 'rgba(0,255,136,0.06)',
+                      background: 'rgba(0,255,136,0.04)',
                       border: '1px solid rgba(0,255,136,0.15)',
                     }}
                   >
-                    <div className="text-xl font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
+                    <div className="text-lg font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
                       {'cgpa' in edu ? edu.cgpa : edu.score}
                     </div>
-                    <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                    <div className="text-[0.6rem] uppercase tracking-wider text-muted-custom" style={{ color: 'var(--text-muted)' }}>
                       {'cgpa' in edu ? 'CGPA' : 'Score'}
                     </div>
                   </div>
                 </div>
 
-                {/* Location */}
-                <div className="text-xs mb-4" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                  📍 {edu.location}
+                <div className="flex justify-between items-center text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                  <span>📍 {edu.location}</span>
+                  <span>📅 {edu.duration}</span>
                 </div>
-
-                {/* Highlights */}
-                {edu.highlights.length > 0 && (
-                  <div className="mb-4">
-                    <div className="text-xs mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-                      ▸ highlights
-                    </div>
-                    <div className="space-y-1.5">
-                      {edu.highlights.map((h, i) => (
-                        <div key={i} className="flex items-start gap-2">
-                          <span className="text-xs mt-0.5" style={{ color: 'var(--terminal-green)' }}>✓</span>
-                          <span className="text-sm" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-                            {h}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Coursework */}
-                {edu.coursework.length > 0 && (
-                  <div>
-                    <div className="text-xs mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-                      ▸ relevant_coursework
-                    </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {edu.coursework.map((course) => (
-                        <span key={course} className="tech-tag" style={{ fontSize: '0.65rem' }}>
-                          {course}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Certifications & Achievements */}
-      <div className="reveal mt-10">
-        <div className="terminal-card p-6">
-          <div className="text-xs mb-5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-            ▸ certifications_and_achievements
-          </div>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {certifications.map((cert, i) => (
+      {/* SECTION 2: RELEVANT COURSEWORK */}
+      <div className="reveal space-y-6">
+        <h2 className="text-xl font-bold border-b border-gray-800 pb-2 text-terminal-green" style={{ fontFamily: 'var(--font-mono)' }}>
+          :: Relevant Coursework
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          {allCoursework.map((course) => (
+            <div
+              key={course}
+              className="p-3 rounded border"
+              style={{
+                fontFamily: 'var(--font-mono)',
+                borderColor: 'rgba(255,255,255,0.05)',
+                background: 'rgba(255,255,255,0.01)',
+              }}
+            >
+              <div className="text-xs text-secondary-custom" style={{ color: 'var(--text-secondary)' }}>
+                → {course}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* SECTION 3: CERTIFICATIONS */}
+      <div className="reveal space-y-6">
+        <h2 className="text-xl font-bold border-b border-gray-800 pb-2 text-terminal-green" style={{ fontFamily: 'var(--font-mono)' }}>
+          :: Professional Certifications
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {certifications.map((cert, i) => (
+            <div
+              key={i}
+              className="terminal-card p-5 space-y-2"
+              style={{
+                borderColor: 'rgba(0,212,255,0.15)',
+                background: 'rgba(0,212,255,0.02)',
+              }}
+            >
+              <h3 className="text-sm font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
+                {cert.name}
+              </h3>
+              <div className="flex justify-between text-xs" style={{ fontFamily: 'var(--font-mono)' }}>
+                <span style={{ color: 'var(--terminal-cyan)' }}>{cert.issuer}</span>
+                <span style={{ color: 'var(--text-muted)' }}>{cert.year}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* SECTION 4: ACHIEVEMENTS */}
+      <div className="reveal space-y-6">
+        <h2 className="text-xl font-bold border-b border-gray-800 pb-2 text-terminal-green" style={{ fontFamily: 'var(--font-mono)' }}>
+          :: Key Academic Achievements
+        </h2>
+        <div className="terminal-card p-6 space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" style={{ fontFamily: 'var(--font-mono)' }}>
+            {academicAchievements.map((item, idx) => (
               <div
-                key={i}
-                className="p-4 rounded-lg"
+                key={idx}
+                className="flex items-start gap-3 p-3 rounded"
                 style={{
-                  background: 'rgba(0,212,255,0.04)',
-                  border: '1px solid rgba(0,212,255,0.12)',
+                  background: 'rgba(0, 255, 136, 0.02)',
+                  border: '1px solid rgba(0, 255, 136, 0.06)',
                 }}
               >
-                <div className="text-sm font-semibold mb-1" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                  {cert.name}
-                </div>
-                <div className="text-xs mb-1" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-                  {cert.issuer}
-                </div>
-                <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                  {cert.year}
-                </div>
+                <span style={{ color: 'var(--terminal-green)', fontSize: '0.85rem' }}>✓</span>
+                <span className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                  {item}
+                </span>
               </div>
             ))}
           </div>
@@ -190,4 +196,27 @@ const certifications = [
   { name: 'Meta Backend Developer', issuer: 'Coursera / Meta', year: '2023' },
   { name: 'Deep Learning Specialization', issuer: 'Coursera / DeepLearning.AI', year: '2022' },
   { name: 'Competitive Programming — Expert', issuer: 'Codeforces (Rating: 1847)', year: '2024' },
+];
+
+const allCoursework = [
+  'Data Structures & Algorithms',
+  'Operating Systems',
+  'Computer Networks',
+  'Database Management Systems',
+  'Machine Learning',
+  'Distributed Systems',
+  'System Design',
+  'Compiler Design',
+  'Computer Architecture',
+  'Software Engineering'
+];
+
+const academicAchievements = [
+  "Dean's Merit List — 5 consecutive semesters (IIT Delhi)",
+  "Best Undergraduate Project Award — 2024",
+  "ACM Student Chapter President @ IIT Delhi",
+  "Teaching Assistant — Data Structures & Algorithms",
+  "School Topper — Computer Science (DPS R.K. Puram)",
+  "JEE Advanced All India Rank (AIR) 847",
+  "Gold Medalist — National Science Olympiad"
 ];

@@ -109,40 +109,48 @@ export default function Navbar() {
             </button>
 
             {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-4">
               {navItems.map((item) => (
                 <button
                   key={item.path}
                   onClick={() => handleNavClick(item.path)}
-                  className="relative px-3 py-1.5 text-xs font-medium transition-all duration-200 group rounded"
+                  className="relative px-3 py-1.5 text-xs font-semibold transition-all duration-300 group rounded cursor-pointer"
                   style={{
                     fontFamily: 'var(--font-mono)',
                     color: isActive(item.path) ? 'var(--terminal-green)' : 'var(--text-secondary)',
-                    background: isActive(item.path) ? 'rgba(0, 255, 136, 0.08)' : 'transparent',
-                    border: isActive(item.path)
-                      ? '1px solid rgba(0, 255, 136, 0.25)'
-                      : '1px solid transparent',
+                    background: isActive(item.path) ? 'rgba(0, 255, 136, 0.05)' : 'transparent',
+                    border: '1px solid transparent',
                   }}
                   onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement;
                     if (!isActive(item.path)) {
-                      (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)';
-                      (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.04)';
+                      el.style.color = 'var(--terminal-cyan)';
+                      el.style.background = 'rgba(0, 212, 255, 0.04)';
+                      el.style.transform = 'translateY(-1px)';
                     }
                   }}
                   onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
                     if (!isActive(item.path)) {
-                      (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)';
-                      (e.currentTarget as HTMLElement).style.background = 'transparent';
+                      el.style.color = 'var(--text-secondary)';
+                      el.style.background = 'transparent';
+                      el.style.transform = 'translateY(0)';
                     }
                   }}
                 >
-                  <span style={{ color: 'var(--text-muted)', fontSize: '0.65rem' }} className="mr-1.5">
+                  <span style={{ color: isActive(item.path) ? 'var(--terminal-green)' : 'var(--text-muted)', fontSize: '0.65rem' }} className="mr-1.5 transition-colors group-hover:text-terminal-cyan">
                     {item.icon === '~' ? '⌂' : item.icon}
                   </span>
                   {item.label}
+                  <span
+                    className="absolute bottom-0 left-0 right-0 h-[2px] transition-all duration-300 origin-center scale-x-0 group-hover:scale-x-100"
+                    style={{
+                      background: 'var(--terminal-cyan)',
+                    }}
+                  />
                   {isActive(item.path) && (
                     <span
-                      className="absolute bottom-0 left-0 right-0 h-px"
+                      className="absolute bottom-0 left-0 right-0 h-[2px]"
                       style={{ background: 'var(--terminal-green)' }}
                     />
                   )}

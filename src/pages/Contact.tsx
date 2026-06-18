@@ -19,7 +19,6 @@ export default function Contact() {
   const [form, setForm] = useState<FormState>({ name: '', email: '', subject: '', message: '' });
   const [submitState, setSubmitState] = useState<SubmitState>({ status: 'idle', message: '' });
   const [focused, setFocused] = useState<string | null>(null);
-  const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
 
   useEffect(() => {
     if (!pageRef.current) return;
@@ -34,39 +33,24 @@ export default function Contact() {
     setForm(prev => ({ ...prev, [field]: value }));
   };
 
-  const addTerminalLine = (line: string) => {
-    setTerminalOutput(prev => [...prev, line]);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Basic validation
     if (!form.name || !form.email || !form.message) {
       setSubmitState({ status: 'error', message: 'Please fill all required fields.' });
-      addTerminalLine('✗ Error: Missing required fields');
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(form.email)) {
       setSubmitState({ status: 'error', message: 'Invalid email address.' });
-      addTerminalLine('✗ Error: Invalid email format');
       return;
     }
 
     setSubmitState({ status: 'loading', message: '' });
-    addTerminalLine(`$ POST /api/contact`);
-    addTerminalLine(`  Payload: { name: "${form.name}", email: "${form.email}" }`);
-    addTerminalLine(`  Sending request...`);
 
-    // Simulate API call (backend would handle this)
+    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
-
-    // Simulate success (in production, this would be a real API call)
-    addTerminalLine(`  Status: 200 OK`);
-    addTerminalLine(`  Response: { success: true, id: "msg_${Date.now()}" }`);
-    addTerminalLine(`✓ Message delivered successfully!`);
 
     setSubmitState({
       status: 'success',
@@ -79,7 +63,7 @@ export default function Contact() {
   return (
     <div ref={pageRef} className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
-      <div className="reveal mb-10">
+      <div className="reveal mb-12">
         <Breadcrumb path="contact" />
         <h1 className="text-3xl sm:text-4xl font-bold mt-4 mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
           init{' '}<span style={{ color: 'var(--terminal-green)' }}>connection</span>
@@ -90,8 +74,8 @@ export default function Contact() {
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-5 gap-6">
-        {/* Contact Form */}
+      <div className="grid lg:grid-cols-5 gap-8">
+        {/* Contact Form - Left Column */}
         <div className="lg:col-span-3">
           <div className="reveal terminal-card p-6">
             {/* Terminal header */}
@@ -224,41 +208,13 @@ export default function Contact() {
               )}
             </form>
           </div>
-
-          {/* Terminal Output Preview */}
-          {terminalOutput.length > 0 && (
-            <div
-              className="reveal mt-4 terminal-card p-4"
-              style={{ background: 'rgba(0,0,0,0.5)' }}
-            >
-              <div className="text-xs mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                request_log.txt
-              </div>
-              {terminalOutput.map((line, i) => (
-                <div
-                  key={i}
-                  className="text-xs leading-relaxed"
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    color: line.startsWith('✓') ? 'var(--terminal-green)'
-                      : line.startsWith('✗') ? 'var(--terminal-red)'
-                        : line.startsWith('$') ? 'var(--terminal-cyan)'
-                          : 'var(--text-muted)',
-                  }}
-                >
-                  {line}
-                </div>
-              ))}
-            </div>
-          )}
         </div>
 
-        {/* Right Panel */}
-        <div className="lg:col-span-2 space-y-4">
-          {/* Direct Contact */}
-          <div className="reveal terminal-card p-5">
-            <div className="text-xs mb-4" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-              ▸ direct_contact
+        {/* Contact Details - Right Column */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="reveal terminal-card p-6">
+            <div className="text-xs mb-4 uppercase tracking-wider font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
+              ▸ contact_details
             </div>
             <div className="space-y-4">
               <ContactItem
@@ -266,98 +222,39 @@ export default function Contact() {
                 label="Email"
                 value={personalInfo.email}
                 href={`mailto:${personalInfo.email}`}
-                note="Best for opportunities"
               />
               <ContactItem
                 icon="🐙"
                 label="GitHub"
                 value="@alexchen-dev"
                 href={personalInfo.github}
-                note="Code & projects"
               />
               <ContactItem
                 icon="💼"
                 label="LinkedIn"
                 value="in/alexchen-cs"
                 href={personalInfo.linkedin}
-                note="Professional network"
               />
               <ContactItem
-                icon="🐦"
-                label="Twitter"
-                value="@alexchen_dev"
-                href={personalInfo.twitter}
-                note="Dev thoughts"
+                icon="📍"
+                label="Location"
+                value={personalInfo.location}
+                href={`https://maps.google.com/?q=${encodeURIComponent(personalInfo.location)}`}
               />
-            </div>
-          </div>
-
-          {/* Response Time */}
-          <div
-            className="reveal terminal-card p-5"
-            style={{ background: 'rgba(0,255,136,0.04)', border: '1px solid rgba(0,255,136,0.15)' }}
-          >
-            <div className="text-xs mb-3" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
-              ▸ response_sla
-            </div>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>Email</span>
-                <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>{'< 24h'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>LinkedIn DM</span>
-                <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>{'< 48h'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>Contact Form</span>
-                <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>{'< 48h'}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Availability */}
-          <div className="reveal terminal-card p-5">
-            <div className="text-xs mb-3" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-              ▸ availability
-            </div>
-            <div className="flex items-center gap-2 mb-3">
-              <span
-                className="w-2 h-2 rounded-full"
-                style={{ background: 'var(--terminal-green)', boxShadow: '0 0 6px var(--terminal-green)' }}
+              <ContactItem
+                icon="🟢"
+                label="Availability"
+                value={personalInfo.availability}
+                href="#"
+                isLink={false}
               />
-              <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
-                Open to Opportunities
-              </span>
-            </div>
-            <div className="space-y-1.5">
-              {[
-                'Full-time SDE roles (May 2025)',
-                'ML / AI Engineering',
-                'Research collaborations',
-                'Open source projects',
-                'Technical consulting',
-              ].map((item) => (
-                <div key={item} className="flex items-center gap-2">
-                  <span style={{ color: 'var(--text-muted)', fontSize: '0.65rem' }}>→</span>
-                  <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-                    {item}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* PGP / Security note */}
-          <div className="reveal terminal-card p-5">
-            <div className="text-xs mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-              ▸ security
-            </div>
-            <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-              PGP key available on request for secure communications.
-            </div>
-            <div className="text-xs mt-1" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-              Fingerprint: <span style={{ color: 'var(--terminal-green)', fontSize: '0.65rem' }}>A3F9...C21E</span>
+              <ContactItem
+                icon="📄"
+                label="Resume"
+                value="View / Download Resume PDF"
+                href="/resume"
+                isLink={true}
+              />
             </div>
           </div>
         </div>
@@ -405,32 +302,45 @@ function FormField({
 }
 
 function ContactItem({
-  icon, label, value, href,
-}: { icon: string; label: string; value: string; href: string; note?: string }) {
-  return (
-    <a
-      href={href}
-      target={href.startsWith('mailto') ? undefined : '_blank'}
-      rel="noopener noreferrer"
-      className="flex items-center gap-3 group"
-    >
-      <span className="text-base">{icon}</span>
+  icon, label, value, href, isLink = true,
+}: { icon: string; label: string; value: string; href: string; isLink?: boolean }) {
+  const content = (
+    <div className="flex items-center gap-3 py-1 group">
+      <span className="text-base shrink-0">{icon}</span>
       <div className="flex-1 min-w-0">
-        <div className="text-xs font-medium" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
+        <div className="text-xs font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
           {label}
         </div>
         <div
-          className="text-xs truncate transition-colors"
+          className="text-xs truncate transition-colors duration-200 group-hover:text-emerald-400"
           style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}
         >
           {value}
         </div>
       </div>
-      <div className="text-xs shrink-0" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', fontSize: '0.6rem' }}>
-        ↗
-      </div>
-    </a>
+      {isLink && href !== '#' && (
+        <div className="text-xs shrink-0 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', fontSize: '0.65rem' }}>
+          ↗
+        </div>
+      )}
+    </div>
   );
+
+  if (isLink && href !== '#') {
+    const isExternal = href.startsWith('http') || href.startsWith('mailto');
+    return (
+      <a
+        href={href}
+        target={isExternal ? '_blank' : undefined}
+        rel={isExternal ? 'noopener noreferrer' : undefined}
+        className="block cursor-pointer"
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return <div>{content}</div>;
 }
 
 function Breadcrumb({ path }: { path: string }) {

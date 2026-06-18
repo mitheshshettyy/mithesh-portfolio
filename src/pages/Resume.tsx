@@ -15,7 +15,6 @@ export default function Resume() {
   }, []);
 
   const handleDownload = () => {
-    // In production this would hit /api/resume/download
     const link = document.createElement('a');
     link.href = '/resume/alex-chen-resume.pdf';
     link.download = 'Alex_Chen_Resume_2025.pdf';
@@ -25,9 +24,9 @@ export default function Resume() {
   return (
     <div ref={pageRef} className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
-      <div className="reveal mb-8">
+      <div className="reveal mb-10">
         <Breadcrumb path="resume" />
-        <div className="flex items-start justify-between flex-wrap gap-4 mt-4">
+        <div className="flex items-start justify-between flex-wrap gap-6 mt-4">
           <div>
             <h1 className="text-3xl sm:text-4xl font-bold mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
               open{' '}<span style={{ color: 'var(--terminal-green)' }}>resume.pdf</span>
@@ -36,10 +35,10 @@ export default function Resume() {
               # Recruiter-ready resume — last updated Jan 2025
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-4">
             <button
               onClick={handleDownload}
-              className="flex items-center gap-2 px-5 py-2.5 rounded text-sm transition-all duration-200"
+              className="flex items-center gap-2 px-5 py-2.5 rounded text-sm font-medium transition-all duration-200"
               style={{
                 fontFamily: 'var(--font-mono)',
                 background: 'rgba(0,255,136,0.12)',
@@ -61,12 +60,18 @@ export default function Resume() {
               href={personalInfo.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-2.5 rounded text-sm transition-all duration-200"
+              className="flex items-center gap-2 px-5 py-2.5 rounded text-sm font-medium transition-all duration-200"
               style={{
                 fontFamily: 'var(--font-mono)',
                 background: 'rgba(255,255,255,0.04)',
                 border: '1px solid rgba(255,255,255,0.1)',
                 color: 'var(--text-secondary)',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)';
               }}
             >
               LinkedIn ↗
@@ -75,12 +80,11 @@ export default function Resume() {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
-        {/* Resume Preview */}
-        <div className="lg:col-span-2 space-y-5">
-
-          {/* PDF Viewer Placeholder */}
+      <div className="grid lg:grid-cols-3 gap-8">
+        {/* Resume Preview - Left Side (2 cols) */}
+        <div className="lg:col-span-2 space-y-6">
           <div className="reveal terminal-card overflow-hidden">
+            {/* Top terminal bar */}
             <div
               className="flex items-center gap-3 px-4 py-3"
               style={{ borderBottom: '1px solid rgba(0,255,136,0.1)', background: 'rgba(0,0,0,0.3)' }}
@@ -107,115 +111,134 @@ export default function Resume() {
               </span>
             </div>
 
-            {/* Inline Resume Preview */}
-            <div className="p-6 space-y-5">
-              {/* Resume Header */}
-              <div className="text-center pb-5" style={{ borderBottom: '1px solid rgba(0,255,136,0.1)' }}>
-                <h2 className="text-2xl font-bold mb-1" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                  {personalInfo.name}
-                </h2>
-                <div className="text-sm mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
-                  {personalInfo.title}
+            {/* Inline Resume Preview Content */}
+            <div className="p-6 sm:p-8 space-y-6">
+              {/* Resume Header & ATS Badge */}
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center pb-6 gap-4" style={{ borderBottom: '1px solid rgba(0,255,136,0.1)' }}>
+                <div className="text-left">
+                  <h2 className="text-2xl font-bold mb-1" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
+                    {personalInfo.name}
+                  </h2>
+                  <div className="text-sm mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
+                    {personalInfo.title}
+                  </div>
+                  <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                    <span>{personalInfo.email}</span>
+                    <span>|</span>
+                    <span>github.com/alexchen-dev</span>
+                    <span>|</span>
+                    <span>linkedin.com/in/alexchen-cs</span>
+                    <span>|</span>
+                    <span>{personalInfo.location}</span>
+                  </div>
                 </div>
-                <div className="flex flex-wrap justify-center gap-3 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                  <span>{personalInfo.email}</span>
-                  <span>|</span>
-                  <span>github.com/alexchen-dev</span>
-                  <span>|</span>
-                  <span>linkedin.com/in/alexchen-cs</span>
-                  <span>|</span>
-                  <span>{personalInfo.location}</span>
+
+                {/* ATS Badge */}
+                <div className="flex flex-col sm:items-end border border-dashed border-emerald-500/35 p-2.5 rounded bg-emerald-500/5 self-start sm:self-auto">
+                  <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    ATS Compatible
+                  </span>
+                  <span className="text-[9px] text-emerald-500/80 font-mono mt-0.5">
+                    100% Machine Parsable
+                  </span>
                 </div>
               </div>
 
               {/* Education */}
               <ResumeSection title="Education">
-                {educationData.map(edu => (
-                  <div key={edu.id} className="mb-3">
-                    <div className="flex justify-between items-start flex-wrap gap-1">
-                      <div>
-                        <div className="text-sm font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                          {edu.institution}
+                <div className="space-y-4">
+                  {educationData.map(edu => (
+                    <div key={edu.id} className="group">
+                      <div className="flex justify-between items-start flex-wrap gap-2">
+                        <div>
+                          <div className="text-sm font-semibold transition-colors duration-200 group-hover:text-emerald-400" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
+                            {edu.institution}
+                          </div>
+                          <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
+                            {edu.degree} — {edu.field}
+                          </div>
                         </div>
-                        <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-                          {edu.degree} — {edu.field}
+                        <div className="text-right flex sm:flex-col justify-between items-center sm:items-end w-full sm:w-auto mt-1 sm:mt-0">
+                          <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                            {edu.duration}
+                          </div>
+                          <div className="text-xs font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
+                            {'cgpa' in edu ? `CGPA: ${edu.cgpa}` : `Score: ${edu.score}`}
+                          </div>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                          {edu.duration}
-                        </div>
-                        <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
-                          {'cgpa' in edu ? `CGPA: ${edu.cgpa}` : `Score: ${edu.score}`}
-                        </div>
-                      </div>
+                      {edu.highlights.length > 0 && (
+                        <ul className="mt-2 space-y-1 pl-1">
+                          {edu.highlights.slice(0, 2).map(h => (
+                            <li key={h} className="text-xs flex items-start gap-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                              <span style={{ color: 'var(--terminal-green)' }}>›</span>
+                              <span>{h}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
-                    {edu.highlights.length > 0 && (
-                      <ul className="mt-1 space-y-0.5">
-                        {edu.highlights.slice(0, 2).map(h => (
-                          <li key={h} className="text-xs flex items-start gap-1.5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                            <span>•</span><span>{h}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                ))}
+                  ))}
+                </div>
               </ResumeSection>
 
               {/* Experience */}
               <ResumeSection title="Experience">
-                {experienceData.filter(e => e.type === 'Internship' || e.type === 'Research').map(exp => (
-                  <div key={exp.id} className="mb-3">
-                    <div className="flex justify-between items-start flex-wrap gap-1">
-                      <div>
-                        <div className="text-sm font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                          {exp.role}
+                <div className="space-y-4">
+                  {experienceData.filter(e => e.type === 'Internship' || e.type === 'Research').map(exp => (
+                    <div key={exp.id} className="group">
+                      <div className="flex justify-between items-start flex-wrap gap-2">
+                        <div>
+                          <div className="text-sm font-semibold transition-colors duration-200 group-hover:text-emerald-400" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
+                            {exp.role}
+                          </div>
+                          <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
+                            {exp.company} · {exp.location}
+                          </div>
                         </div>
-                        <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-                          {exp.company} · {exp.location}
+                        <div className="text-xs text-right mt-1 sm:mt-0" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                          {exp.duration}
                         </div>
                       </div>
-                      <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                        {exp.duration}
-                      </div>
+                      <ul className="mt-2 space-y-1 pl-1">
+                        {exp.achievements.slice(0, 2).map(a => (
+                          <li key={a} className="text-xs flex items-start gap-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                            <span style={{ color: 'var(--terminal-cyan)' }}>›</span>
+                            <span>{a}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <ul className="mt-1 space-y-0.5">
-                      {exp.achievements.slice(0, 2).map(a => (
-                        <li key={a} className="text-xs flex items-start gap-1.5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                          <span>•</span><span>{a}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </ResumeSection>
 
               {/* Skills */}
               <ResumeSection title="Technical Skills">
-                <div className="space-y-1">
+                <div className="space-y-2">
                   <SkillLine label="Languages" skills={skillsData.languages.map(s => s.name)} />
                   <SkillLine label="Frontend" skills={skillsData.frontend.map(s => s.name)} />
-                  <SkillLine label="Backend" skills={skillsData.backend.slice(0, 5).map(s => s.name)} />
-                  <SkillLine label="Tools" skills={skillsData.tools.slice(0, 5).map(s => s.name)} />
+                  <SkillLine label="Backend" skills={skillsData.backend.slice(0, 6).map(s => s.name)} />
                   <SkillLine label="Databases" skills={skillsData.databases.map(s => s.name)} />
+                  <SkillLine label="Tools" skills={skillsData.tools.slice(0, 6).map(s => s.name)} />
                 </div>
               </ResumeSection>
             </div>
           </div>
         </div>
 
-        {/* Right Panel */}
-        <div className="space-y-4">
+        {/* Info/Action Panel - Right Side */}
+        <div className="space-y-6">
           {/* Download Card */}
           <div
-            className="reveal terminal-card p-5"
+            className="reveal terminal-card p-6"
             style={{ background: 'rgba(0,255,136,0.04)', border: '1px solid rgba(0,255,136,0.15)' }}
           >
-            <div className="text-xs mb-3" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
+            <div className="text-xs mb-4 uppercase tracking-wider font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
               ▸ download_resume
             </div>
-            <div className="space-y-2 mb-4">
+            <div className="space-y-2.5 mb-6">
               <div className="flex justify-between text-xs" style={{ fontFamily: 'var(--font-mono)' }}>
                 <span style={{ color: 'var(--text-muted)' }}>File</span>
                 <span style={{ color: 'var(--text-secondary)' }}>resume_2025.pdf</span>
@@ -226,7 +249,7 @@ export default function Resume() {
               </div>
               <div className="flex justify-between text-xs" style={{ fontFamily: 'var(--font-mono)' }}>
                 <span style={{ color: 'var(--text-muted)' }}>Pages</span>
-                <span style={{ color: 'var(--text-secondary)' }}>1</span>
+                <span style={{ color: 'var(--text-secondary)' }}>1 Page</span>
               </div>
               <div className="flex justify-between text-xs" style={{ fontFamily: 'var(--font-mono)' }}>
                 <span style={{ color: 'var(--text-muted)' }}>Format</span>
@@ -235,7 +258,7 @@ export default function Resume() {
             </div>
             <button
               onClick={handleDownload}
-              className="w-full py-2.5 rounded text-sm transition-all duration-200"
+              className="w-full py-2.5 rounded text-sm font-medium transition-all duration-200"
               style={{
                 fontFamily: 'var(--font-mono)',
                 background: 'rgba(0,255,136,0.12)',
@@ -244,9 +267,11 @@ export default function Resume() {
               }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.background = 'rgba(0,255,136,0.2)';
+                (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(0,255,136,0.15)';
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLElement).style.background = 'rgba(0,255,136,0.12)';
+                (e.currentTarget as HTMLElement).style.boxShadow = 'none';
               }}
             >
               ↓ Download PDF
@@ -254,18 +279,18 @@ export default function Resume() {
           </div>
 
           {/* Terminal Commands */}
-          <div className="reveal terminal-card p-5">
-            <div className="text-xs mb-3" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
+          <div className="reveal terminal-card p-6">
+            <div className="text-xs mb-4 uppercase tracking-wider font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
               ▸ terminal_commands
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-2.5">
               {[
                 { cmd: 'resume', desc: 'View this page' },
                 { cmd: 'open resume', desc: 'Download PDF' },
                 { cmd: 'cat resume.txt', desc: 'Quick summary' },
-                { cmd: 'whoami', desc: 'Identity' },
+                { cmd: 'whoami', desc: 'Identity details' },
               ].map(({ cmd, desc }) => (
-                <div key={cmd} className="flex items-center justify-between">
+                <div key={cmd} className="flex items-center justify-between gap-2">
                   <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)', fontSize: '0.65rem' }}>
                     $ {cmd}
                   </span>
@@ -278,11 +303,11 @@ export default function Resume() {
           </div>
 
           {/* Quick Stats */}
-          <div className="reveal terminal-card p-5">
-            <div className="text-xs mb-3" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
+          <div className="reveal terminal-card p-6">
+            <div className="text-xs mb-4 uppercase tracking-wider font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
               ▸ at_a_glance
             </div>
-            <div className="space-y-2">
+            <div className="space-y-3">
               {glanceStats.map(({ label, value, color }) => (
                 <div key={label} className="flex justify-between items-center">
                   <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
@@ -305,7 +330,7 @@ function ResumeSection({ title, children }: { title: string; children: React.Rea
   return (
     <div>
       <div
-        className="text-xs font-bold uppercase tracking-wider mb-2 pb-1"
+        className="text-xs font-bold uppercase tracking-wider mb-3 pb-1"
         style={{
           fontFamily: 'var(--font-mono)',
           color: 'var(--terminal-cyan)',
@@ -322,8 +347,8 @@ function ResumeSection({ title, children }: { title: string; children: React.Rea
 
 function SkillLine({ label, skills }: { label: string; skills: string[] }) {
   return (
-    <div className="flex gap-2 text-xs" style={{ fontFamily: 'var(--font-mono)' }}>
-      <span className="shrink-0 w-20" style={{ color: 'var(--text-muted)' }}>{label}:</span>
+    <div className="flex gap-2 text-xs" style={{ fontFamily: 'var(--font-mono)', lineHeight: '1.6' }}>
+      <span className="shrink-0 w-24 font-semibold" style={{ color: 'var(--text-muted)' }}>{label}:</span>
       <span style={{ color: 'var(--text-secondary)' }}>{skills.join(', ')}</span>
     </div>
   );

@@ -7,6 +7,8 @@ import {
   skillsData,
   socialLinks,
   projectsData,
+  aboutData,
+  experienceData,
 } from '../../data/portfolioData';
 import MobileCommandBar from './MobileCommandBar';
 
@@ -16,6 +18,7 @@ interface TerminalLine {
   type: 'input' | 'output' | 'error' | 'success' | 'info' | 'section' | 'blank';
   content: string | React.ReactNode;
   timestamp?: string;
+  dir?: string;
 }
 
 // ── ASCII Art ──
@@ -28,11 +31,129 @@ const ASCII_BANNER = `
 ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝     ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝
 `;
 
+// ── Virtual Filesystem Data ──
+const VIRTUAL_FS: Record<string, { dirs: string[]; files: Record<string, string> }> = {
+  '~': {
+    dirs: ['about', 'education', 'skills', 'projects', 'experience', 'contact', 'resume'],
+    files: {
+      'about.txt': 'aboutData',
+      'skills.txt': 'skillsData',
+      'resume.txt': 'resumeData',
+      'projects.txt': 'projectsData',
+      'experience.txt': 'experienceData'
+    }
+  },
+  '~/about': {
+    dirs: [],
+    files: { 'about.txt': 'aboutData' }
+  },
+  '~/education': {
+    dirs: [],
+    files: {}
+  },
+  '~/skills': {
+    dirs: [],
+    files: { 'skills.txt': 'skillsData' }
+  },
+  '~/projects': {
+    dirs: [],
+    files: { 'projects.txt': 'projectsData' }
+  },
+  '~/experience': {
+    dirs: [],
+    files: { 'experience.txt': 'experienceData' }
+  },
+  '~/contact': {
+    dirs: [],
+    files: {}
+  },
+  '~/resume': {
+    dirs: [],
+    files: { 'resume.txt': 'resumeData' }
+  }
+};
+
+const FILE_CONTENTS: Record<string, string> = {
+  aboutData: `--- ABOUT ME ---
+Name: Alex Chen
+Role: Full-Stack Developer & CS Student
+
+Summary:
+I'm a 4th-year Computer Science student at IIT Delhi with a deep passion for building production-grade software. I specialize in full-stack web development, distributed systems, and machine learning — blending theoretical rigor with hands-on engineering.
+
+Philosophy:
+I believe great software is born at the intersection of clean architecture, user-centric design, and engineering discipline.`,
+  
+  skillsData: `--- SKILLS ---
+Languages: TypeScript, Python, Go, C++, Java, Rust, SQL, Bash/Zsh
+Frontend:  React.js, Next.js, Three.js, GSAP, Tailwind CSS, Redux
+Backend:   Node.js/Express, FastAPI, Go/Gin, GraphQL, gRPC, WebSockets
+Databases: PostgreSQL, MongoDB, Redis, Elasticsearch, Cassandra
+Tools:     Docker/Kubernetes, AWS/GCP, CI/CD (GitHub Actions), Linux (Arch)`,
+
+  resumeData: `--- RESUME ---
+Name: Alex Chen
+Email: alex.chen@iiitd.ac.in
+GitHub: github.com/alexchen-dev
+LinkedIn: linkedin.com/in/alexchen-cs
+
+Education:
+- Indian Institute of Technology, Delhi (B.Tech CSE, CGPA: 9.1/10)
+- Delhi Public School, R.K. Puram (Class XII: 97.4%)
+
+Experience:
+- Software Engineering Intern at Google (Cloud Storage)
+- Backend Engineering Intern at Flipkart (Logistics)`,
+
+  projectsData: `--- PROJECTS ---
+1. NexusOS: Distributed OS simulation (C++, Rust) - 142 stars
+2. Synapse AI: LLM-powered knowledge graph platform (Python, FastAPI, Next.js) - 318 stars
+3. TradeStream: Real-time algorithmic trading engine (Go, Kafka, Redis) - 204 stars`,
+
+  experienceData: `--- EXPERIENCE ---
+- Software Engineering Intern @ Google (May 2024 - Aug 2024)
+- Backend Engineering Intern @ Flipkart (Dec 2023 - Jan 2024)
+- Undergraduate Research Assistant @ IIT Delhi (Jan 2023 - Present)`
+};
+
+// Helper for syntax highlighting
+function renderSyntaxHighlightedCommand(command: string) {
+  const parts = command.trim().split(/\s+/);
+  const cmd = parts[0];
+  const rest = parts.slice(1);
+
+  const isCommandValid = [
+    'help', 'about', 'education', 'skills', 'projects', 'experience', 'contact', 'resume', 
+    'whoami', 'pwd', 'ls', 'cd', 'tree', 'clear', 'date', 'time', 'history', 'echo', 'cat', 
+    'neofetch', 'github', 'linkedin', 'email', 'theme', 'open', 'download'
+  ].includes(cmd.toLowerCase());
+
+  const cmdColor = isCommandValid ? 'var(--terminal-green)' : 'var(--terminal-red)';
+
+  return (
+    <span>
+      <span style={{ color: cmdColor, fontWeight: 'bold' }}>{cmd}</span>
+      {rest.length > 0 && ' '}
+      {rest.map((word, idx) => {
+        if (word.startsWith('-')) {
+          return <span key={idx} style={{ color: 'var(--terminal-yellow)' }}>{word}{idx < rest.length - 1 ? ' ' : ''}</span>;
+        }
+        return <span key={idx} style={{ color: 'var(--text-secondary)' }}>{word}{idx < rest.length - 1 ? ' ' : ''}</span>;
+      })}
+    </span>
+  );
+}
+
 // ── Command processor ──
-function useCommandProcessor(navigate: ReturnType<typeof useNavigate>) {
+function useCommandProcessor(
+  navigate: ReturnType<typeof useNavigate>,
+  currentDir: string,
+  setCurrentDir: (dir: string) => void,
+  history: string[]
+) {
   const processCommand = useCallback((rawInput: string): TerminalLine[] => {
     const input = rawInput.trim();
-    const [cmd, ...args] = input.split(' ');
+    const [cmd, ...args] = input.split(/\s+/);
     const command = cmd.toLowerCase();
     const argStr = args.join(' ');
     const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
@@ -42,6 +163,7 @@ function useCommandProcessor(navigate: ReturnType<typeof useNavigate>) {
       type,
       content,
       timestamp,
+      dir: currentDir,
     });
     const blank = (): TerminalLine => line('blank', '');
 
@@ -53,7 +175,7 @@ function useCommandProcessor(navigate: ReturnType<typeof useNavigate>) {
           line('section', '╚═══════════════════════════════════════════════════════╝'),
           blank(),
           line('info', '  NAVIGATION'),
-          line('output', '  about         → Navigate to About Me page'),
+          line('output', '  about          → Navigate to About Me page'),
           line('output', '  education      → Navigate to Education page'),
           line('output', '  skills         → Navigate to Skills page'),
           line('output', '  projects       → Navigate to Projects page'),
@@ -61,33 +183,28 @@ function useCommandProcessor(navigate: ReturnType<typeof useNavigate>) {
           line('output', '  contact        → Navigate to Contact page'),
           line('output', '  resume         → Open/download resume PDF'),
           blank(),
-          line('info', '  IDENTITY'),
-          line('output', '  whoami         → Display identity summary'),
-          line('output', '  ascii          → Display ASCII banner'),
-          line('output', '  neofetch       → Display system info'),
-          line('output', '  intro          → Replay intro sequence'),
-          line('output', '  status         → Availability status'),
+          line('info', '  FILESYSTEM & UTILITIES'),
+          line('output', '  cd <dir>       → Change directory (e.g. cd about, cd ..)'),
+          line('output', '  ls             → List files and directories here'),
+          line('output', '  tree           → Display filesystem tree'),
+          line('output', '  cat <file>     → View file contents (e.g. cat about.txt)'),
+          line('output', '  pwd            → Print working directory path'),
+          line('output', '  history        → View typed command history'),
           blank(),
-          line('info', '  SYSTEM'),
-          line('output', '  date           → Current date'),
-          line('output', '  time           → Current time'),
-          line('output', '  pwd            → Working directory'),
-          line('output', '  ls             → List sections'),
+          line('info', '  IDENTITY & SYSTEM'),
+          line('output', '  whoami         → Display identity summary'),
+          line('output', '  neofetch       → Display system & stack info'),
+          line('output', '  date / time    → Display current date / time'),
           line('output', '  uptime         → Portfolio uptime'),
           line('output', '  clear          → Clear terminal'),
-          line('output', '  echo <msg>     → Print message'),
+          line('output', '  echo <msg>     → Print a message'),
           blank(),
-          line('info', '  FILES'),
-          line('output', '  cat about.txt  → Read about section'),
-          line('output', '  cat skills.txt → Read skills'),
-          line('output', '  cat resume.txt → Read resume info'),
-          line('output', '  open resume    → Download resume PDF'),
-          blank(),
-          line('info', '  SOCIAL'),
-          line('output', '  social         → All social links'),
-          line('output', '  github         → GitHub profile'),
-          line('output', '  linkedin       → LinkedIn profile'),
-          line('output', '  email          → Email address'),
+          line('info', '  SOCIAL & ACTIONS'),
+          line('output', '  github         → Open GitHub profile'),
+          line('output', '  linkedin       → Open LinkedIn profile'),
+          line('output', '  email          → View email address'),
+          line('output', '  download resume → Download resume PDF directly'),
+          line('output', '  open resume    → Open resume in a new tab'),
           blank(),
           line('success', '  SHORTCUT: Ctrl+` → Return to terminal from any page'),
           blank(),
@@ -136,15 +253,31 @@ function useCommandProcessor(navigate: ReturnType<typeof useNavigate>) {
         ];
 
       case 'resume':
-      case 'open resume':
+        setTimeout(() => navigate('/resume'), 400);
         return [
-          line('success', '▶ Resume accessed'),
-          line('output', `  Filename: alex-chen-resume-2025.pdf`),
-          line('output', `  Route:    /resume`),
-          line('output', `  Download: /api/resume/download`),
-          blank(),
-          line('info', '  → Navigating to resume section...'),
+          line('success', '▶ Loading Resume section...'),
+          line('output', '  Navigating to /resume — please wait'),
         ];
+
+      case 'open':
+        if (args[0]?.toLowerCase() === 'resume') {
+          setTimeout(() => navigate('/resume'), 400);
+          return [
+            line('success', '▶ Opening resume...'),
+            line('output', '  Navigating to /resume — please wait'),
+          ];
+        }
+        return [line('error', `open: unknown target '${args[0] || ''}'`)];
+
+      case 'download':
+        if (args[0]?.toLowerCase() === 'resume') {
+          const link = document.createElement('a');
+          link.href = '/resume/alex-chen-resume.pdf';
+          link.download = 'Alex_Chen_Resume_2025.pdf';
+          link.click();
+          return [line('success', '▶ Downloading resume PDF...')];
+        }
+        return [line('error', `download: unknown target '${args[0] || ''}'`)];
 
       case 'whoami':
         return [
@@ -175,29 +308,104 @@ function useCommandProcessor(navigate: ReturnType<typeof useNavigate>) {
 
       case 'pwd':
         return [
-          line('output', `/home/alex/portfolio`),
+          line('output', `/home/alex/portfolio${currentDir === '~' ? '' : currentDir.substring(1)}`),
           line('info', `  Shell: ${personalInfo.shell} — ${personalInfo.version}`),
         ];
 
-      case 'ls':
+      case 'cd': {
+        const target = args[0];
+        if (!target || target === '~') {
+          setCurrentDir('~');
+          return [line('success', 'Moved to ~')];
+        }
+        if (target === '..') {
+          if (currentDir === '~') {
+            return [line('info', 'Already in root directory')];
+          }
+          setCurrentDir('~');
+          return [line('success', 'Moved to ~')];
+        }
+        const currentFolder = VIRTUAL_FS[currentDir];
+        if (currentFolder.dirs.includes(target.toLowerCase())) {
+          setCurrentDir(`~/${target.toLowerCase()}`);
+          return [line('success', `Moved to ~/${target.toLowerCase()}`)];
+        }
+        return [line('error', `cd: no such file or directory: ${target}`)];
+      }
+
+      case 'ls': {
+        const currentFolder = VIRTUAL_FS[currentDir];
+        if (!currentFolder) return [line('error', 'ls: error reading directory')];
+        const outputLines: TerminalLine[] = [];
+        
+        if (currentFolder.dirs.length > 0) {
+          outputLines.push(line('info', '  Directories:'));
+          currentFolder.dirs.forEach(d => {
+            outputLines.push(line('info', `    ${d}/`));
+          });
+        }
+        
+        const filesKeys = Object.keys(currentFolder.files);
+        if (filesKeys.length > 0) {
+          if (outputLines.length > 0) outputLines.push(blank());
+          outputLines.push(line('output', '  Files:'));
+          filesKeys.forEach(f => {
+            outputLines.push(line('output', `    ${f}`));
+          });
+        }
+        
+        if (outputLines.length === 0) {
+          return [line('output', '  [empty directory]')];
+        }
+        return outputLines;
+      }
+
+      case 'tree':
         return [
-          blank(),
-          line('info', '  drwxr-xr-x  portfolio/'),
-          line('output', '  ├── about/          About Me'),
-          line('output', '  ├── education/      Academic Background'),
-          line('output', '  ├── skills/         Technical Skills'),
-          line('output', '  ├── projects/       Projects Gallery'),
-          line('output', '  ├── experience/     Work & Research'),
-          line('output', '  ├── contact/        Get In Touch'),
-          line('output', '  ├── resume/         CV & Downloads'),
-          line('output', '  └── blog/           [coming soon]'),
-          blank(),
-          line('info', '  Type any section name to navigate'),
-          blank(),
+          line('info', '.'),
+          line('info', '├── about/'),
+          line('output', '│   └── about.txt'),
+          line('info', '├── education/'),
+          line('info', '├── skills/'),
+          line('output', '│   └── skills.txt'),
+          line('info', '├── projects/'),
+          line('output', '│   └── projects.txt'),
+          line('info', '├── experience/'),
+          line('output', '│   └── experience.txt'),
+          line('info', '├── contact/'),
+          line('info', '└── resume/'),
+          line('output', '    └── resume.txt'),
         ];
 
+      case 'cat': {
+        const filename = args[0];
+        if (!filename) return [line('error', 'Usage: cat <filename>')];
+        
+        const currentFolder = VIRTUAL_FS[currentDir];
+        const fileKey = currentFolder.files[filename.toLowerCase()];
+        
+        if (fileKey) {
+          const content = FILE_CONTENTS[fileKey];
+          const linesOutput = content.split('\n').map(l => line('output', `  ${l}`));
+          const pageName = filename.split('.')[0];
+          linesOutput.push(blank());
+          linesOutput.push(line('success', `  [Tip] Type '${pageName}' to navigate to the visual page.`));
+          return linesOutput;
+        }
+        
+        return [
+          line('error', `cat: ${filename}: No such file or directory`),
+          line('info', `Available files here: ${Object.keys(currentFolder.files).join(', ') || 'none'}`),
+        ];
+      }
+
+      case 'history': {
+        if (history.length === 0) return [line('output', '  No commands in history')];
+        return history.slice().reverse().map((cmd, idx) => line('output', `  ${idx + 1}  ${cmd}`));
+      }
+
       case 'clear':
-        return [{ id: 'CLEAR', type: 'blank', content: '__CLEAR__' }];
+        return [{ id: 'CLEAR', type: 'blank', content: '__CLEAR__', dir: currentDir }];
 
       case 'social':
         return [
@@ -288,94 +496,21 @@ function useCommandProcessor(navigate: ReturnType<typeof useNavigate>) {
       case 'neofetch':
         return [
           blank(),
-          line('section', `              ${personalInfo.name}`),
-          line('output', `  ─────────────────────────────`),
-          line('info', `  OS     : Portfolio OS v1.0.0`),
-          line('output', `  Shell  : ${personalInfo.shell} ${personalInfo.version}`),
-          line('output', `  WM     : React + GSAP`),
-          line('output', `  Font   : JetBrains Mono`),
-          line('output', `  Theme  : NightShell Dark`),
-          line('output', `  Stack  : TypeScript, Node.js, Go`),
-          line('success', `  CGPA   : ${personalInfo.cgpa}`),
-          line('info', `  Github : ${socialLinks.github.handle}`),
-          line('output', `  Email  : ${personalInfo.email}`),
+          line('section', `  ██████╗  ██████╗  ███████╗  ██████╗   ${personalInfo.name}`),
+          line('section', `  ██╔══██╗██╔═══██╗██╔════╝██╔═══██╗  ─────────────────────────────`),
+          line('info',    `  ██████╔╝██║   ██║███████╗██║   ██║  OS     : Portfolio OS v2.0.0`),
+          line('info',    `  ██╔═══╝ ██║   ██║╚════██║██║   ██║  Shell  : ${personalInfo.prompt} (zsh)`),
+          line('output',  `  ██║     ╚██████╔╝███████║╚██████╔╝  WM     : React + GSAP`),
+          line('output',  `  ╚═╝      ╚═════╝ ╚══════╝ ╚═════╝   Theme  : NightShell Dark`),
+          line('success', `                              CGPA   : ${personalInfo.cgpa}`),
+          line('success', `                              Github : ${socialLinks.github.handle}`),
+          line('success', `                              Email  : ${personalInfo.email}`),
           blank(),
         ];
 
       case 'echo':
-        if (!argStr) return [line('error', '  Usage: echo <message>')];
+        if (!argStr) return [line('output', '')];
         return [line('output', `  ${argStr}`)];
-
-      case 'cat': {
-        const filename = args[0]?.toLowerCase();
-        if (!filename) return [line('error', '  Usage: cat <filename>.txt')];
-        if (filename === 'about.txt') {
-          setTimeout(() => navigate('/about'), 600);
-          return [
-            line('output', `  Reading about.txt...`),
-            line('success', `  Rendering About section → navigating`),
-          ];
-        }
-        if (filename === 'skills.txt') {
-          const topSkills = skillsData.languages.slice(0, 5).map(s => s.name).join(', ');
-          return [
-            line('output', `  Reading skills.txt...`),
-            blank(),
-            line('info', `  Top Languages: ${topSkills}`),
-            line('output', `  Frontend: React, Next.js, Three.js, Tailwind`),
-            line('output', `  Backend:  Node.js, FastAPI, Go/Gin, gRPC`),
-            line('output', `  Tools:    Docker, K8s, AWS, CI/CD`),
-            blank(),
-            line('info', `  → Type 'skills' for the full breakdown`),
-          ];
-        }
-        if (filename === 'resume.txt') {
-          return [
-            line('output', `  Reading resume.txt...`),
-            blank(),
-            line('info', `  Name: ${personalInfo.name}`),
-            line('output', `  Title: ${personalInfo.title}`),
-            line('output', `  University: ${personalInfo.university}`),
-            line('output', `  CGPA: ${personalInfo.cgpa}`),
-            blank(),
-            line('success', `  → Type 'resume' to view full PDF`),
-          ];
-        }
-        if (filename === 'projects.txt') {
-          const featured = projectsData.filter(p => p.featured).map(p => p.name).join(', ');
-          return [
-            line('output', `  Reading projects.txt...`),
-            blank(),
-            line('info', `  Featured: ${featured}`),
-            line('output', `  Total projects: ${projectsData.length}+`),
-            blank(),
-            line('success', `  → Type 'projects' to explore all`),
-          ];
-        }
-        return [
-          line('error', `  cat: ${filename}: No such file or directory`),
-          line('info', `  Available: about.txt, skills.txt, resume.txt, projects.txt`),
-        ];
-      }
-
-      case 'open': {
-        const resource = args[0]?.toLowerCase();
-        if (resource === 'resume') {
-          setTimeout(() => navigate('/resume'), 400);
-          return [
-            line('success', `  Opening resume...`),
-            line('output', `  File: alex-chen-resume-2025.pdf`),
-          ];
-        }
-        return [line('error', `  open: ${resource || '?'}: Unknown resource`)];
-      }
-
-      case 'exit':
-      case 'terminal':
-        setTimeout(() => navigate('/'), 300);
-        return [
-          line('info', '  Returning to terminal home...'),
-        ];
 
       case 'matrix':
         return [
@@ -394,22 +529,25 @@ function useCommandProcessor(navigate: ReturnType<typeof useNavigate>) {
           line('output', `  Type 'help' for available commands`),
         ];
     }
-  }, [navigate]);
+  }, [navigate, currentDir, setCurrentDir, history]);
 
   return { processCommand };
 }
 
+
 // ── Main Terminal Component ──
 export default function Terminal() {
   const navigate = useNavigate();
-  const { processCommand } = useCommandProcessor(navigate);
-
+  const [currentDir, setCurrentDir] = useState('~');
+  
   const [lines, setLines] = useState<TerminalLine[]>([]);
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [bootDone, setBootDone] = useState(false);
+
+  const { processCommand } = useCommandProcessor(navigate, currentDir, setCurrentDir, history);
 
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -437,7 +575,7 @@ export default function Terminal() {
 
     bootLines.forEach(({ type, content, delay }) => {
       setTimeout(() => {
-        setLines(prev => [...prev, { id: `boot-${delay}`, type, content }]);
+        setLines(prev => [...prev, { id: `boot-${delay}`, type, content, dir: '~' }]);
       }, delay);
     });
 
@@ -465,7 +603,9 @@ export default function Terminal() {
     setInput(val);
     setHistoryIndex(-1);
     if (val.length > 0) {
-      const matches = allCommands.filter(cmd => cmd.startsWith(val.toLowerCase()));
+      const parts = val.toLowerCase().split(/\s+/);
+      const cmdPart = parts[0];
+      const matches = allCommands.filter(cmd => cmd.startsWith(cmdPart));
       setSuggestions(matches.slice(0, 5));
     } else {
       setSuggestions([]);
@@ -483,6 +623,7 @@ export default function Terminal() {
       type: 'input',
       content: trimmed,
       timestamp: new Date().toLocaleTimeString('en-US', { hour12: false }),
+      dir: currentDir,
     };
 
     // Add to history
@@ -528,6 +669,7 @@ export default function Terminal() {
         id: `cancel-${Date.now()}`,
         type: 'error',
         content: `^C`,
+        dir: currentDir,
       }]);
     } else if (e.key === 'l' && e.ctrlKey) {
       e.preventDefault();
@@ -564,16 +706,25 @@ export default function Terminal() {
           <span className="shrink-0 select-none" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem' }}>
             <span style={{ color: 'var(--terminal-green)' }}>{personalInfo.prompt}</span>
             <span style={{ color: 'var(--text-muted)' }}>:</span>
-            <span style={{ color: 'var(--terminal-cyan)' }}>~</span>
+            <span style={{ color: 'var(--terminal-cyan)' }}>{line.dir || '~'}</span>
             <span style={{ color: 'var(--text-muted)' }}>$</span>
           </span>
         )}
-        <pre
-          className="whitespace-pre-wrap break-words flex-1"
-          style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem', lineHeight: '1.55' }}
-        >
-          {typeof line.content === 'string' ? line.content : line.content}
-        </pre>
+        {line.type === 'input' && typeof line.content === 'string' ? (
+          <pre
+            className="whitespace-pre-wrap break-words flex-1"
+            style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem', lineHeight: '1.55' }}
+          >
+            {renderSyntaxHighlightedCommand(line.content)}
+          </pre>
+        ) : (
+          <pre
+            className="whitespace-pre-wrap break-words flex-1"
+            style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem', lineHeight: '1.55' }}
+          >
+            {line.content}
+          </pre>
+        )}
       </div>
     );
   };
@@ -634,7 +785,7 @@ export default function Terminal() {
             <span className="shrink-0 select-none" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem' }}>
               <span style={{ color: 'var(--terminal-green)' }}>{personalInfo.prompt}</span>
               <span style={{ color: 'var(--text-muted)' }}>:</span>
-              <span style={{ color: 'var(--terminal-cyan)' }}>~</span>
+              <span style={{ color: 'var(--terminal-cyan)' }}>{currentDir}</span>
               <span style={{ color: 'var(--text-muted)' }}>$</span>
             </span>
             <div className="relative flex-1">

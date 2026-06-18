@@ -33,7 +33,7 @@
   --glow-blue: 0 0 20px rgba(61, 139, 255, 0.3);
 
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-  --font-sans: 'JetBrains Mono', sans-serif;
+  --font-sans: 'JetBrains Mono', 'Fira Code', monospace;
 
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s ease;
