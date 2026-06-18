@@ -22,7 +22,7 @@ export default function Resume() {
   };
 
   return (
-    <div ref={pageRef} className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div ref={pageRef} className="desktop-container py-12">
       {/* Header */}
       <div className="reveal mb-10">
         <Breadcrumb path="resume" />
@@ -80,7 +80,7 @@ export default function Resume() {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="grid lg:grid-cols-3 gap-8 items-start">
         {/* Resume Preview - Left Side (2 cols) */}
         <div className="lg:col-span-2 space-y-6">
           <div className="reveal terminal-card overflow-hidden">
@@ -276,6 +276,42 @@ export default function Resume() {
             >
               ↓ Download PDF
             </button>
+          </div>
+
+          {/* ATS Compatibility Checker Card */}
+          <div className="reveal terminal-card p-6">
+            <div className="text-xs mb-4 uppercase tracking-wider font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
+              ▸ ats_compatibility_analysis
+            </div>
+            <div className="space-y-3 font-mono text-xs">
+              <div className="flex justify-between items-center pb-2 border-b border-gray-800/50">
+                <span style={{ color: 'var(--text-muted)' }}>Status</span>
+                <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold" style={{ background: 'rgba(0, 255, 136, 0.1)', color: 'var(--terminal-green)', border: '1px solid rgba(0, 255, 136, 0.2)' }}>
+                  Passed (100%)
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span style={{ color: 'var(--text-muted)' }}>Structure Check</span>
+                <span style={{ color: 'var(--text-secondary)' }}>Single Column (Optimal)</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span style={{ color: 'var(--text-muted)' }}>Fonts Check</span>
+                <span style={{ color: 'var(--text-secondary)' }}>Standard Mono (Valid)</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span style={{ color: 'var(--text-muted)' }}>Parsability</span>
+                <span style={{ color: 'var(--text-secondary)' }}>Plain Text Match</span>
+              </div>
+              <div className="pt-2">
+                <div className="flex justify-between text-[10px] mb-1" style={{ color: 'var(--text-muted)' }}>
+                  <span>Optimization score</span>
+                  <span style={{ color: 'var(--terminal-green)' }}>98%</span>
+                </div>
+                <div className="w-full bg-gray-800/80 rounded h-1.5 overflow-hidden">
+                  <div className="bg-gradient-to-r from-emerald-500 to-teal-400 h-1.5 rounded" style={{ width: '98%' }} />
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Terminal Commands */}

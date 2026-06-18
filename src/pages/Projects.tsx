@@ -33,7 +33,7 @@ export default function Projects() {
     : projectsData.filter(p => p.category === activeFilter);
 
   return (
-    <div ref={pageRef} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
+    <div ref={pageRef} className="desktop-container py-16 space-y-12">
       {/* Header */}
       <div className="reveal space-y-4">
         <Breadcrumb path="projects" />
@@ -68,7 +68,7 @@ export default function Projects() {
       </div>
 
       {/* Projects Grid */}
-      <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+      <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
         {filtered.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
@@ -109,14 +109,14 @@ function ProjectCard({ project }: { project: typeof projectsData[0] }) {
       ref={cardRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="project-card terminal-card p-6 flex flex-col justify-between space-y-6"
+      className="project-card terminal-card p-6 flex flex-col justify-between space-y-6 h-full"
       style={{
         borderColor: 'rgba(0, 255, 136, 0.12)',
         background: 'var(--bg-card)',
       }}
     >
       {/* Upper Meta details */}
-      <div className="space-y-4 flex-1">
+      <div className="space-y-4 flex-1 flex flex-col">
         <div className="flex items-center justify-between">
           <span
             className="text-[0.65rem] font-bold px-2.5 py-0.5 rounded uppercase"
@@ -168,7 +168,7 @@ function ProjectCard({ project }: { project: typeof projectsData[0] }) {
         </div>
 
         {/* Description */}
-        <p className="text-xs leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
+        <p className="text-xs leading-relaxed flex-1" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
           {project.description}
         </p>
 

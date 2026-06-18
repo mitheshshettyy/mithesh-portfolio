@@ -49,7 +49,7 @@ export default function Skills() {
   }, []);
 
   return (
-    <div ref={pageRef} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
+    <div ref={pageRef} className="desktop-container py-16 space-y-12">
       {/* Header */}
       <div className="reveal space-y-4">
         <Breadcrumb path="skills" />
@@ -62,13 +62,13 @@ export default function Skills() {
       </div>
 
       {/* Grid Dashboard */}
-      <div className="reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+      <div className="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
         {categories.map((cat) => {
           // Check that the category exists in skillsData to prevent TypeScript errors
           const skills = skillsData[cat.key] || [];
 
           return (
-            <div key={cat.key} className="terminal-card p-6 space-y-6">
+            <div key={cat.key} className="terminal-card p-6 space-y-6 h-full">
               {/* Card Title */}
               <div className="flex items-center justify-between pb-3 border-b border-gray-800">
                 <span

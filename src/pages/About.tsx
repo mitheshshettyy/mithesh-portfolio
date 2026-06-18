@@ -15,7 +15,7 @@ export default function About() {
   }, []);
 
   return (
-    <div ref={pageRef} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
+    <div ref={pageRef} className="desktop-container py-16 space-y-12">
       {/* Page Header */}
       <div className="reveal space-y-4">
         <TerminalBreadcrumb path="about" />
@@ -165,9 +165,9 @@ export default function About() {
       </div>
 
       {/* Row Below: Interests & Fun Facts */}
-      <div className="reveal grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="reveal grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
         {/* Interests */}
-        <div className="terminal-card p-8 space-y-6">
+        <div className="terminal-card p-8 space-y-6 h-full">
           <div
             className="text-xs font-semibold"
             style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}
@@ -187,7 +187,7 @@ export default function About() {
         </div>
 
         {/* Fun Facts */}
-        <div className="terminal-card p-8 space-y-6">
+        <div className="terminal-card p-8 space-y-6 h-full">
           <div
             className="text-xs font-semibold"
             style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}

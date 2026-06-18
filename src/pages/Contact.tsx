@@ -61,7 +61,7 @@ export default function Contact() {
   };
 
   return (
-    <div ref={pageRef} className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div ref={pageRef} className="desktop-container py-12">
       {/* Header */}
       <div className="reveal mb-12">
         <Breadcrumb path="contact" />
@@ -74,10 +74,10 @@ export default function Contact() {
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-5 gap-8">
+      <div className="grid lg:grid-cols-5 gap-8 items-stretch">
         {/* Contact Form - Left Column */}
-        <div className="lg:col-span-3">
-          <div className="reveal terminal-card p-6">
+        <div className="lg:col-span-3 h-full">
+          <div className="reveal terminal-card p-6 h-full">
             {/* Terminal header */}
             <div className="flex items-center gap-3 mb-6 pb-4" style={{ borderBottom: '1px solid rgba(0,255,136,0.1)' }}>
               <div className="flex gap-1.5">
@@ -211,8 +211,8 @@ export default function Contact() {
         </div>
 
         {/* Contact Details - Right Column */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="reveal terminal-card p-6">
+        <div className="lg:col-span-2 h-full">
+          <div className="reveal terminal-card p-6 h-full">
             <div className="text-xs mb-4 uppercase tracking-wider font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
               ▸ contact_details
             </div>
