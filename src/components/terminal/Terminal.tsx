@@ -4,11 +4,7 @@ import { gsap } from 'gsap';
 import {
   personalInfo,
   commandDocs,
-  skillsData,
   socialLinks,
-  projectsData,
-  aboutData,
-  experienceData,
 } from '../../data/portfolioData';
 import MobileCommandBar from './MobileCommandBar';
 
@@ -573,16 +569,20 @@ export default function Terminal() {
       { type: 'blank', content: '', delay: 2600 },
     ];
 
+    const timers: number[] = [];
+
     bootLines.forEach(({ type, content, delay }) => {
-      setTimeout(() => {
+      const timer = window.setTimeout(() => {
         setLines(prev => [...prev, { id: `boot-${delay}`, type, content, dir: '~' }]);
       }, delay);
+      timers.push(timer);
     });
 
-    setTimeout(() => {
+    const doneTimer = window.setTimeout(() => {
       setBootDone(true);
       inputRef.current?.focus();
     }, 2800);
+    timers.push(doneTimer);
 
     // GSAP entrance
     if (containerRef.current) {
@@ -591,6 +591,10 @@ export default function Terminal() {
         { opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out', delay: 0.1 }
       );
     }
+
+    return () => {
+      timers.forEach(t => clearTimeout(t));
+    };
   }, []);
 
   // Auto-scroll
@@ -732,7 +736,7 @@ export default function Terminal() {
   return (
     <div
       ref={containerRef}
-      className="w-full h-full flex flex-col"
+      className="w-full flex-grow flex flex-col min-h-0"
       style={{
         background: 'rgba(8, 12, 24, 0.92)',
         border: '1px solid rgba(0, 255, 136, 0.15)',

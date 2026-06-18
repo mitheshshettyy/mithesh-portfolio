@@ -29,10 +29,10 @@ export default function Home() {
 
       <div
         ref={heroRef}
-        className="w-full max-w-7xl h-[calc(100vh-160px)] min-h-[550px] flex flex-col"
+        className="w-full max-w-7xl h-auto max-h-[calc(100vh-160px)] min-h-[400px] flex flex-col"
         style={{ zIndex: 2, position: 'relative' }}
       >
-        <div className="flex-1 flex flex-col">
+        <div className="flex-grow flex flex-col min-h-0">
           <Terminal />
         </div>
       </div>
