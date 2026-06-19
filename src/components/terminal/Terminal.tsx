@@ -8,6 +8,7 @@ import {
 } from '../../data/portfolioData';
 import MobileCommandBar from './MobileCommandBar';
 import WhoAmIBox from './WhoAmIBox';
+import NeofetchBox from './NeofetchBox';
 
 // ── Types ──
 interface TerminalLine {
@@ -482,15 +483,7 @@ function useCommandProcessor(
       case 'neofetch':
         return [
           blank(),
-          line('section', `  ██████╗  ██████╗  ███████╗  ██████╗   ${personalInfo.name}`),
-          line('section', `  ██╔══██╗██╔═══██╗██╔════╝██╔═══██╗  ─────────────────────────────`),
-          line('info',    `  ██████╔╝██║   ██║███████╗██║   ██║  OS     : Portfolio OS v2.0.0`),
-          line('info',    `  ██╔═══╝ ██║   ██║╚════██║██║   ██║  Shell  : ${personalInfo.prompt} (zsh)`),
-          line('output',  `  ██║     ╚██████╔╝███████║╚██████╔╝  WM     : React + GSAP`),
-          line('output',  `  ╚═╝      ╚═════╝ ╚══════╝ ╚═════╝   Theme  : NightShell Dark`),
-          line('success', `                              CGPA   : ${personalInfo.cgpa}`),
-          line('success', `                              Github : ${socialLinks.github.handle}`),
-          line('success', `                              Email  : ${personalInfo.email}`),
+          line('output', <NeofetchBox />),
           blank(),
         ];
 
