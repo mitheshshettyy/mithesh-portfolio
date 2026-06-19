@@ -8,7 +8,7 @@ export const personalInfo = {
   degree: "B.Tech Computer Science & Engineering",
   university: "NMAM Institute of Technology, Nitte, Karnataka",
   graduationYear: 2027,
-  cgpa: "8.69 / 10.0",
+  cgpa: "8.68 / 10.0",
   location: "Udupi, Karnataka, India",
   email: "shettymithesh030@gmail.com",
   phone: "+91 63629 69943",
@@ -37,7 +37,7 @@ export const aboutData = {
   ],
   stats: [
     { label: "Projects Built", value: "10+", color: "green" },
-    { label: "CGPA", value: "8.69/10", color: "cyan" },
+    { label: "CGPA", value: "8.68/10", color: "cyan" },
     { label: "Internships", value: "1", color: "blue" },
     { label: "Board Score", value: "94.5%", color: "purple" },
   ],
@@ -57,7 +57,7 @@ export const educationData = [
     field: "Computer Science and Engineering",
     duration: "Aug 2023 – Present",
     status: "Current",
-    cgpa: "8.69 / 10.0",
+    cgpa: "8.68 / 10.0",
     location: "Nitte, Karnataka, India",
     highlights: [
       "Distinction in academic terms",

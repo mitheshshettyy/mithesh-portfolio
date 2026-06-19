@@ -402,7 +402,7 @@ function Breadcrumb({ path }: { path: string }) {
 }
 
 const glanceStats = [
-  { label: 'CGPA', value: '8.69 / 10', color: 'var(--terminal-green)' },
+  { label: 'CGPA', value: '8.68 / 10', color: 'var(--terminal-green)' },
   { label: 'Internships', value: '1 (Algoorbit)', color: 'var(--terminal-cyan)' },
   { label: 'Projects', value: '10+', color: 'var(--terminal-blue)' },
   { label: 'Board Score', value: '94.5%', color: 'var(--terminal-purple)' },

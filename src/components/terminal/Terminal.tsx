@@ -94,7 +94,7 @@ GitHub: github.com/mitheshshettyy
 LinkedIn: linkedin.com/in/mithesh-shetty030
 
 Education:
-- NMAM Institute of Technology (B.Tech CSE, CGPA: 8.69/10)
+- NMAM Institute of Technology (B.Tech CSE, CGPA: 8.68/10)
 - Vidyodaya Pre-University College (Pre-University: 94.5%)
 
 Experience:

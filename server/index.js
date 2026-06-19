@@ -51,7 +51,7 @@ app.get('/api/portfolio', (req, res) => {
     university: 'NMAM Institute of Technology, Nitte, Karnataka',
     year: '3rd Year',
     graduationYear: 2027,
-    cgpa: '8.69/10.0',
+    cgpa: '8.68/10.0',
     email: 'shettymithesh030@gmail.com',
     github: 'https://github.com/mitheshshettyy',
     linkedin: 'https://linkedin.com/in/mithesh-shetty030',
