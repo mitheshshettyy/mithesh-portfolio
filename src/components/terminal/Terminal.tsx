@@ -7,6 +7,7 @@ import {
   socialLinks,
 } from '../../data/portfolioData';
 import MobileCommandBar from './MobileCommandBar';
+import WhoAmIBox from './WhoAmIBox';
 
 // ── Types ──
 interface TerminalLine {
@@ -275,15 +276,7 @@ function useCommandProcessor(
       case 'whoami':
         return [
           blank(),
-          line('section', `  ┌─── IDENTITY ──────────────────────────────────────┐`),
-          line('output', `  │ Name       : ${personalInfo.name}`),
-          line('output', `  │ Role       : ${personalInfo.title}`),
-          line('output', `  │ Degree     : ${personalInfo.degree}`),
-          line('output', `  │ University : ${personalInfo.university}`),
-          line('output', `  │ Year       : ${personalInfo.year} — Graduating ${personalInfo.graduationYear}`),
-          line('output', `  │ CGPA       : ${personalInfo.cgpa}`),
-          line('output', `  │ Location   : ${personalInfo.location}`),
-          line('section', `  └────────────────────────────────────────────────────┘`),
+          line('output', <WhoAmIBox />),
           blank(),
         ];
 
@@ -696,6 +689,17 @@ export default function Terminal() {
     };
 
     if (line.content === '' || line.type === 'blank') return <div key={line.id} className="h-2" />;
+
+    if (typeof line.content === 'object' && line.content !== null) {
+      return (
+        <div
+          key={line.id}
+          className="terminal-line-enter flex items-start gap-2 leading-relaxed w-full"
+        >
+          {line.content}
+        </div>
+      );
+    }
 
     const isBanner = line.content === ASCII_BANNER;
 
