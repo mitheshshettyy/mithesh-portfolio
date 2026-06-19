@@ -1,15 +1,18 @@
 # Mithesh R Shetty — Terminal Portfolio
 
-> A production-grade, terminal-first developer portfolio built with React, Three.js, GSAP, and a Node.js backend.
+> A modern, terminal-inspired developer portfolio showcasing my projects, technical skills, education, and professional journey through an interactive command-line interface.
 
-```
-  █████╗ ██╗     ███████╗██╗  ██╗     ██████╗██╗  ██╗███████╗███╗   ██╗
- ██╔══██╗██║     ██╔════╝╚██╗██╔╝    ██╔════╝██║  ██║██╔════╝████╗  ██║
- ███████║██║     █████╗   ╚███╔╝     ██║     ███████║█████╗  ██╔██╗ ██║
- ██╔══██║██║     ██╔══╝   ██╔██╗     ██║     ██╔══██║██╔══╝  ██║╚██╗██║
- ██║  ██║███████╗███████╗██╔╝ ██╗    ╚██████╗██║  ██║███████╗██║ ╚████║
- ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝     ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝
-```
+---
+
+## 📖 Overview
+
+This portfolio is a **terminal-first web application** designed to provide an engaging way to explore my background as a Computer Science undergraduate and Full-Stack Developer.
+
+Inspired by modern developer terminals, the portfolio combines interactive command-line navigation with smooth animations, immersive visuals, and responsive design.
+
+Visitors can explore my education, projects, technical skills, internship experience, resume, and contact information using familiar terminal commands.
+
+---
 
 ## ✨ Features
 
@@ -60,34 +63,81 @@
 
 ```text
 portfolio/
-├── client/                    # Frontend (React + Vite)
-│   └── src/
-│       ├── components/
-│       │   ├── layout/        # Navbar, Footer, Layout
-│       │   ├── terminal/      # Terminal component + command processor
-│       │   ├── three/         # Three.js particle background
-│       │   └── ui/            # AnimatedText, PageTransition
-│       ├── data/
-│       │   └── portfolioData.ts  # All portfolio content
-│       └── pages/
-│           ├── Home.tsx       # Terminal homepage
-│           ├── About.tsx
-│           ├── Education.tsx
-│           ├── Skills.tsx
-│           ├── Projects.tsx
-│           ├── Experience.tsx
-│           ├── Contact.tsx
-│           └── Resume.tsx
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── data/
+│   ├── hooks/
+│   ├── utils/
+│   └── assets/
 │
-└── server/                    # Backend (Node.js + Express)
-    ├── index.js               # Main server + API routes
-    ├── .env.example           # Environment variable template
-    └── package.json
+├── public/
+│   └── resume/
+│
+├── server/
+│   ├── index.js
+│   ├── package.json
+│   └── .env.example
+│
+├── package.json
+└── README.md
 ```
 
-## 🚀 Quick Start
+---
 
-### Frontend
+## 🖥️ Terminal Commands
+
+| Command       | Description                    |
+| ------------- | ------------------------------ |
+| `help`        | Display all available commands |
+| `about`       | View About section             |
+| `education`   | Open Education page            |
+| `skills`      | View technical skills          |
+| `projects`    | Explore projects               |
+| `experience`  | View internship experience     |
+| `resume`      | Open resume                    |
+| `contact`     | Contact information            |
+| `whoami`      | Personal profile               |
+| `social`      | Social media links             |
+| `github`      | GitHub profile                 |
+| `linkedin`    | LinkedIn profile               |
+| `email`       | Display email address          |
+| `status`      | Current availability           |
+| `neofetch`    | Portfolio system information   |
+| `ascii`       | Display ASCII banner           |
+| `clear`       | Clear terminal                 |
+| `ls`          | List available sections        |
+| `pwd`         | Current terminal path          |
+| `date`        | Current date                   |
+| `time`        | Current time                   |
+| `uptime`      | Portfolio uptime               |
+| `echo <text>` | Print custom text              |
+
+---
+
+## ⌨️ Keyboard Shortcuts
+
+| Shortcut   | Action                 |
+| ---------- | ---------------------- |
+| `Ctrl + `` | Return to terminal     |
+| `↑ / ↓`    | Browse command history |
+| `Tab`      | Auto-complete commands |
+| `Ctrl + C` | Cancel current input   |
+| `Ctrl + L` | Clear terminal         |
+
+---
+
+## 🚀 Getting Started
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/mitheshshettyy/<repository-name>.git
+
+cd <repository-name>
+```
+
+### Install Dependencies
 
 ```bash
 npm install
