@@ -1,176 +1,194 @@
 # Mithesh R Shetty — Terminal Portfolio
 
-> A production-grade, terminal-first developer portfolio built with React, Three.js, GSAP, and a Node.js backend.
+> A modern, terminal-inspired developer portfolio showcasing my projects, technical skills, education, and professional journey through an interactive command-line interface.
 
-```
-  █████╗ ██╗     ███████╗██╗  ██╗     ██████╗██╗  ██╗███████╗███╗   ██╗
- ██╔══██╗██║     ██╔════╝╚██╗██╔╝    ██╔════╝██║  ██║██╔════╝████╗  ██║
- ███████║██║     █████╗   ╚███╔╝     ██║     ███████║█████╗  ██╔██╗ ██║
- ██╔══██║██║     ██╔══╝   ██╔██╗     ██║     ██╔══██║██╔══╝  ██║╚██╗██║
- ██║  ██║███████╗███████╗██╔╝ ██╗    ╚██████╗██║  ██║███████╗██║ ╚████║
- ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝     ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝
-```
+---
+
+## 📖 Overview
+
+This portfolio is a **terminal-first web application** designed to provide an engaging way to explore my background as a Computer Science undergraduate and Full-Stack Developer.
+
+Inspired by modern developer terminals, the portfolio combines interactive command-line navigation with smooth animations, immersive visuals, and responsive design.
+
+Visitors can explore my education, projects, technical skills, internship experience, resume, and contact information using familiar terminal commands.
+
+---
 
 ## ✨ Features
 
-- **Terminal-First Home** — Interactive zsh-inspired terminal as the homepage hero
-- **25+ Commands** — `help`, `about`, `skills`, `projects`, `experience`, `resume`, `neofetch`, and more
-- **Three.js Background** — Immersive particle field with mouse-reactive camera
-- **GSAP Animations** — Page transitions, text reveals, micro-interactions
-- **Ctrl+\`** — Global shortcut to return to terminal from any page
-- **8 Full Pages** — Home, About, Education, Skills, Projects, Experience, Contact, Resume
-- **REST API Backend** — Express.js API for contact form, resume, and content endpoints
-- **Fully Responsive** — Mobile-friendly across all device sizes
-- **Dark Terminal Theme** — NightShell Dark with neon green + electric cyan accents
+* 🖥️ Interactive terminal-inspired homepage
+* ⌨️ 25+ built-in terminal commands
+* 🌌 Three.js animated background
+* ⚡ GSAP-powered animations and page transitions
+* 📄 Online resume preview and download
+* 📚 Dedicated pages for About, Education, Skills, Projects, Experience, Contact, and Resume
+* 📱 Fully responsive across desktop, tablet, and mobile devices
+* 🎯 Keyboard shortcuts and terminal history
+* 📬 Express.js backend for contact form and portfolio APIs
+* 🌙 Custom NightShell Dark theme
 
-## 🗂️ Project Structure
+---
 
-```
-portfolio/
-├── client/                    # Frontend (React + Vite)
-│   └── src/
-│       ├── components/
-│       │   ├── layout/        # Navbar, Footer, Layout
-│       │   ├── terminal/      # Terminal component + command processor
-│       │   ├── three/         # Three.js particle background
-│       │   └── ui/            # AnimatedText, PageTransition
-│       ├── data/
-│       │   └── portfolioData.ts  # All portfolio content
-│       └── pages/
-│           ├── Home.tsx       # Terminal homepage
-│           ├── About.tsx
-│           ├── Education.tsx
-│           ├── Skills.tsx
-│           ├── Projects.tsx
-│           ├── Experience.tsx
-│           ├── Contact.tsx
-│           └── Resume.tsx
-│
-└── server/                    # Backend (Node.js + Express)
-    ├── index.js               # Main server + API routes
-    ├── .env.example           # Environment variable template
-    └── package.json
-```
-
-## 🚀 Quick Start
+## 🛠️ Tech Stack
 
 ### Frontend
 
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-```
+* React 19
+* TypeScript
+* Vite
+* React Router DOM
+* Tailwind CSS
+* Three.js
+* GSAP
 
 ### Backend
+
+* Node.js
+* Express.js
+* Helmet
+* CORS
+* dotenv
+* Express Rate Limit
+
+### Developer Tools
+
+* Git
+* GitHub
+* VS Code
+* npm
+
+---
+
+## 📂 Project Structure
+
+```text
+portfolio/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── data/
+│   ├── hooks/
+│   ├── utils/
+│   └── assets/
+│
+├── public/
+│   └── resume/
+│
+├── server/
+│   ├── index.js
+│   ├── package.json
+│   └── .env.example
+│
+├── package.json
+└── README.md
+```
+
+---
+
+## 🖥️ Terminal Commands
+
+| Command       | Description                    |
+| ------------- | ------------------------------ |
+| `help`        | Display all available commands |
+| `about`       | View About section             |
+| `education`   | Open Education page            |
+| `skills`      | View technical skills          |
+| `projects`    | Explore projects               |
+| `experience`  | View internship experience     |
+| `resume`      | Open resume                    |
+| `contact`     | Contact information            |
+| `whoami`      | Personal profile               |
+| `social`      | Social media links             |
+| `github`      | GitHub profile                 |
+| `linkedin`    | LinkedIn profile               |
+| `email`       | Display email address          |
+| `status`      | Current availability           |
+| `neofetch`    | Portfolio system information   |
+| `ascii`       | Display ASCII banner           |
+| `clear`       | Clear terminal                 |
+| `ls`          | List available sections        |
+| `pwd`         | Current terminal path          |
+| `date`        | Current date                   |
+| `time`        | Current time                   |
+| `uptime`      | Portfolio uptime               |
+| `echo <text>` | Print custom text              |
+
+---
+
+## ⌨️ Keyboard Shortcuts
+
+| Shortcut   | Action                 |
+| ---------- | ---------------------- |
+| `Ctrl + `` | Return to terminal     |
+| `↑ / ↓`    | Browse command history |
+| `Tab`      | Auto-complete commands |
+| `Ctrl + C` | Cancel current input   |
+| `Ctrl + L` | Clear terminal         |
+
+---
+
+## 🚀 Getting Started
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/mitheshshettyy/<repository-name>.git
+
+cd <repository-name>
+```
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Start Frontend
+
+```bash
+npm run dev
+```
+
+### Start Backend
 
 ```bash
 cd server
 
-# Install dependencies
 npm install
 
-# Copy and configure environment
-cp .env.example .env
-
-# Start development server
 npm run dev
-
-# Start production server
-npm start
 ```
 
-## 🖥️ Terminal Commands
+### Build for Production
 
-| Command | Description |
-|---------|-------------|
-| `help` | List all commands |
-| `about` | Navigate to About page |
-| `education` | Navigate to Education page |
-| `skills` | Navigate to Skills page |
-| `projects` | Navigate to Projects page |
-| `experience` | Navigate to Experience page |
-| `contact` | Navigate to Contact page |
-| `resume` | Open resume section |
-| `whoami` | Display identity summary |
-| `neofetch` | System info display |
-| `ls` | List available sections |
-| `pwd` | Show current path |
-| `date` | Current date |
-| `time` | Current time |
-| `clear` | Clear terminal |
-| `social` | All social links |
-| `github` | Open GitHub profile |
-| `linkedin` | Open LinkedIn profile |
-| `email` | Display email |
-| `status` | Availability status |
-| `ascii` | ASCII art banner |
-| `uptime` | Portfolio uptime |
-| `echo <msg>` | Print a message |
-| `cat about.txt` | Quick about summary |
-| `cat skills.txt` | Skills summary |
-| `open resume` | Download resume |
-
-## ⌨️ Keyboard Shortcuts
-
-| Shortcut | Action |
-|----------|--------|
-| `Ctrl + \`` | Return to terminal from any page |
-| `↑ / ↓` | Navigate command history |
-| `Tab` | Autocomplete commands |
-| `Ctrl + C` | Cancel current input |
-| `Ctrl + L` | Clear terminal |
-
-## 🎨 Design System
-
-```css
-/* Color Palette */
---bg-primary:       #080c18   /* Near-black background */
---terminal-green:   #00ff88   /* Primary accent */
---terminal-cyan:    #00d4ff   /* Secondary accent */
---terminal-blue:    #3d8bff   /* Tertiary accent */
---text-primary:     #e2e8f0   /* Main text */
---text-secondary:   #94a3b8   /* Secondary text */
---text-muted:       #4a5568   /* Muted text */
-
-/* Typography */
---font-mono:  'JetBrains Mono', 'Fira Code', monospace
+```bash
+npm run build
 ```
 
-## 🔌 API Endpoints
+---
 
+## 🔌 REST API
+
+```text
+GET  /api/health
+GET  /api/portfolio
+GET  /api/projects
+GET  /api/skills
+GET  /api/resume
+GET  /api/resume/download
+POST /api/contact
 ```
-GET  /api/health              — Server health check
-GET  /api/portfolio           — Portfolio metadata
-GET  /api/projects            — Projects list (filterable)
-GET  /api/skills              — Skills data
-GET  /api/resume              — Resume metadata
-GET  /api/resume/download     — Download resume PDF
-POST /api/contact             — Submit contact form
-```
 
-## 🛠️ Tech Stack
+---
 
-**Frontend:**
-- React 19 + TypeScript
-- Vite (build tool)
-- React Router DOM (routing)
-- Three.js (3D background)
-- GSAP (animations)
-- Tailwind CSS (styling)
-- JetBrains Mono / Fira Code (fonts)
+## 🎨 Design Highlights
 
-**Backend:**
-- Node.js + Express
-- CORS + Helmet
-- dotenv (configuration)
-- Express Rate Limit
+* Terminal-inspired user experience
+* NightShell Dark color palette
+* Neon green and cyan accents
+* Responsive layouts
+* Smooth GSAP transitions
+* Interactive Three.js particle background
+* Monospace typography
 
-## 📄 License
-
-MIT — Mithesh R Shetty, 2026
+---
