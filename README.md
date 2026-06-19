@@ -3,12 +3,12 @@
 > A production-grade, terminal-first developer portfolio built with React, Three.js, GSAP, and a Node.js backend.
 
 ```
-  █████╗ ██╗     ███████╗██╗  ██╗     ██████╗██╗  ██╗███████╗███╗   ██╗
- ██╔══██╗██║     ██╔════╝╚██╗██╔╝    ██╔════╝██║  ██║██╔════╝████╗  ██║
- ███████║██║     █████╗   ╚███╔╝     ██║     ███████║█████╗  ██╔██╗ ██║
- ██╔══██║██║     ██╔══╝   ██╔██╗     ██║     ██╔══██║██╔══╝  ██║╚██╗██║
- ██║  ██║███████╗███████╗██╔╝ ██╗    ╚██████╗██║  ██║███████╗██║ ╚████║
- ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝     ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝
+███╗   ███╗ ██╗ █████╗ ██╗██╗ ████╗ ████╗ ██╗██╗   █████╗    ████╗ ██╗██╗ ████╗ █████╗ █████╗ ██╗ ██╗
+████╗ ████║ ██║ ╚═██╔╝ ██║██║ ██╔═╝ ██╔═╝ ██║██║   ██╔═██╗   ██╔═╝ ██║██║ ██╔═╝ ╚═██╔╝ ╚═██╔╝ ╚████╔╝
+██╔████╔██║ ██║   ██║  █████║ ████╗ ████╗ █████║   █████╔╝   ████╗ █████║ ████╗   ██║    ██║   ╚██╔╝ 
+██║╚██╔╝██║ ██║   ██║  ██╔██║ ██╔═╝ ╚═██║ ██╔██║   ██╔═██╗   ╚═██║ ██╔██║ ██╔═╝   ██║    ██║    ██║  
+██║ ╚═╝ ██║ ██║   ██║  ██║██║ ████╗ ████║ ██║██║   ██║ ██║   ████║ ██║██║ ████╗   ██║    ██║    ██║  
+╚═╝     ╚═╝ ╚═╝   ╚═╝  ╚═╝╚═╝ ╚═══╝ ╚═══╝ ╚═╝╚═╝   ╚═╝ ╚═╝   ╚═══╝ ╚═╝╚═╝ ╚═══╝   ╚═╝    ╚═╝    ╚═╝  
 ```
 
 ## ✨ Features
@@ -27,29 +27,30 @@
 
 ```
 portfolio/
-├── client/                    # Frontend (React + Vite)
-│   └── src/
-│       ├── components/
-│       │   ├── layout/        # Navbar, Footer, Layout
-│       │   ├── terminal/      # Terminal component + command processor
-│       │   ├── three/         # Three.js particle background
-│       │   └── ui/            # AnimatedText, PageTransition
-│       ├── data/
-│       │   └── portfolioData.ts  # All portfolio content
-│       └── pages/
-│           ├── Home.tsx       # Terminal homepage
-│           ├── About.tsx
-│           ├── Education.tsx
-│           ├── Skills.tsx
-│           ├── Projects.tsx
-│           ├── Experience.tsx
-│           ├── Contact.tsx
-│           └── Resume.tsx
+├── src/                       # Frontend Source (React + Vite)
+│   ├── components/
+│   │   ├── layout/            # Navbar, Footer, Layout
+│   │   ├── terminal/          # Terminal component + command processor
+│   │   ├── three/             # Three.js particle background
+│   │   └── ui/                # AnimatedText, PageTransition
+│   ├── data/
+│   │   └── portfolioData.ts   # All portfolio content
+│   └── pages/
+│       ├── Home.tsx           # Terminal homepage
+│       ├── About.tsx
+│       ├── Education.tsx
+│       ├── Skills.tsx
+│       ├── Projects.tsx
+│       ├── Experience.tsx
+│       ├── Contact.tsx
+│       └── Resume.tsx
 │
-└── server/                    # Backend (Node.js + Express)
-    ├── index.js               # Main server + API routes
-    ├── .env.example           # Environment variable template
-    └── package.json
+├── server/                    # Backend (Node.js + Express)
+│   ├── index.js               # Main server + API routes
+│   ├── .env.example           # Environment variable template
+│   └── package.json
+├── package.json               # Frontend package.json
+└── index.html                 # Frontend entry HTML
 ```
 
 ## 🚀 Quick Start
