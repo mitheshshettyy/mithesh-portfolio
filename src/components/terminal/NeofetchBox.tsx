@@ -12,7 +12,7 @@ export default function NeofetchBox() {
 
   const specs = [
     { label: 'OS', value: 'Portfolio OS v2.0.0' },
-    { label: 'Host', value: 'NMAM Institute of Technology' },
+    { label: 'Host', value: 'portfolio.local' },
     { label: 'Shell', value: `${personalInfo.shell} ${personalInfo.version}` },
     { label: 'WM/UI', value: 'React + GSAP' },
     { label: 'Theme', value: 'NightShell Dark' },

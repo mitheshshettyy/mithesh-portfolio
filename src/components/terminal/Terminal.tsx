@@ -9,6 +9,7 @@ import {
 import MobileCommandBar from './MobileCommandBar';
 import WhoAmIBox from './WhoAmIBox';
 import NeofetchBox from './NeofetchBox';
+import { PORTFOLIO_START_DISPLAY_DATE } from '../../utils/uptime';
 
 // ── Types ──
 interface TerminalLine {
@@ -461,8 +462,8 @@ function useCommandProcessor(
       case 'uptime':
         return [
           line('output', `  Portfolio uptime: ${personalInfo.uptime}`),
-          line('info', `  Started: September 2021`),
-          line('success', `  Status: RUNNING 🟢`),
+          line('info', `  Started: ${PORTFOLIO_START_DISPLAY_DATE}`),
+          line('success', `  Status: RUNNING ●`),
         ];
 
       case 'intro':

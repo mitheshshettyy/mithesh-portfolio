@@ -1,4 +1,4 @@
-// ===== Portfolio Data — Mithesh R Shetty =====
+import { getPortfolioUptime } from '../utils/uptime';
 
 export const personalInfo = {
   name: "Mithesh R Shetty",
@@ -20,7 +20,9 @@ export const personalInfo = {
   prompt: "mithesh@portfolio",
   shell: "zsh",
   version: "5.9",
-  uptime: "2 years, 10 months (since Aug 2023)",
+  get uptime() {
+    return getPortfolioUptime();
+  },
   status: "🟢 Available for internships & software engineering roles",
 };
 
