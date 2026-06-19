@@ -527,3 +527,55 @@ body {
   .bg-card-custom { background-color: var(--bg-card); }
   .border-terminal { border-color: var(--border-color); }
 }
+
+/* ===== ASCII Banner Responsiveness ===== */
+.terminal-banner-text {
+  font-size: 0.82rem;
+  white-space: pre;
+  display: block;
+  margin: 0 auto;
+  width: fit-content;
+  max-width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .terminal-banner-text {
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .terminal-banner-text {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 850px) {
+  .terminal-banner-text {
+    font-size: 0.58rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .terminal-banner-text {
+    font-size: 0.52rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .terminal-banner-text {
+    font-size: 0.44rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .terminal-banner-text {
+    font-size: 0.35rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .terminal-banner-text {
+    font-size: 0.28rem;
+  }
+}
