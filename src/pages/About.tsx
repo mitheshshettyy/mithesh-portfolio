@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { personalInfo, aboutData } from '../data/portfolioData';
+import { personalInfo, aboutData, socialLinks } from '../data/portfolioData';
 
 export default function About() {
   const pageRef = useRef<HTMLDivElement>(null);
@@ -53,14 +53,14 @@ export default function About() {
               >
                 <img
                   src="/images/profile-avatar.jpg"
-                  alt="Alex Chen"
+                  alt={personalInfo.name}
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     const el = e.currentTarget as HTMLImageElement;
                     el.style.display = 'none';
                     if (el.parentElement) {
                       el.parentElement.style.background = 'linear-gradient(135deg, rgba(0,255,136,0.15), rgba(0,212,255,0.15))';
-                      el.parentElement.innerHTML = '<span style="display:flex;align-items:center;justify-content:center;height:100%;font-family:monospace;font-size:2rem;font-weight:700;color:#00ff88">AC</span>';
+                      el.parentElement.innerHTML = '<span style="display:flex;align-items:center;justify-content:center;height:100%;font-family:monospace;font-size:2rem;font-weight:700;color:#00ff88">MS</span>';
                     }
                   }}
                 />
@@ -157,8 +157,8 @@ export default function About() {
             <div className="space-y-4">
               <ContactItem icon="📍" label="Location" value={personalInfo.location} />
               <ContactItem icon="📧" label="Email" value={personalInfo.email} href={`mailto:${personalInfo.email}`} />
-              <ContactItem icon="🐙" label="GitHub" value="@alexchen-dev" href={personalInfo.github} />
-              <ContactItem icon="💼" label="LinkedIn" value="in/alexchen-cs" href={personalInfo.linkedin} />
+              <ContactItem icon="🐙" label="GitHub" value={socialLinks.github.handle} href={personalInfo.github} />
+              <ContactItem icon="💼" label="LinkedIn" value={socialLinks.linkedin.handle} href={personalInfo.linkedin} />
             </div>
           </div>
         </div>
@@ -225,7 +225,7 @@ export default function About() {
 function TerminalBreadcrumb({ path }: { path: string }) {
   return (
     <div className="flex items-center gap-1 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-      <span style={{ color: 'var(--terminal-green)' }}>alex@portfolio</span>
+      <span style={{ color: 'var(--terminal-green)' }}>{personalInfo.prompt}</span>
       <span>:</span>
       <span style={{ color: 'var(--terminal-cyan)' }}>~/{path}</span>
       <span>$</span>
@@ -295,10 +295,10 @@ function ContactItem({
 }
 
 const quickFacts = [
-  { key: 'daily driver', val: 'Arch Linux' },
-  { key: 'editor', val: 'Neovim' },
-  { key: 'shell', val: 'zsh + oh-my-zsh' },
-  { key: 'terminal', val: 'Alacritty' },
-  { key: 'keyboard', val: 'Keychron Q3' },
-  { key: 'coffee', val: 'Black, always' },
+  { key: 'daily driver', val: 'Windows / Linux' },
+  { key: 'editor', val: 'VS Code' },
+  { key: 'shell', val: 'PowerShell / Bash' },
+  { key: 'terminal', val: 'Windows Terminal' },
+  { key: 'main language', val: 'TypeScript / Java' },
+  { key: 'hosting', val: 'Vercel / GCP' },
 ];

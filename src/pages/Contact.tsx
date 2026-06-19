@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { personalInfo } from '../data/portfolioData';
+import { personalInfo, socialLinks } from '../data/portfolioData';
 
 interface FormState {
   name: string;
@@ -226,13 +226,13 @@ export default function Contact() {
               <ContactItem
                 icon="🐙"
                 label="GitHub"
-                value="@alexchen-dev"
+                value={socialLinks.github.handle}
                 href={personalInfo.github}
               />
               <ContactItem
                 icon="💼"
                 label="LinkedIn"
-                value="in/alexchen-cs"
+                value={socialLinks.linkedin.handle}
                 href={personalInfo.linkedin}
               />
               <ContactItem
@@ -346,7 +346,7 @@ function ContactItem({
 function Breadcrumb({ path }: { path: string }) {
   return (
     <div className="flex items-center gap-1 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-      <span style={{ color: 'var(--terminal-green)' }}>alex@portfolio</span>
+      <span style={{ color: 'var(--terminal-green)' }}>{personalInfo.prompt}</span>
       <span>:</span>
       <span style={{ color: 'var(--terminal-cyan)' }}>~/{path}</span>
       <span>$</span>

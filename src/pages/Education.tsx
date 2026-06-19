@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { educationData } from '../data/portfolioData';
+import { educationData, personalInfo } from '../data/portfolioData';
 
 export default function Education() {
   const pageRef = useRef<HTMLDivElement>(null);
@@ -187,7 +187,7 @@ export default function Education() {
 function Breadcrumb({ path }: { path: string }) {
   return (
     <div className="flex items-center gap-1 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-      <span style={{ color: 'var(--terminal-green)' }}>alex@portfolio</span>
+      <span style={{ color: 'var(--terminal-green)' }}>{personalInfo.prompt}</span>
       <span>:</span>
       <span style={{ color: 'var(--terminal-cyan)' }}>~/{path}</span>
       <span>$</span>
@@ -196,33 +196,29 @@ function Breadcrumb({ path }: { path: string }) {
 }
 
 const certifications = [
-  { name: 'AWS Solutions Architect – Associate', issuer: 'Amazon Web Services', year: '2024' },
-  { name: 'Google Cloud Professional Data Engineer', issuer: 'Google Cloud', year: '2024' },
-  { name: 'Kubernetes Administrator (CKA)', issuer: 'CNCF / Linux Foundation', year: '2023' },
-  { name: 'Meta Backend Developer', issuer: 'Coursera / Meta', year: '2023' },
-  { name: 'Deep Learning Specialization', issuer: 'Coursera / DeepLearning.AI', year: '2022' },
-  { name: 'Competitive Programming — Expert', issuer: 'Codeforces (Rating: 1847)', year: '2024' },
+  { name: 'MERN Stack Web Development', issuer: 'Full-Stack Developer Focus', year: '2025' },
+  { name: 'Next.js & React Frontend Engineering', issuer: 'Web Architecture Focus', year: '2025' },
+  { name: 'FastAPI & Node.js Backend Development', issuer: 'API Design Focus', year: '2026' },
+  { name: 'Three.js 3D Graphics & Animations', issuer: 'Interactive UI Focus', year: '2025' },
+  { name: 'MongoDB & MySQL Database Design', issuer: 'Database Systems Focus', year: '2026' },
 ];
 
 const allCoursework = [
   'Data Structures & Algorithms',
-  'Operating Systems',
-  'Computer Networks',
   'Database Management Systems',
-  'Machine Learning',
-  'Distributed Systems',
-  'System Design',
-  'Compiler Design',
-  'Computer Architecture',
-  'Software Engineering'
+  'Object Oriented Programming',
+  'Web Development',
+  'Software Engineering',
+  'Computer Networks',
+  'Operating Systems',
+  'System Design'
 ];
 
 const academicAchievements = [
-  "Dean's Merit List — 5 consecutive semesters (IIT Delhi)",
-  "Best Undergraduate Project Award — 2024",
-  "ACM Student Chapter President @ IIT Delhi",
-  "Teaching Assistant — Data Structures & Algorithms",
-  "School Topper — Computer Science (DPS R.K. Puram)",
-  "JEE Advanced All India Rank (AIR) 847",
-  "Gold Medalist — National Science Olympiad"
+  "Graduating with B.Tech in CSE — NMAM Institute of Technology",
+  "Maintained a strong CGPA of 8.69 / 10.0 in Computer Science",
+  "Pre-University Distinction — 94.5% Board Examination Score",
+  "Completed Full Stack Internship at ALGOORBIT Innovations",
+  "Developed Complexify: AI Code Complexity Classifier",
+  "Developed Virtual Garden: 3D interactive plant platform"
 ];

@@ -1,7 +1,7 @@
 /**
  * ============================================================
  *  Portfolio Backend — Express.js API Server
- *  Author: Alex Chen
+ *  Author: Mithesh R Shetty
  *  Stack: Node.js + Express + CORS + dotenv
  * ============================================================
  */
@@ -46,16 +46,16 @@ app.get('/api/health', (req, res) => {
 // Portfolio data endpoint
 app.get('/api/portfolio', (req, res) => {
   res.json({
-    name: 'Alex Chen',
+    name: 'Mithesh R Shetty',
     title: 'Full-Stack Developer & CS Student',
-    university: 'IIT Delhi',
-    year: '4th Year',
-    graduationYear: 2025,
-    cgpa: '9.1/10.0',
-    email: 'alex.chen@iiitd.ac.in',
-    github: 'https://github.com/alexchen-dev',
-    linkedin: 'https://linkedin.com/in/alexchen-cs',
-    availability: 'Open to Opportunities — May 2025',
+    university: 'NMAM Institute of Technology, Nitte, Karnataka',
+    year: '3rd Year',
+    graduationYear: 2027,
+    cgpa: '8.69/10.0',
+    email: 'shettymithesh030@gmail.com',
+    github: 'https://github.com/mitheshshettyy',
+    linkedin: 'https://linkedin.com/in/mithesh-shetty030',
+    availability: 'Open to Opportunities — Summer 2027',
   });
 });
 
@@ -65,31 +65,31 @@ app.get('/api/projects', (req, res) => {
 
   const projects = [
     {
-      id: 'nexus-os',
-      name: 'NexusOS',
-      category: 'Systems',
-      featured: true,
-      tech: ['C++', 'Rust', 'POSIX'],
-      stars: 142,
-      status: 'Active',
-    },
-    {
-      id: 'synapse-ai',
-      name: 'Synapse AI',
+      id: 'complexify',
+      name: 'Complexify',
       category: 'AI/ML',
       featured: true,
-      tech: ['Python', 'FastAPI', 'Next.js', 'pgvector'],
-      stars: 318,
-      status: 'Active',
+      tech: ['Python', 'FastAPI', 'Scikit-learn', 'HTML', 'CSS', 'JavaScript'],
+      stars: 12,
+      status: 'Completed',
     },
     {
-      id: 'tradestream',
-      name: 'TradeStream',
-      category: 'Backend',
+      id: 'nextresume',
+      name: 'NextResume',
+      category: 'Full-Stack',
       featured: true,
-      tech: ['Go', 'Kafka', 'Redis'],
-      stars: 204,
-      status: 'Active',
+      tech: ['Next.js', 'React', 'Node.js', 'NextAuth.js', 'JavaScript'],
+      stars: 18,
+      status: 'Completed',
+    },
+    {
+      id: 'virtual-garden',
+      name: 'Virtual Garden',
+      category: 'Frontend',
+      featured: true,
+      tech: ['Next.js', 'React', 'Tailwind CSS', 'MongoDB', 'Three.js', 'TypeScript'],
+      stars: 25,
+      status: 'Completed',
     },
   ];
 
@@ -144,14 +144,14 @@ app.get('/api/resume/download', (req, res) => {
   // Check if file exists (in production)
   try {
     // In production, serve the actual PDF
-    // res.download(resumePath, 'Alex_Chen_Resume_2025.pdf');
+    // res.download(resumePath, 'Mithesh_R_Shetty_Resume.pdf');
 
     // For now, return metadata
     res.json({
-      filename: 'Alex_Chen_Resume_2025.pdf',
-      url: '/resume/alex-chen-resume.pdf',
-      lastUpdated: '2025-01-01',
-      size: '124KB',
+      filename: 'Mithesh_R_Shetty_Resume.pdf',
+      url: '/resume/mithesh-r-shetty-resume.pdf',
+      lastUpdated: '2026-06-01',
+      size: '108KB',
     });
   } catch {
     res.status(404).json({ error: 'Resume file not found' });
@@ -161,10 +161,10 @@ app.get('/api/resume/download', (req, res) => {
 // Resume info
 app.get('/api/resume', (req, res) => {
   res.json({
-    name: 'Alex Chen',
-    filename: 'Alex_Chen_Resume_2025.pdf',
-    version: '2025.1',
-    lastUpdated: '2025-01-01',
+    name: 'Mithesh R Shetty',
+    filename: 'Mithesh_R_Shetty_Resume.pdf',
+    version: '2026.1',
+    lastUpdated: '2026-06-01',
     pages: 1,
     format: 'PDF',
     atsOptimized: true,
@@ -175,11 +175,11 @@ app.get('/api/resume', (req, res) => {
 // Skills endpoint
 app.get('/api/skills', (req, res) => {
   res.json({
-    languages: ['TypeScript', 'Python', 'Go', 'C++', 'Java', 'Rust'],
-    frontend: ['React', 'Next.js', 'Three.js', 'Tailwind CSS'],
-    backend: ['Node.js', 'FastAPI', 'Go/Gin', 'gRPC'],
-    databases: ['PostgreSQL', 'MongoDB', 'Redis', 'Elasticsearch'],
-    tools: ['Docker', 'Kubernetes', 'AWS', 'CI/CD'],
+    languages: ['Java', 'Python', 'C/C++', 'JavaScript', 'TypeScript', 'HTML/CSS'],
+    frontend: ['React', 'Next.js', 'Tailwind CSS', 'Three.js'],
+    backend: ['Node.js', 'Express.js', 'FastAPI'],
+    databases: ['MySQL', 'MongoDB'],
+    tools: ['Git', 'GitHub', 'Postman', 'Docker', 'Google Cloud Platform', 'Vercel', 'VS Code'],
   });
 });
 

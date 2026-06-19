@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { experienceData } from '../data/portfolioData';
+import { experienceData, personalInfo } from '../data/portfolioData';
 
 type ExpType = 'All' | 'Internship' | 'Research' | 'Leadership' | 'Open Source';
 const filters: ExpType[] = ['All', 'Internship', 'Research', 'Leadership', 'Open Source'];
@@ -350,7 +350,7 @@ function ExperienceDetailsPanel({ exp }: { exp: typeof experienceData[0] }) {
 function Breadcrumb({ path }: { path: string }) {
   return (
     <div className="flex items-center gap-1 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-      <span style={{ color: 'var(--terminal-green)' }}>alex@portfolio</span>
+      <span style={{ color: 'var(--terminal-green)' }}>{personalInfo.prompt}</span>
       <span>:</span>
       <span style={{ color: 'var(--terminal-cyan)' }}>~/{path}</span>
       <span>$</span>

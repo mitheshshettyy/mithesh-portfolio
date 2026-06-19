@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { personalInfo, skillsData, educationData, experienceData } from '../data/portfolioData';
+import { personalInfo, skillsData, educationData, experienceData, socialLinks } from '../data/portfolioData';
 
 export default function Resume() {
   const pageRef = useRef<HTMLDivElement>(null);
@@ -16,8 +16,8 @@ export default function Resume() {
 
   const handleDownload = () => {
     const link = document.createElement('a');
-    link.href = '/resume/alex-chen-resume.pdf';
-    link.download = 'Alex_Chen_Resume_2025.pdf';
+    link.href = personalInfo.resumeUrl;
+    link.download = 'Mithesh_R_Shetty_Resume.pdf';
     link.click();
   };
 
@@ -32,7 +32,7 @@ export default function Resume() {
               open{' '}<span style={{ color: 'var(--terminal-green)' }}>resume.pdf</span>
             </h1>
             <p className="text-sm" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-              # Recruiter-ready resume — last updated Jan 2025
+              # Recruiter-ready resume — last updated Jun 2026
             </p>
           </div>
           <div className="flex gap-4">
@@ -95,7 +95,7 @@ export default function Resume() {
                 <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#28c840' }} />
               </div>
               <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                alex-chen-resume-2025.pdf
+                mithesh-r-shetty-resume.pdf
               </span>
               <span
                 className="ml-auto text-xs px-2 py-0.5 rounded"
@@ -125,9 +125,9 @@ export default function Resume() {
                   <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
                     <span>{personalInfo.email}</span>
                     <span>|</span>
-                    <span>github.com/alexchen-dev</span>
+                    <span>{socialLinks.github.url.replace('https://', '')}</span>
                     <span>|</span>
-                    <span>linkedin.com/in/alexchen-cs</span>
+                    <span>{socialLinks.linkedin.url.replace('https://', '')}</span>
                     <span>|</span>
                     <span>{personalInfo.location}</span>
                   </div>
@@ -241,11 +241,11 @@ export default function Resume() {
             <div className="space-y-2.5 mb-6">
               <div className="flex justify-between text-xs" style={{ fontFamily: 'var(--font-mono)' }}>
                 <span style={{ color: 'var(--text-muted)' }}>File</span>
-                <span style={{ color: 'var(--text-secondary)' }}>resume_2025.pdf</span>
+                <span style={{ color: 'var(--text-secondary)' }}>mithesh-r-shetty-resume.pdf</span>
               </div>
               <div className="flex justify-between text-xs" style={{ fontFamily: 'var(--font-mono)' }}>
                 <span style={{ color: 'var(--text-muted)' }}>Updated</span>
-                <span style={{ color: 'var(--text-secondary)' }}>Jan 2025</span>
+                <span style={{ color: 'var(--text-secondary)' }}>Jun 2026</span>
               </div>
               <div className="flex justify-between text-xs" style={{ fontFamily: 'var(--font-mono)' }}>
                 <span style={{ color: 'var(--text-muted)' }}>Pages</span>
@@ -393,7 +393,7 @@ function SkillLine({ label, skills }: { label: string; skills: string[] }) {
 function Breadcrumb({ path }: { path: string }) {
   return (
     <div className="flex items-center gap-1 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-      <span style={{ color: 'var(--terminal-green)' }}>alex@portfolio</span>
+      <span style={{ color: 'var(--terminal-green)' }}>{personalInfo.prompt}</span>
       <span>:</span>
       <span style={{ color: 'var(--terminal-cyan)' }}>~/{path}</span>
       <span>$</span>
@@ -402,10 +402,10 @@ function Breadcrumb({ path }: { path: string }) {
 }
 
 const glanceStats = [
-  { label: 'CGPA', value: '9.1 / 10', color: 'var(--terminal-green)' },
-  { label: 'Internships', value: '2 (Google, Flipkart)', color: 'var(--terminal-cyan)' },
-  { label: 'Projects', value: '20+', color: 'var(--terminal-blue)' },
-  { label: 'OSS PRs', value: '47 merged', color: 'var(--terminal-purple)' },
-  { label: 'LeetCode', value: '450+ solved', color: 'var(--terminal-green)' },
-  { label: 'CF Rating', value: '1847 (Expert)', color: 'var(--terminal-cyan)' },
+  { label: 'CGPA', value: '8.69 / 10', color: 'var(--terminal-green)' },
+  { label: 'Internships', value: '1 (Algoorbit)', color: 'var(--terminal-cyan)' },
+  { label: 'Projects', value: '10+', color: 'var(--terminal-blue)' },
+  { label: 'Board Score', value: '94.5%', color: 'var(--terminal-purple)' },
+  { label: 'Main Tech', value: 'React / Node.js', color: 'var(--terminal-green)' },
+  { label: 'Database', value: 'MongoDB / MySQL', color: 'var(--terminal-cyan)' },
 ];

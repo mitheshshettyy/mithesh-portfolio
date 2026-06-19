@@ -1,4 +1,4 @@
-# Alex Chen — Terminal Portfolio
+# Mithesh R Shetty — Terminal Portfolio
 
 > A production-grade, terminal-first developer portfolio built with React, Three.js, GSAP, and a Node.js backend.
 
@@ -173,4 +173,4 @@ POST /api/contact             — Submit contact form
 
 ## 📄 License
 
-MIT — Alex Chen, 2025
+MIT — Mithesh R Shetty, 2026

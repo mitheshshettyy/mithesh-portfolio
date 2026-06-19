@@ -71,45 +71,42 @@ const VIRTUAL_FS: Record<string, { dirs: string[]; files: Record<string, string>
 
 const FILE_CONTENTS: Record<string, string> = {
   aboutData: `--- ABOUT ME ---
-Name: Alex Chen
+Name: Mithesh R Shetty
 Role: Full-Stack Developer & CS Student
 
 Summary:
-I'm a 4th-year Computer Science student at IIT Delhi with a deep passion for building production-grade software. I specialize in full-stack web development, distributed systems, and machine learning — blending theoretical rigor with hands-on engineering.
+I'm a Computer Science & Engineering student at NMAM Institute of Technology with a strong foundation in full-stack web development. I specialize in building web applications with React, Next.js, and Node.js, database optimization with MongoDB, and creating interactive user experiences with Three.js.
 
 Philosophy:
-I believe great software is born at the intersection of clean architecture, user-centric design, and engineering discipline.`,
+I believe great software is born at the intersection of clean database architecture, structured backend APIs, and responsive user interfaces.`,
   
   skillsData: `--- SKILLS ---
-Languages: TypeScript, Python, Go, C++, Java, Rust, SQL, Bash/Zsh
-Frontend:  React.js, Next.js, Three.js, GSAP, Tailwind CSS, Redux
-Backend:   Node.js/Express, FastAPI, Go/Gin, GraphQL, gRPC, WebSockets
-Databases: PostgreSQL, MongoDB, Redis, Elasticsearch, Cassandra
-Tools:     Docker/Kubernetes, AWS/GCP, CI/CD (GitHub Actions), Linux (Arch)`,
+Languages: Java, Python, C/C++, JavaScript, TypeScript, HTML/CSS
+Frontend:  React, Next.js, Tailwind CSS, Three.js
+Backend:   Node.js, Express.js, FastAPI, REST APIs
+Databases: MySQL, MongoDB
+Tools:     Git, GitHub, Postman, Docker, Google Cloud Platform, Vercel, VS Code`,
 
   resumeData: `--- RESUME ---
-Name: Alex Chen
-Email: alex.chen@iiitd.ac.in
-GitHub: github.com/alexchen-dev
-LinkedIn: linkedin.com/in/alexchen-cs
+Name: Mithesh R Shetty
+Email: shettymithesh030@gmail.com
+GitHub: github.com/mitheshshettyy
+LinkedIn: linkedin.com/in/mithesh-shetty030
 
 Education:
-- Indian Institute of Technology, Delhi (B.Tech CSE, CGPA: 9.1/10)
-- Delhi Public School, R.K. Puram (Class XII: 97.4%)
+- NMAM Institute of Technology (B.Tech CSE, CGPA: 8.69/10)
+- Vidyodaya Pre-University College (Pre-University: 94.5%)
 
 Experience:
-- Software Engineering Intern at Google (Cloud Storage)
-- Backend Engineering Intern at Flipkart (Logistics)`,
+- Full Stack Development Intern at ALGOORBIT Innovations (MERN stack)`,
 
   projectsData: `--- PROJECTS ---
-1. NexusOS: Distributed OS simulation (C++, Rust) - 142 stars
-2. Synapse AI: LLM-powered knowledge graph platform (Python, FastAPI, Next.js) - 318 stars
-3. TradeStream: Real-time algorithmic trading engine (Go, Kafka, Redis) - 204 stars`,
+1. Complexify: AI-powered Python code complexity classifier (Python, FastAPI, Scikit-learn) - 12 stars
+2. NextResume: Live preview resume builder (Next.js, React, Node.js, NextAuth.js) - 18 stars
+3. Virtual Garden: 3D interactive medicinal plant platform (Next.js, MongoDB, Three.js) - 25 stars`,
 
   experienceData: `--- EXPERIENCE ---
-- Software Engineering Intern @ Google (May 2024 - Aug 2024)
-- Backend Engineering Intern @ Flipkart (Dec 2023 - Jan 2024)
-- Undergraduate Research Assistant @ IIT Delhi (Jan 2023 - Present)`
+- Full Stack Development Intern @ ALGOORBIT Innovations (Nov 2025 - Jan 2026)`
 };
 
 // Helper for syntax highlighting
@@ -268,8 +265,8 @@ function useCommandProcessor(
       case 'download':
         if (args[0]?.toLowerCase() === 'resume') {
           const link = document.createElement('a');
-          link.href = '/resume/alex-chen-resume.pdf';
-          link.download = 'Alex_Chen_Resume_2025.pdf';
+          link.href = personalInfo.resumeUrl;
+          link.download = 'Mithesh_R_Shetty_Resume.pdf';
           link.click();
           return [line('success', '▶ Downloading resume PDF...')];
         }
@@ -304,7 +301,7 @@ function useCommandProcessor(
 
       case 'pwd':
         return [
-          line('output', `/home/alex/portfolio${currentDir === '~' ? '' : currentDir.substring(1)}`),
+          line('output', `/home/mithesh/portfolio${currentDir === '~' ? '' : currentDir.substring(1)}`),
           line('info', `  Shell: ${personalInfo.shell} — ${personalInfo.version}`),
         ];
 

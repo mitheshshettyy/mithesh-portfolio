@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { skillsData } from '../data/portfolioData';
+import { skillsData, personalInfo } from '../data/portfolioData';
 
 type CategoryKey = 'languages' | 'frontend' | 'backend' | 'databases' | 'tools' | 'cloud' | 'devops' | 'ai';
 
@@ -155,7 +155,7 @@ export default function Skills() {
 function Breadcrumb({ path }: { path: string }) {
   return (
     <div className="flex items-center gap-1 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-      <span style={{ color: 'var(--terminal-green)' }}>alex@portfolio</span>
+      <span style={{ color: 'var(--terminal-green)' }}>{personalInfo.prompt}</span>
       <span>:</span>
       <span style={{ color: 'var(--terminal-cyan)' }}>~/{path}</span>
       <span>$</span>

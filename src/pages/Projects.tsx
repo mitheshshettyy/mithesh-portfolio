@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { projectsData } from '../data/portfolioData';
+import { projectsData, personalInfo } from '../data/portfolioData';
 
-type FilterCategory = 'All' | 'Systems' | 'AI/ML' | 'Backend' | 'Full-Stack';
-const filters: FilterCategory[] = ['All', 'Systems', 'AI/ML', 'Backend', 'Full-Stack'];
+type FilterCategory = 'All' | 'Frontend' | 'Full-Stack' | 'AI/ML';
+const filters: FilterCategory[] = ['All', 'Frontend', 'Full-Stack', 'AI/ML'];
 
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState<FilterCategory>('All');
@@ -256,59 +256,38 @@ function ProjectCard({ project }: { project: typeof projectsData[0] }) {
 
 function getProjectMockVisual(id: string): string {
   switch (id) {
-    case 'nexus-os':
-      return `[PROCESS MGR] Running CPU Scheduling
-PID   Command   CPU%   State
-100   init      0.1%   Sleeping
-104   Consensus 8.5%   Active (Raft)
-109   VMemPaged 4.2%   Active
-[Consensus] Raft leader elected: Node 3`;
+    case 'complexify':
+      return `$ python classifier.py --predict "def foo(n):\\n  for i in range(n):\\n    print(i)"
+Parsing AST... Done.
+[Features] Nesting Depth: 1, Branching: 0
+[Model] Classifier Accuracy: 78.4%
+Result: Time Complexity O(N) | Space Complexity O(1)`;
     
-    case 'synapse-ai':
-      return `$ query --semantic "neural network graph"
-Parsing Query... Done.
-[DB] Searching pgvector (1536 dims)...
-Matches found:
-- Node_ID: 419 (Sim: 0.942) -> "Graph theory"
-- Node_ID: 104 (Sim: 0.887) -> "Brain architecture"`;
+    case 'nextresume':
+      return `$ npm run dev --editor
+[NextAuth] Session started for user: mithesh
+[React-PDF] Rendering document...
+[ATS Check] Score: 98% (passed all checks)
+Output: resume_2026.pdf ready for download`;
     
-    case 'tradestream':
-      return `[KAFKA INGESTION] Processing 50K events/s
-Symbol   Price     Change    Volume
-BTC/USD  96403.50  +2.45%    14,210
-ETH/USD   3542.20  -0.12%     8,419
-SOL/USD    212.10  +8.19%    22,342
-Strategy Backtest complete. P&L: +$14,204`;
-    
-    case 'devgrid':
-      return `*   commit 9a4ef12 - Merge pull request #42
-|\\  
-| * commit f82a0d9 - fix: prisma connection pool leak
-| * commit 3e9d1a4 - docs: update webhooks configuration
-* | commit b234cf7 - chore: bump tailwind dependency`;
-    
-    case 'phantom-vpn':
-      return `[Noise Handshake] initiator -> responder
-[NAT traversal] Hole punch: Success
-[WireGuard Tunnel] Connection established.
-Interface: wg0 (P2P encrypted tunnel)
-Peer: 184.22.99.1 (Relay: relay-2)`;
+    case 'virtual-garden':
+      return `[Three.js] Initializing WebGL Renderer
+[Three.js] Loading GLTF models... Success
+[Three.js] Scene render loop active at 60 FPS
+[MongoDB] Connected to database: medicinal_plants`;
     
     default:
-      return `1  import { Editor } from '@monaco-editor/react';
-2  
-3  export default function CodeIDE() {
-4    return (
-5      <Editor height="90vh" theme="vs-dark" />
-6    );
-7  }`;
+      return `$ node -v
+v22.12.0
+$ npm run dev
+Vite dev server running...`;
   }
 }
 
 function Breadcrumb({ path }: { path: string }) {
   return (
     <div className="flex items-center gap-1 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-      <span style={{ color: 'var(--terminal-green)' }}>alex@portfolio</span>
+      <span style={{ color: 'var(--terminal-green)' }}>{personalInfo.prompt}</span>
       <span>:</span>
       <span style={{ color: 'var(--terminal-cyan)' }}>~/{path}</span>
       <span>$</span>
