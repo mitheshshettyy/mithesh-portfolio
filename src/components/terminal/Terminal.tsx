@@ -19,12 +19,19 @@ interface TerminalLine {
 
 // ── ASCII Art ──
 const ASCII_BANNER = `
- █████╗ ██╗     ███████╗██╗  ██╗     ██████╗██╗  ██╗███████╗███╗   ██╗
-██╔══██╗██║     ██╔════╝╚██╗██╔╝    ██╔════╝██║  ██║██╔════╝████╗  ██║
-███████║██║     █████╗   ╚███╔╝     ██║     ███████║█████╗  ██╔██╗ ██║
-██╔══██║██║     ██╔══╝   ██╔██╗     ██║     ██╔══██║██╔══╝  ██║╚██╗██║
-██║  ██║███████╗███████╗██╔╝ ██╗    ╚██████╗██║  ██║███████╗██║ ╚████║
-╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝     ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝
+███╗   ███╗██╗████████╗██╗  ██╗███████╗███████╗██╗  ██╗    ██████╗ 
+████╗ ████║██║╚══██╔══╝██║  ██║██╔════╝██╔════╝██║  ██║    ██╔══██╗
+██╔████╔██║██║   ██║   ███████║█████╗  ███████╗███████║    ██████╔╝
+██║╚██╔╝██║██║   ██║   ██╔══██║██╔══╝  ╚════██║██╔══██║    ██╔══██╗
+██║ ╚═╝ ██║██║   ██║   ██║  ██║███████╗███████║██║  ██║    ██║  ██║
+╚═╝     ╚═╝╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═╝
+
+        ███████╗██╗  ██╗███████╗████████╗████████╗██╗   ██╗
+        ██╔════╝██║  ██║██╔════╝╚══██╔══╝╚══██╔══╝╚██╗ ██╔╝
+        ███████╗███████║█████╗     ██║      ██║    ╚████╔╝ 
+        ╚════██║██╔══██║██╔══╝     ██║      ██║     ╚██╔╝  
+        ███████║██║  ██║███████╗   ██║      ██║      ██║   
+        ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝      ╚═╝      ╚═╝
 `;
 
 // ── Virtual Filesystem Data ──
@@ -460,7 +467,7 @@ function useCommandProcessor(
       case 'ascii':
         return [
           line('success', ASCII_BANNER),
-          line('output', `  ${personalInfo.name} — ${personalInfo.title}`),
+          line('output', `  ${personalInfo.title}`),
           blank(),
         ];
 
@@ -553,7 +560,7 @@ export default function Terminal() {
   useEffect(() => {
     const bootLines: { type: TerminalLine['type']; content: string; delay: number }[] = [
       { type: 'section', content: ASCII_BANNER, delay: 100 },
-      { type: 'info', content: `  ${personalInfo.name} — ${personalInfo.title}`, delay: 800 },
+      { type: 'info', content: `  ${personalInfo.title}`, delay: 800 },
       { type: 'output', content: `  ${personalInfo.university} | ${personalInfo.year} | Graduating ${personalInfo.graduationYear}`, delay: 1000 },
       { type: 'blank', content: '', delay: 1200 },
       { type: 'success', content: `  ● ${personalInfo.status}`, delay: 1400 },
