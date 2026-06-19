@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
+import config from '../../config';
 import {
   personalInfo,
   commandDocs,
@@ -73,15 +74,17 @@ const VIRTUAL_FS: Record<string, { dirs: string[]; files: Record<string, string>
 };
 
 const FILE_CONTENTS: Record<string, string> = {
-  aboutData: `--- ABOUT ME ---
-Name: Mithesh R Shetty
-Role: Full-Stack Developer & CS Student
+  get aboutData() {
+    return `--- ABOUT ME ---
+Name: ${config.personal.name}
+Role: ${config.personal.role}
 
 Summary:
-I'm a Computer Science & Engineering student at NMAM Institute of Technology with a strong foundation in full-stack web development. I specialize in building web applications with React, Next.js, and Node.js, database optimization with MongoDB, and creating interactive user experiences with Three.js.
+I'm a Computer Science & Engineering student at ${config.personal.university} with a strong foundation in full-stack web development. I specialize in building web applications with React, Next.js, and Node.js, database optimization with MongoDB, and creating interactive user experiences with Three.js.
 
 Philosophy:
-I believe great software is born at the intersection of clean database architecture, structured backend APIs, and responsive user interfaces.`,
+I believe great software is born at the intersection of clean database architecture, structured backend APIs, and responsive user interfaces.`;
+  },
   
   skillsData: `--- SKILLS ---
 Languages: Java, Python, C/C++, JavaScript, TypeScript, HTML/CSS
@@ -90,18 +93,20 @@ Backend:   Node.js, Express.js, FastAPI, REST APIs
 Databases: MySQL, MongoDB
 Tools:     Git, GitHub, Postman, Docker, Google Cloud Platform, Vercel, VS Code`,
 
-  resumeData: `--- RESUME ---
-Name: Mithesh R Shetty
-Email: shettymithesh030@gmail.com
-GitHub: github.com/mitheshshettyy
-LinkedIn: linkedin.com/in/mithesh-shetty030
+  get resumeData() {
+    return `--- RESUME ---
+Name: ${config.personal.name}
+Email: ${config.contact.email}
+GitHub: ${config.contact.github.replace('https://', '')}
+LinkedIn: ${config.contact.linkedin.replace('https://', '')}
 
 Education:
-- NMAM Institute of Technology (B.Tech CSE, CGPA: 8.68/10)
+- ${config.personal.university.split(',')[0]} (B.Tech CSE, CGPA: ${config.personal.cgpa.replace(/\s+/g, '')})
 - Vidyodaya Pre-University College (Pre-University: 94.5%)
 
 Experience:
-- Full Stack Development Intern at ALGOORBIT Innovations (MERN stack)`,
+- Full Stack Development Intern at ALGOORBIT Innovations (MERN stack)`;
+  },
 
   projectsData: `--- PROJECTS ---
 1. Complexify: AI-powered Python code complexity classifier (Python, FastAPI, Scikit-learn) - 12 stars
@@ -269,7 +274,7 @@ function useCommandProcessor(
         if (args[0]?.toLowerCase() === 'resume') {
           const link = document.createElement('a');
           link.href = personalInfo.resumeUrl;
-          link.download = 'Mithesh_R_Shetty_Resume.pdf';
+          link.download = config.resume.downloadName;
           link.click();
           return [line('success', '▶ Downloading resume PDF...')];
         }
@@ -296,7 +301,7 @@ function useCommandProcessor(
 
       case 'pwd':
         return [
-          line('output', `/home/mithesh/portfolio${currentDir === '~' ? '' : currentDir.substring(1)}`),
+          line('output', `/home/${config.terminal.user}/portfolio${currentDir === '~' ? '' : currentDir.substring(1)}`),
           line('info', `  Shell: ${personalInfo.shell} — ${personalInfo.version}`),
         ];
 
@@ -442,10 +447,10 @@ function useCommandProcessor(
         return [
           blank(),
           line('section', '  ── TERMINAL THEME ──────────────────────────────────────'),
-          line('output', `  Name     : NightShell Dark`),
+          line('output', `  Name     : ${config.terminal.theme}`),
           line('output', `  Palette  : Near-black bg, Terminal Green, Electric Cyan`),
           line('output', `  Font     : JetBrains Mono, Fira Code`),
-          line('output', `  Shell    : zsh 5.9`),
+          line('output', `  Shell    : ${config.terminal.shell} ${config.terminal.version}`),
           line('output', `  Icons    : Nerd Fonts patched`),
           line('success', `  Accent   : #00ff88 (terminal green)`),
           line('info', `  Accent2  : #00d4ff (electric cyan)`),
@@ -545,7 +550,7 @@ export default function Terminal() {
       { type: 'blank', content: '', delay: 1200 },
       { type: 'success', content: `  ● ${personalInfo.status}`, delay: 1400 },
       { type: 'blank', content: '', delay: 1600 },
-      { type: 'output', content: `  Shell: ${personalInfo.shell} ${personalInfo.version}  |  Theme: NightShell Dark  |  Location: ${personalInfo.location}`, delay: 1700 },
+      { type: 'output', content: `  Shell: ${config.terminal.shell} ${config.terminal.version}  |  Theme: ${config.terminal.theme}  |  Location: ${personalInfo.location}`, delay: 1700 },
       { type: 'output', content: `  Last login: ${new Date().toLocaleString()}`, delay: 1900 },
       { type: 'blank', content: '', delay: 2100 },
       { type: 'info', content: `  Type 'help' to see available commands.`, delay: 2200 },
@@ -783,7 +788,7 @@ export default function Terminal() {
           className="flex-1 text-center text-xs select-none"
           style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}
         >
-          {personalInfo.prompt} — zsh — 120×40
+          {personalInfo.prompt} — {config.terminal.shell} — 120×40
         </div>
         <div
           className="text-xs tabular-nums"
@@ -880,8 +885,8 @@ export default function Terminal() {
       >
         <div className="flex items-center gap-3">
           <span style={{ color: 'var(--terminal-green)' }}>● NORMAL</span>
-          <span>zsh 5.9</span>
-          <span>NightShell</span>
+          <span>{config.terminal.shell} {config.terminal.version}</span>
+          <span>{config.terminal.theme.split(' ')[0]}</span>
         </div>
         <div className="flex items-center gap-3">
           <span>↑/↓ history</span>

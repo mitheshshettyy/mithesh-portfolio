@@ -1,5 +1,11 @@
-export const PORTFOLIO_START_DATE = '2026-06-15T00:00:00';
-export const PORTFOLIO_START_DISPLAY_DATE = '15 June 2026';
+import config from '../config';
+
+export const PORTFOLIO_START_DATE = config.terminal.installDate;
+export const PORTFOLIO_START_DISPLAY_DATE = new Date(config.terminal.installDate).toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric'
+});
 
 export function getPortfolioUptime(): string {
   const start = new Date(PORTFOLIO_START_DATE);

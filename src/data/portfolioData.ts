@@ -1,29 +1,30 @@
+import config from '../config';
 import { getPortfolioUptime } from '../utils/uptime';
 
 export const personalInfo = {
-  name: "Mithesh R Shetty",
-  title: "Full-Stack Developer & CS Student",
-  tagline: "Building robust web applications and interactive experiences.",
+  name: config.personal.name,
+  title: config.personal.role,
+  tagline: config.personal.tagline,
   year: "3rd Year",
-  degree: "B.Tech Computer Science & Engineering",
-  university: "NMAM Institute of Technology, Nitte, Karnataka",
-  graduationYear: 2027,
-  cgpa: "8.68 / 10.0",
-  location: "Udupi, Karnataka, India",
-  email: "shettymithesh030@gmail.com",
+  degree: config.personal.degree,
+  university: config.personal.university,
+  graduationYear: config.personal.graduationYear,
+  cgpa: config.personal.cgpa,
+  location: config.personal.location,
+  email: config.contact.email,
   phone: "+91 63629 69943",
-  github: "https://github.com/mitheshshettyy",
-  linkedin: "https://linkedin.com/in/mithesh-shetty030",
+  github: config.contact.github,
+  linkedin: config.contact.linkedin,
   twitter: "https://twitter.com/mitheshshettyy",
-  resumeUrl: "/resume/mithesh-r-shetty-resume.pdf",
-  availability: "Open to Opportunities — Summer 2027",
-  prompt: "mithesh@portfolio",
-  shell: "zsh",
-  version: "5.9",
+  resumeUrl: config.resume.path,
+  availability: config.personal.status,
+  prompt: `${config.terminal.user}@${config.terminal.host}`,
+  shell: config.terminal.shell,
+  version: config.terminal.version,
   get uptime() {
     return getPortfolioUptime();
   },
-  status: "🟢 Available for internships & software engineering roles",
+  status: config.personal.status,
 };
 
 export const aboutData = {
@@ -39,7 +40,7 @@ export const aboutData = {
   ],
   stats: [
     { label: "Projects Built", value: "10+", color: "green" },
-    { label: "CGPA", value: "8.68/10", color: "cyan" },
+    { label: "CGPA", value: config.personal.cgpa.replace(/\s+/g, ''), color: "cyan" },
     { label: "Internships", value: "1", color: "blue" },
     { label: "Board Score", value: "94.5%", color: "purple" },
   ],
@@ -54,12 +55,12 @@ export const aboutData = {
 export const educationData = [
   {
     id: "nmamit",
-    institution: "NMAM Institute of Technology",
+    institution: config.personal.university.split(',')[0].trim(),
     degree: "Bachelor of Technology",
     field: "Computer Science and Engineering",
     duration: "Aug 2023 – Present",
     status: "Current",
-    cgpa: "8.68 / 10.0",
+    cgpa: config.personal.cgpa,
     location: "Nitte, Karnataka, India",
     highlights: [
       "Distinction in academic terms",
@@ -268,8 +269,8 @@ export const commandDocs: Record<string, string> = {
 };
 
 export const socialLinks = {
-  github: { url: "https://github.com/mitheshshettyy", label: "GitHub", handle: "@mitheshshettyy" },
-  linkedin: { url: "https://linkedin.com/in/mithesh-shetty030", label: "LinkedIn", handle: "in/mithesh-shetty030" },
+  github: { url: config.contact.github, label: "GitHub", handle: `@${config.contact.github.split('/').pop()}` },
+  linkedin: { url: config.contact.linkedin, label: "LinkedIn", handle: `in/${config.contact.linkedin.split('/in/').pop()}` },
   twitter: { url: "https://twitter.com/mitheshshettyy", label: "Twitter", handle: "@mitheshshettyy" },
-  email: { url: "mailto:shettymithesh030@gmail.com", label: "Email", handle: "shettymithesh030@gmail.com" },
+  email: { url: `mailto:${config.contact.email}`, label: "Email", handle: config.contact.email },
 };

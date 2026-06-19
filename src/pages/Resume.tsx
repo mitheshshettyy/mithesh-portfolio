@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { personalInfo, skillsData, educationData, experienceData, socialLinks } from '../data/portfolioData';
+import config from '../config';
 
 export default function Resume() {
   const pageRef = useRef<HTMLDivElement>(null);
@@ -17,7 +18,7 @@ export default function Resume() {
   const handleDownload = () => {
     const link = document.createElement('a');
     link.href = personalInfo.resumeUrl;
-    link.download = 'Mithesh_R_Shetty_Resume.pdf';
+    link.download = config.resume.downloadName;
     link.click();
   };
 
@@ -95,7 +96,7 @@ export default function Resume() {
                 <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#28c840' }} />
               </div>
               <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                mithesh-r-shetty-resume.pdf
+                {config.resume.filename}
               </span>
               <span
                 className="ml-auto text-xs px-2 py-0.5 rounded"
@@ -241,11 +242,11 @@ export default function Resume() {
             <div className="space-y-2.5 mb-6">
               <div className="flex justify-between text-xs" style={{ fontFamily: 'var(--font-mono)' }}>
                 <span style={{ color: 'var(--text-muted)' }}>File</span>
-                <span style={{ color: 'var(--text-secondary)' }}>mithesh-r-shetty-resume.pdf</span>
+                <span style={{ color: 'var(--text-secondary)' }}>{config.resume.filename}</span>
               </div>
               <div className="flex justify-between text-xs" style={{ fontFamily: 'var(--font-mono)' }}>
                 <span style={{ color: 'var(--text-muted)' }}>Updated</span>
-                <span style={{ color: 'var(--text-secondary)' }}>Jun 2026</span>
+                <span style={{ color: 'var(--text-secondary)' }}>{config.resume.lastUpdated}</span>
               </div>
               <div className="flex justify-between text-xs" style={{ fontFamily: 'var(--font-mono)' }}>
                 <span style={{ color: 'var(--text-muted)' }}>Pages</span>
@@ -402,7 +403,7 @@ function Breadcrumb({ path }: { path: string }) {
 }
 
 const glanceStats = [
-  { label: 'CGPA', value: '8.68 / 10', color: 'var(--terminal-green)' },
+  { label: 'CGPA', value: config.personal.cgpa, color: 'var(--terminal-green)' },
   { label: 'Internships', value: '1 (Algoorbit)', color: 'var(--terminal-cyan)' },
   { label: 'Projects', value: '10+', color: 'var(--terminal-blue)' },
   { label: 'Board Score', value: '94.5%', color: 'var(--terminal-purple)' },

@@ -216,7 +216,7 @@ const allCoursework = [
 
 const academicAchievements = [
   "Graduating with B.Tech in CSE — NMAM Institute of Technology",
-  "Maintained a strong CGPA of 8.68 / 10.0 in Computer Science",
+  `Maintained a strong CGPA of ${personalInfo.cgpa} in Computer Science`,
   "Pre-University Distinction — 94.5% Board Examination Score",
   "Completed Full Stack Internship at ALGOORBIT Innovations",
   "Developed Complexify: AI Code Complexity Classifier",

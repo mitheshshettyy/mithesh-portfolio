@@ -46,16 +46,16 @@ app.get('/api/health', (req, res) => {
 // Portfolio data endpoint
 app.get('/api/portfolio', (req, res) => {
   res.json({
-    name: 'Mithesh R Shetty',
-    title: 'Full-Stack Developer & CS Student',
-    university: 'NMAM Institute of Technology, Nitte, Karnataka',
-    year: '3rd Year',
-    graduationYear: 2027,
-    cgpa: '8.68/10.0',
-    email: 'shettymithesh030@gmail.com',
-    github: 'https://github.com/mitheshshettyy',
-    linkedin: 'https://linkedin.com/in/mithesh-shetty030',
-    availability: 'Open to Opportunities — Summer 2027',
+    name: process.env.PERSONAL_NAME || 'Mithesh R Shetty',
+    title: process.env.PERSONAL_ROLE || 'Full-Stack Developer & CS Student',
+    university: process.env.PERSONAL_UNIVERSITY || 'NMAM Institute of Technology, Nitte, Karnataka',
+    year: process.env.PERSONAL_YEAR || '3rd Year',
+    graduationYear: parseInt(process.env.PERSONAL_GRAD_YEAR || '2027', 10),
+    cgpa: process.env.PERSONAL_CGPA || '8.68/10.0',
+    email: process.env.PERSONAL_EMAIL || 'shettymithesh030@gmail.com',
+    github: process.env.PERSONAL_GITHUB || 'https://github.com/mitheshshettyy',
+    linkedin: process.env.PERSONAL_LINKEDIN || 'https://linkedin.com/in/mithesh-shetty030',
+    availability: process.env.PERSONAL_AVAILABILITY || 'Open to Opportunities — Summer 2027',
   });
 });
 
@@ -139,7 +139,7 @@ app.post('/api/contact', (req, res) => {
 
 // Resume download endpoint
 app.get('/api/resume/download', (req, res) => {
-  const resumePath = path.join(__dirname, 'assets', 'resume.pdf');
+  const resumePath = process.env.RESUME_FILE_PATH || path.join(__dirname, '..', 'public', 'resume', 'Mithesh_R_Shetty.pdf');
 
   // Check if file exists (in production)
   try {
@@ -148,9 +148,9 @@ app.get('/api/resume/download', (req, res) => {
 
     // For now, return metadata
     res.json({
-      filename: 'Mithesh_R_Shetty_Resume.pdf',
-      url: '/resume/mithesh-r-shetty-resume.pdf',
-      lastUpdated: '2026-06-01',
+      filename: path.basename(resumePath),
+      url: process.env.RESUME_PUBLIC_URL || '/resume/Mithesh_R_Shetty.pdf',
+      lastUpdated: '2026-06-15',
       size: '108KB',
     });
   } catch {
@@ -160,11 +160,12 @@ app.get('/api/resume/download', (req, res) => {
 
 // Resume info
 app.get('/api/resume', (req, res) => {
+  const resumePath = process.env.RESUME_FILE_PATH || 'Mithesh_R_Shetty.pdf';
   res.json({
-    name: 'Mithesh R Shetty',
-    filename: 'Mithesh_R_Shetty_Resume.pdf',
+    name: process.env.PERSONAL_NAME || 'Mithesh R Shetty',
+    filename: path.basename(resumePath),
     version: '2026.1',
-    lastUpdated: '2026-06-01',
+    lastUpdated: '2026-06-15',
     pages: 1,
     format: 'PDF',
     atsOptimized: true,

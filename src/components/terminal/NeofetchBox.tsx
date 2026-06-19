@@ -1,3 +1,4 @@
+import config from '../../config';
 import { personalInfo } from '../../data/portfolioData';
 
 export default function NeofetchBox() {
@@ -11,19 +12,19 @@ export default function NeofetchBox() {
   ];
 
   const specs = [
-    { label: 'OS', value: 'Portfolio OS v2.0.0' },
-    { label: 'Host', value: 'portfolio.local' },
-    { label: 'Shell', value: `${personalInfo.shell} ${personalInfo.version}` },
+    { label: 'OS', value: config.neofetch.os },
+    { label: 'Host', value: config.neofetch.host },
+    { label: 'Shell', value: config.neofetch.shell },
     { label: 'WM/UI', value: 'React + GSAP' },
-    { label: 'Theme', value: 'NightShell Dark' },
-    { label: 'Terminal', value: 'NightShell Client' },
-    { label: 'Framework', value: 'React 19.2.6' },
-    { label: 'Runtime', value: 'Node.js 22.19.17' },
+    { label: 'Theme', value: config.neofetch.theme },
+    { label: 'Terminal', value: config.neofetch.terminal },
+    { label: 'Framework', value: config.neofetch.framework },
+    { label: 'Runtime', value: config.neofetch.runtime },
     { label: 'Uptime', value: personalInfo.uptime },
-    { label: 'Version', value: 'v2.0.0' },
+    { label: 'Version', value: config.resume.version || 'v2.0.0' },
   ];
 
-  const titleText = `${personalInfo.prompt.replace('@portfolio', '')}@portfolio`;
+  const titleText = `${config.terminal.user}@${config.terminal.host}`;
   const separatorLine = '─'.repeat(titleText.length);
 
   return (
