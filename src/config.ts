@@ -13,7 +13,7 @@ export const config = {
     tagline: import.meta.env.VITE_PERSONAL_TAGLINE || 'Building robust web applications and interactive experiences.',
     degree: import.meta.env.VITE_PERSONAL_DEGREE || 'B.Tech Computer Science & Engineering',
     university: import.meta.env.VITE_PERSONAL_UNIVERSITY || 'NMAM Institute of Technology, Nitte, Karnataka',
-    cgpa: import.meta.env.VITE_PERSONAL_CGPA || '8.68 / 10.0',
+    cgpa: import.meta.env.VITE_PERSONAL_CGPA || '8.78 / 10.0',
     graduationYear: parseInt(import.meta.env.VITE_PERSONAL_GRAD_YEAR || '2027', 10),
     location: import.meta.env.VITE_PERSONAL_LOCATION || 'Udupi, Karnataka, India',
     status: import.meta.env.VITE_PERSONAL_STATUS || '🟢 Available for internships & software engineering roles',

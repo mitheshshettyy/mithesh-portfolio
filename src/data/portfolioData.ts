@@ -5,7 +5,7 @@ export const personalInfo = {
   name: config.personal.name,
   title: config.personal.role,
   tagline: config.personal.tagline,
-  year: "3rd Year",
+  year: "4th Year",
   degree: config.personal.degree,
   university: config.personal.university,
   graduationYear: config.personal.graduationYear,
