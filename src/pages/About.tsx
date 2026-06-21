@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { personalInfo, aboutData, socialLinks } from '../data/portfolioData';
+import { personalInfo, aboutData } from '../data/portfolioData';
 
 export default function About() {
   const pageRef = useRef<HTMLDivElement>(null);
@@ -15,9 +15,9 @@ export default function About() {
   }, []);
 
   return (
-    <div ref={pageRef} className="desktop-container py-16 space-y-12">
+    <div ref={pageRef} className="desktop-container py-16 flex flex-col gap-10 md:gap-12 lg:gap-16">
       {/* Page Header */}
-      <div className="reveal space-y-4">
+      <div className="reveal flex flex-col gap-[16px]">
         <TerminalBreadcrumb path="about" />
         <h1
           className="text-3xl sm:text-4xl font-extrabold"
@@ -31,10 +31,10 @@ export default function About() {
       </div>
 
       {/* Two-Column Grid */}
-      <div className="reveal grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="reveal grid grid-cols-1 lg:grid-cols-12 gap-[24px] lg:gap-[48px] items-start">
         {/* Left Column: Bio & Stats (7 cols) */}
-        <div className="lg:col-span-7 space-y-8">
-          <div className="terminal-card p-8 space-y-6">
+        <div className="lg:col-span-7 flex flex-col gap-[24px] lg:gap-[32px]">
+          <div className="terminal-card py-[24px] px-[32px] flex flex-col gap-[24px]">
             <div
               className="text-xs flex items-center gap-2"
               style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}
@@ -79,7 +79,7 @@ export default function About() {
             </div>
 
             {/* Bio paragraphs */}
-            <div className="space-y-4" style={{ fontFamily: 'var(--font-mono)' }}>
+            <div className="flex flex-col gap-[16px]" style={{ fontFamily: 'var(--font-mono)' }}>
               <p className="text-sm leading-relaxed text-secondary-custom" style={{ color: 'var(--text-secondary)' }}>
                 {aboutData.summary}
               </p>
@@ -90,7 +90,7 @@ export default function About() {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-[24px]">
             {aboutData.stats.map((stat) => (
               <StatCard key={stat.label} stat={stat} />
             ))}
@@ -98,9 +98,9 @@ export default function About() {
         </div>
 
         {/* Right Column: Facts, Status, Social (5 cols) */}
-        <div className="lg:col-span-5 space-y-8">
+        <div className="lg:col-span-5 flex flex-col gap-[24px] lg:gap-[32px]">
           {/* Quick Facts */}
-          <div className="terminal-card p-6 space-y-4">
+          <div className="terminal-card py-[24px] px-[32px] flex flex-col gap-[16px]">
             <div
               className="text-xs font-semibold"
               style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}
@@ -123,7 +123,7 @@ export default function About() {
 
           {/* Current Status */}
           <div
-            className="terminal-card p-6 space-y-4"
+            className="terminal-card py-[24px] px-[32px] flex flex-col gap-[16px]"
             style={{
               background: 'rgba(0, 255, 136, 0.03)',
               borderColor: 'rgba(0, 255, 136, 0.2)',
@@ -147,34 +147,32 @@ export default function About() {
           </div>
 
           {/* Social Links */}
-          <div className="terminal-card p-6 space-y-4">
+          <div className="terminal-card py-[24px] px-[32px] flex flex-col gap-[16px]">
             <div
               className="text-xs font-semibold"
               style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}
             >
               ▸ direct_connections
             </div>
-            <div className="space-y-4">
+            <div className="flex flex-col gap-[16px]">
               <ContactItem icon="📍" label="Location" value={personalInfo.location} />
-              <ContactItem icon="📧" label="Email" value={personalInfo.email} href={`mailto:${personalInfo.email}`} />
-              <ContactItem icon="🐙" label="GitHub" value={socialLinks.github.handle} href={personalInfo.github} />
-              <ContactItem icon="💼" label="LinkedIn" value={socialLinks.linkedin.handle} href={personalInfo.linkedin} />
+              <ContactItem icon="✉️" label="Email" value={personalInfo.email} href={`mailto:${personalInfo.email}`} />
             </div>
           </div>
         </div>
       </div>
 
       {/* Row Below: Interests & Fun Facts */}
-      <div className="reveal grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+      <div className="reveal grid grid-cols-1 md:grid-cols-2 gap-[24px] lg:gap-[48px] items-stretch">
         {/* Interests */}
-        <div className="terminal-card p-8 space-y-6 h-full">
+        <div className="terminal-card py-[24px] px-[32px] flex flex-col gap-[24px] h-full">
           <div
             className="text-xs font-semibold"
             style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}
           >
             ▸ research_interests[]
           </div>
-          <div className="space-y-3" style={{ fontFamily: 'var(--font-mono)' }}>
+          <div className="flex flex-col gap-[12px]" style={{ fontFamily: 'var(--font-mono)' }}>
             {aboutData.interests.map((interest, i) => (
               <div key={i} className="flex items-center gap-3">
                 <span style={{ color: 'var(--terminal-green)', fontSize: '0.85rem' }}>→</span>
@@ -187,14 +185,14 @@ export default function About() {
         </div>
 
         {/* Fun Facts */}
-        <div className="terminal-card p-8 space-y-6 h-full">
+        <div className="terminal-card py-[24px] px-[32px] flex flex-col gap-[24px] h-full">
           <div
             className="text-xs font-semibold"
             style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}
           >
             ▸ trivia_and_fun_facts.json
           </div>
-          <div className="space-y-3" style={{ fontFamily: 'var(--font-mono)' }}>
+          <div className="flex flex-col gap-[12px]" style={{ fontFamily: 'var(--font-mono)' }}>
             {aboutData.funFacts.map((fact, i) => (
               <div
                 key={i}
@@ -243,7 +241,7 @@ function StatCard({ stat }: { stat: { label: string; value: string; color: strin
 
   return (
     <div
-      className="terminal-card p-4 text-center space-y-1.5"
+      className="terminal-card p-[16px] text-center flex flex-col gap-[6px]"
       style={{
         border: `1px solid ${colorMap[stat.color]}22`,
         background: `${colorMap[stat.color]}04`,
@@ -299,6 +297,6 @@ const quickFacts = [
   { key: 'editor', val: 'VS Code' },
   { key: 'shell', val: 'PowerShell / Bash' },
   { key: 'terminal', val: 'Windows Terminal' },
-  { key: 'main language', val: 'TypeScript / Java' },
+  { key: 'main language', val: 'TypeScript / C++' },
   { key: 'hosting', val: 'Vercel / GCP' },
 ];
