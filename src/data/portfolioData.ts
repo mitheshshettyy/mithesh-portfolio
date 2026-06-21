@@ -34,7 +34,6 @@ export const aboutData = {
     "Data Structures & Algorithms",
     "Full-Stack Web Development",
     "DevOps & Cloud Computing",
-    "Backend Development & APIs",
     "Database Design & Optimization",
     "Open Source & Continuous Learning",
   ],
