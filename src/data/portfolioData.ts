@@ -48,6 +48,7 @@ export const aboutData = {
     "DSA Enthusiast",
     "Loves Watching Series",
     "Exploring Everything",
+    "Loves Watching Cricket & F1",
   ],
 };
 
