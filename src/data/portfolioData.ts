@@ -46,9 +46,9 @@ export const aboutData = {
   funFacts: [
     "Enjoys Full-Stack Development",
     "DSA Enthusiast",
-    "Loves Watching Series",
+    "Love Watching Series",
     "Exploring Everything",
-    "Loves Watching Cricket & F1",
+    "Love Watching Cricket & F1",
   ],
 };
 
