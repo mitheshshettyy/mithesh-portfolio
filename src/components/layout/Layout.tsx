@@ -57,7 +57,7 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div
-      className="min-h-screen relative"
+      className="min-h-screen relative flex flex-col"
       style={{ background: 'var(--bg-primary)' }}
     >
       {/* Three.js Particle Background */}
@@ -99,7 +99,7 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Page Content */}
       <main
-        className="page-content"
+        className="page-content flex-1"
         style={{ position: 'relative', zIndex: 2 }}
       >
         {children}

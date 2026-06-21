@@ -73,13 +73,20 @@ export default function Education() {
 
                   {/* CGPA Badge */}
                   <div
-                    className="p-[12px] rounded-lg text-center shrink-0 w-24"
+                    className="p-[12px] rounded-lg text-center shrink-0 min-w-[130px] flex flex-col justify-center items-center"
                     style={{
                       background: 'rgba(0,255,136,0.04)',
                       border: '1px solid rgba(0,255,136,0.15)',
                     }}
                   >
-                    <div className="text-lg font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
+                    <div
+                      className="text-lg font-bold"
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        color: 'var(--terminal-green)',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {'cgpa' in edu ? edu.cgpa : edu.score}
                     </div>
                     <div className="text-[0.6rem] uppercase tracking-wider text-muted-custom" style={{ color: 'var(--text-muted)' }}>
