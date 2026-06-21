@@ -23,7 +23,7 @@ export default function Education() {
           cat <span style={{ color: 'var(--terminal-green)' }}>education.log</span>
         </h1>
         <p className="text-sm leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-          # Academic path, coursework, achievements, and professional certifications
+          # Academic path and coursework
         </p>
       </div>
 
