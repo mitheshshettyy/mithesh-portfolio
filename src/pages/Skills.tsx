@@ -53,7 +53,7 @@ export default function Skills() {
       </div>
 
       {/* Grid Dashboard */}
-      <div className="reveal grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+      <div className="reveal grid grid-cols-1 md:grid-cols-2 gap-y-10 gap-x-12 lg:gap-y-12 lg:gap-x-16 items-stretch">
         {categories.map((cat) => {
           // Check that the category exists in skillsData to prevent TypeScript errors
           const skills = skillsData[cat.key] || [];
@@ -67,25 +67,6 @@ export default function Skills() {
             />
           );
         })}
-      </div>
-
-      {/* Row Below: Core Concepts & Professional Knowledge */}
-      <div className="reveal grid grid-cols-1 md:grid-cols-1 gap-8">
-        <div className="terminal-card p-8 space-y-6">
-          <div
-            className="text-xs font-semibold"
-            style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}
-          >
-            ▸ core_concepts_and_methodologies[]
-          </div>
-          <div className="flex flex-wrap gap-2.5">
-            {skillsData.concepts.map((concept) => (
-              <span key={concept} className="tech-tag" style={{ fontSize: '0.75rem', padding: '4px 12px' }}>
-                {concept}
-              </span>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );
@@ -129,7 +110,7 @@ function SkillCard({ label, icon, skills }: SkillCardProps) {
   return (
     <div
       ref={cardRef}
-      className="terminal-card p-6 space-y-6 h-full flex flex-col justify-between"
+      className="terminal-card p-7 sm:p-9 space-y-6 h-full flex flex-col justify-between"
     >
       <div>
         {/* Card Title */}
@@ -147,7 +128,7 @@ function SkillCard({ label, icon, skills }: SkillCardProps) {
         </div>
 
         {/* Skill Bars List */}
-        <div className="space-y-4 mt-6">
+        <div className="space-y-6 mt-8">
           {skills.map((skill) => (
             <SkillRow
               key={skill.name}
@@ -163,12 +144,10 @@ function SkillCard({ label, icon, skills }: SkillCardProps) {
 }
 
 function SkillRow({ name, level, isVisible }: { name: string; level: number; isVisible: boolean }) {
-  const totalBlocks = 20;
-  const filledBlocks = Math.round((level / 100) * totalBlocks);
   const levelColor = getLevelColor(level);
 
   return (
-    <div className="grid grid-cols-[120px_1fr_40px] sm:grid-cols-[165px_1fr_45px] gap-3 sm:gap-4 items-center min-h-[24px]">
+    <div className="grid grid-cols-[110px_1fr_40px] sm:grid-cols-[150px_1fr_45px] gap-5 sm:gap-7 items-center min-h-[24px]">
       {/* Skill Name */}
       <span
         className="text-xs font-semibold truncate"
@@ -179,39 +158,17 @@ function SkillRow({ name, level, isVisible }: { name: string; level: number; isV
       </span>
 
       {/* Progress Bar Container */}
-      <div className="relative w-full h-3">
-        {/* Track: Inactive blocks (centered horizontal lines) */}
-        <div className="absolute inset-0 flex gap-[2px] sm:gap-[3px] items-center">
-          {Array.from({ length: totalBlocks }).map((_, i) => (
-            <div
-              key={i}
-              className="h-[2px] bg-gray-800/80 flex-1 rounded-[1px]"
-            />
-          ))}
-        </div>
-
-        {/* Fill: Active blocks (colored rectangles) */}
+      <div className="relative w-full h-[6px] bg-gray-800/20 rounded-full">
+        {/* Fill: Active block (continuous bar) */}
         <div
-          className="absolute inset-0 flex gap-[2px] sm:gap-[3px] items-center overflow-hidden"
+          className="absolute top-0 left-0 h-full rounded-full"
           style={{
-            clipPath: isVisible ? `inset(0 ${100 - level}% 0 0)` : 'inset(0 100% 0 0)',
-            transition: 'clip-path 1.2s cubic-bezier(0.25, 1, 0.5, 1)',
+            width: isVisible ? `${level}%` : '0%',
+            backgroundColor: levelColor,
+            boxShadow: `0 0 10px ${getLevelGlow(level)}`,
+            transition: 'width 1.2s cubic-bezier(0.25, 1, 0.5, 1)',
           }}
-        >
-          {Array.from({ length: totalBlocks }).map((_, i) => {
-            const isFilled = i < filledBlocks;
-            return (
-              <div
-                key={i}
-                className="h-2.5 flex-1 rounded-[1px] transition-all"
-                style={{
-                  backgroundColor: isFilled ? levelColor : 'transparent',
-                  boxShadow: isFilled ? `0 0 8px ${getLevelGlow(level)}` : 'none',
-                }}
-              />
-            );
-          })}
-        </div>
+        />
       </div>
 
       {/* Percentage */}
