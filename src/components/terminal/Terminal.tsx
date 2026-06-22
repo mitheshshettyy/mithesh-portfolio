@@ -526,12 +526,38 @@ export default function Terminal() {
   const navigate = useNavigate();
   const [currentDir, setCurrentDir] = useState('~');
   
-  const [lines, setLines] = useState<TerminalLine[]>([]);
+  const [bootDone, setBootDone] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('portfolio-booted') === 'true';
+    }
+    return false;
+  });
+
+  const [lines, setLines] = useState<TerminalLine[]>(() => {
+    const isBooted = typeof window !== 'undefined' && sessionStorage.getItem('portfolio-booted') === 'true';
+    if (isBooted) {
+      return [
+        { id: 'init-banner', type: 'section', content: ASCII_BANNER, dir: '~' },
+        { id: 'init-title', type: 'info', content: `  ${personalInfo.title}`, dir: '~' },
+        { id: 'init-uni', type: 'output', content: `  ${personalInfo.university} | ${personalInfo.year} | Graduating ${personalInfo.graduationYear}`, dir: '~' },
+        { id: 'init-blank1', type: 'blank', content: '', dir: '~' },
+        { id: 'init-status', type: 'success', content: `  ● ${personalInfo.status}`, dir: '~' },
+        { id: 'init-blank2', type: 'blank', content: '', dir: '~' },
+        { id: 'init-shell', type: 'output', content: `  Shell: ${config.terminal.shell} ${config.terminal.version}  |  Theme: ${config.terminal.theme}  |  Location: ${personalInfo.location}`, dir: '~' },
+        { id: 'init-login', type: 'output', content: `  Last login: ${new Date().toLocaleString()}`, dir: '~' },
+        { id: 'init-blank3', type: 'blank', content: '', dir: '~' },
+        { id: 'init-help', type: 'info', content: `  Type 'help' to see available commands.`, dir: '~' },
+        { id: 'init-ls', type: 'output', content: `  Type 'ls' to list sections  |  Type 'whoami' for my profile`, dir: '~' },
+        { id: 'init-blank4', type: 'blank', content: '', dir: '~' },
+      ];
+    }
+    return [];
+  });
+  
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [bootDone, setBootDone] = useState(false);
 
   const { processCommand } = useCommandProcessor(navigate, currentDir, setCurrentDir, history);
 
@@ -544,6 +570,19 @@ export default function Terminal() {
 
   // Boot sequence
   useEffect(() => {
+    // GSAP entrance
+    if (containerRef.current) {
+      gsap.fromTo(containerRef.current,
+        { opacity: 0, scale: 0.98 },
+        { opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out', delay: 0.1 }
+      );
+    }
+
+    if (bootDone) {
+      inputRef.current?.focus();
+      return;
+    }
+
     const bootLines: { type: TerminalLine['type']; content: string; delay: number }[] = [
       { type: 'section', content: ASCII_BANNER, delay: 100 },
       { type: 'info', content: `  ${personalInfo.title}`, delay: 800 },
@@ -574,18 +613,10 @@ export default function Terminal() {
     }, 2800);
     timers.push(doneTimer);
 
-    // GSAP entrance
-    if (containerRef.current) {
-      gsap.fromTo(containerRef.current,
-        { opacity: 0, scale: 0.98 },
-        { opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out', delay: 0.1 }
-      );
-    }
-
     return () => {
       timers.forEach(t => clearTimeout(t));
     };
-  }, []);
+  }, [bootDone]);
 
   // Auto-scroll
   useEffect(() => {

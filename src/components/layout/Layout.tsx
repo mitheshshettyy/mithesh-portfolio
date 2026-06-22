@@ -1,9 +1,10 @@
-import { useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { gsap } from 'gsap';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import ParticleBackground from '../three/ParticleBackground';
+import BootScreen from '../ui/BootScreen';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,6 +13,18 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [showBoot, setShowBoot] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const booted = sessionStorage.getItem('portfolio-booted');
+      if (!booted) {
+        sessionStorage.setItem('portfolio-booted', 'true');
+        return true;
+      }
+      return false;
+    }
+    return true;
+  });
 
   // ── Global Ctrl+` shortcut ──
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -60,6 +73,10 @@ export default function Layout({ children }: LayoutProps) {
       className="min-h-screen relative flex flex-col"
       style={{ background: 'var(--bg-primary)' }}
     >
+      {showBoot && (
+        <BootScreen onComplete={() => setShowBoot(false)} />
+      )}
+
       {/* Three.js Particle Background */}
       <ParticleBackground intensity={isHome ? 1 : 0.6} />
 
