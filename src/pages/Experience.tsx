@@ -1,345 +1,274 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { experienceData, personalInfo } from '../data/portfolioData';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { experienceData } from '../data/portfolioData';
 
-type ExpType = 'All' | 'Internship' | 'Research' | 'Leadership' | 'Open Source';
-const filters: ExpType[] = ['All', 'Internship', 'Research', 'Leadership', 'Open Source'];
+// Register GSAP ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
-export default function Experience() {
-  const [activeFilter, setActiveFilter] = useState<ExpType>('All');
-  const [activeId, setActiveId] = useState(experienceData[0].id);
-  const pageRef = useRef<HTMLDivElement>(null);
+// ── Technical pill badges component ──
+interface TechBadgeProps {
+  tech: string;
+}
 
-  useEffect(() => {
-    if (!pageRef.current) return;
-    const els = pageRef.current.querySelectorAll('.reveal');
-    gsap.fromTo(els,
-      { opacity: 0, y: 24 },
-      { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out', delay: 0.15 }
-    );
-  }, []);
-
-  const filtered = activeFilter === 'All'
-    ? experienceData
-    : experienceData.filter(e => e.type === activeFilter);
-
-  // Sync activeId if the currently selected is filtered out
-  useEffect(() => {
-    if (filtered.length > 0 && !filtered.some(e => e.id === activeId)) {
-      setActiveId(filtered[0].id);
-    }
-  }, [activeFilter, filtered, activeId]);
-
-  const selectedExp = filtered.find(e => e.id === activeId) || filtered[0] || experienceData[0];
-
+export function TechBadge({ tech }: TechBadgeProps) {
   return (
-    <div ref={pageRef} className="desktop-container py-16 space-y-12">
-      {/* Header */}
-      <div className="reveal space-y-4">
-        <Breadcrumb path="experience" />
-        <h1 className="text-3xl sm:text-4xl font-extrabold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-          cat <span style={{ color: 'var(--terminal-green)' }}>experience.log</span>
-        </h1>
-        <p className="text-sm leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-          # Chronology of work history, research roles, and technical leadership
-        </p>
+    <span
+      className="px-2.5 py-1 text-[13px] font-mono rounded border transition-all duration-200"
+      style={{
+        background: 'rgba(8, 16, 29, 0.95)',
+        borderColor: 'rgba(0, 255, 136, 0.15)',
+        color: 'var(--terminal-green)',
+      }}
+      onMouseEnter={(e) => {
+        const el = e.currentTarget as HTMLElement;
+        el.style.boxShadow = '0 0 10px rgba(0, 255, 136, 0.35)';
+        el.style.borderColor = 'var(--terminal-green)';
+      }}
+      onMouseLeave={(e) => {
+        const el = e.currentTarget as HTMLElement;
+        el.style.boxShadow = 'none';
+        el.style.borderColor = 'rgba(0, 255, 136, 0.15)';
+      }}
+    >
+      {tech}
+    </span>
+  );
+}
+
+// ── Git Timeline Node component ──
+interface TimelineNodeProps {
+  isActive: boolean;
+  logo: string;
+}
+
+export function TimelineNode({ isActive, logo }: TimelineNodeProps) {
+  return (
+    <div className="relative flex items-center justify-center shrink-0">
+      {/* Outer ring / initials container */}
+      <div
+        className={`w-7 h-7 rounded-full border-2 bg-slate-950 flex items-center justify-center transition-all duration-250 z-10 select-none font-mono text-[11px] font-bold ${
+          isActive
+            ? 'border-terminal-green scale-110 shadow-[0_0_15px_rgba(0,255,136,0.6)]'
+            : 'border-[rgba(0,255,136,0.2)] group-hover:border-[rgba(0,255,136,0.45)] group-hover:scale-105 group-hover:shadow-[0_0_10px_rgba(0,255,136,0.3)]'
+        }`}
+        style={{
+          borderColor: isActive ? 'var(--terminal-green)' : undefined,
+          color: isActive ? 'var(--terminal-green)' : 'var(--text-secondary)',
+        }}
+      >
+        {logo}
       </div>
 
-      {/* Filters */}
-      <div className="reveal flex flex-wrap gap-2.5">
-        {filters.map((filter) => (
-          <button
-            key={filter}
-            onClick={() => setActiveFilter(filter)}
-            className="px-4 py-1.5 rounded text-xs font-semibold transition-all duration-200 cursor-pointer"
-            style={{
-              fontFamily: 'var(--font-mono)',
-              background: activeFilter === filter ? 'rgba(0,255,136,0.1)' : 'rgba(255,255,255,0.03)',
-              border: `1px solid ${activeFilter === filter ? 'rgba(0,255,136,0.35)' : 'rgba(255,255,255,0.08)'}`,
-              color: activeFilter === filter ? 'var(--terminal-green)' : 'var(--text-muted)',
-            }}
-          >
-            {filter}
-          </button>
-        ))}
+      {/* Ripple pulse ring for active node */}
+      {isActive && (
+        <div className="absolute w-9 h-9 rounded-full border border-emerald-400 opacity-25 animate-ping pointer-events-none" />
+      )}
+    </div>
+  );
+}
+
+// ── Git Vertical Connector component ──
+interface TimelineConnectorProps {
+  isLast: boolean;
+}
+
+export function TimelineConnector({ isLast }: TimelineConnectorProps) {
+  if (isLast) return null;
+  return (
+    <div
+      className="timeline-connector-line w-[2px] grow"
+      style={{
+        background: 'linear-gradient(to bottom, rgba(0, 255, 136, 0.3) 0%, rgba(0, 255, 136, 0.08) 100%)',
+        boxShadow: '0 0 8px rgba(0, 255, 136, 0.05)',
+      }}
+    />
+  );
+}
+
+// ── Card Header component ──
+interface ExperienceHeaderProps {
+  type: string;
+  role: string;
+  company: string;
+  duration: string;
+  location: string;
+}
+
+export function ExperienceHeader({
+  type,
+  role,
+  company,
+  duration,
+  location,
+}: ExperienceHeaderProps) {
+  return (
+    <div className="flex flex-col md:flex-row justify-between items-start gap-3 w-full">
+      {/* Role and Company Info */}
+      <div className="flex flex-col gap-1.5 text-left">
+        <span
+          className="text-[13px] font-bold tracking-wider uppercase font-mono"
+          style={{ color: 'var(--terminal-cyan)' }}
+        >
+          {type}
+        </span>
+        <h2
+          className="text-2xl md:text-[32px] font-extrabold text-white leading-tight font-mono tracking-tight"
+        >
+          {role}
+        </h2>
+        <h3
+          className="text-lg md:text-[22px] font-medium transition-colors duration-200 cursor-pointer hover:text-white inline-block font-mono text-glow-cyan"
+          style={{ color: 'var(--terminal-cyan)' }}
+        >
+          {company}
+        </h3>
       </div>
 
-      {/* Two-Column Layout */}
-      <div className="reveal grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Timeline cards (7 cols) */}
-        <div className="lg:col-span-7 relative pl-8 border-l border-gray-800 space-y-10">
-          {filtered.map((exp) => (
-            <ExperienceCard
-              key={exp.id}
-              exp={exp}
-              isActive={exp.id === activeId}
-              onClick={() => setActiveId(exp.id)}
-            />
-          ))}
-        </div>
-
-        {/* Right Column: Sticky Details Panel (5 cols) */}
-        <div className="hidden lg:block lg:col-span-5">
-          {selectedExp && <ExperienceDetailsPanel exp={selectedExp} />}
-        </div>
+      {/* Duration and Location */}
+      <div className="flex flex-col md:items-end text-left md:text-right font-mono text-sm shrink-0 mt-1 md:mt-0 gap-1">
+        <span style={{ color: 'var(--text-secondary)' }} className="font-semibold text-[14px]">
+          {duration}
+        </span>
+        <span style={{ color: 'var(--text-muted)' }} className="text-xs">
+          {location}
+        </span>
       </div>
     </div>
   );
 }
 
-function ExperienceCard({
-  exp,
-  isActive,
-  onClick
-}: {
+// ── Card Details / Achievements component ──
+interface ExperienceDetailsProps {
+  description: string;
+  achievements: string[];
+}
+
+export function ExperienceDetails({ description, achievements }: ExperienceDetailsProps) {
+  return (
+    <div className="space-y-6 text-left w-full">
+      {/* Short Summary */}
+      <p
+        className="font-mono"
+        style={{ color: 'var(--text-secondary)', fontSize: '16px', lineHeight: '1.7' }}
+      >
+        {description}
+      </p>
+
+      {/* Contribution Bullet Points */}
+      <ul className="space-y-3 pl-1 select-text">
+        {achievements.map((item, idx) => (
+          <li key={idx} className="flex items-start gap-3">
+            <span
+              className="text-glow-green shrink-0 font-bold font-mono text-[16px] select-none"
+              style={{ color: 'var(--terminal-green)' }}
+            >
+              ✓
+            </span>
+            <span
+              className="leading-relaxed font-mono"
+              style={{ color: 'var(--text-secondary)', fontSize: '15px' }}
+            >
+              {item}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+// ── Experience Card component with mouse events ──
+interface ExperienceCardProps {
   exp: typeof experienceData[0];
   isActive: boolean;
   onClick: () => void;
-}) {
-  const [expanded, setExpanded] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const detailsRef = useRef<HTMLDivElement>(null);
-
-  const typeColors: Record<string, string> = {
-    Internship: 'var(--terminal-cyan)',
-    Research: 'var(--terminal-blue)',
-    Leadership: 'var(--terminal-purple)',
-    'Open Source': 'var(--terminal-green)',
-  };
-
-  const color = typeColors[exp.type] || 'var(--text-muted)';
-
-  useEffect(() => {
-    if (expanded && detailsRef.current) {
-      gsap.fromTo(detailsRef.current,
-        { height: 0, opacity: 0 },
-        { height: 'auto', opacity: 1, duration: 0.4, ease: 'power2.out' }
-      );
-    }
-  }, [expanded]);
-
-  return (
-    <div className="relative space-y-3">
-      {/* Timeline connector dot */}
-      <div
-        className="absolute -left-[38px] top-6 w-4.5 h-4.5 rounded-full border-2 bg-primary flex items-center justify-center z-10"
-        style={{
-          borderColor: color,
-          boxShadow: `0 0 12px ${color}60`,
-        }}
-      >
-        <span className="w-2 h-2 rounded-full" style={{ background: color }} />
-      </div>
-
-      {/* Card Content */}
-      <div
-        ref={cardRef}
-        className="terminal-card p-6 cursor-pointer space-y-4"
-        onClick={() => {
-          setExpanded(!expanded);
-          onClick();
-        }}
-        onMouseEnter={() => {
-          if (cardRef.current) cardRef.current.style.borderColor = color;
-        }}
-        onMouseLeave={() => {
-          if (cardRef.current && !isActive) cardRef.current.style.borderColor = 'rgba(0, 255, 136, 0.12)';
-        }}
-        style={{
-          transition: 'border-color 0.3s ease',
-          borderColor: isActive ? color : 'rgba(0, 255, 136, 0.12)',
-          boxShadow: isActive ? `0 0 20px ${color}25` : 'none',
-        }}
-      >
-        {/* Header Block */}
-        <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
-          <div className="flex items-start gap-4">
-            {/* Logo */}
-            <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center font-bold shrink-0 text-lg"
-              style={{
-                background: `${exp.color}15`,
-                border: `1px solid ${exp.color}35`,
-                color: exp.color,
-                fontFamily: 'var(--font-mono)',
-              }}
-            >
-              {exp.logo}
-            </div>
-
-            <div className="space-y-1 text-left">
-              <span
-                className="text-[0.62rem] font-bold px-2 py-0.5 rounded uppercase"
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  background: `${color}08`,
-                  border: `1px solid ${color}25`,
-                  color,
-                }}
-              >
-                {exp.type}
-              </span>
-              <h3 className="text-base font-bold text-primary-custom" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                {exp.role}
-              </h3>
-              <div className="text-xs font-medium" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-                {exp.company} — <span style={{ color: 'var(--text-muted)' }}>{exp.team}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Time & Location details */}
-          <div className="text-left sm:text-right text-xs space-y-1" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-            <div>📅 {exp.duration}</div>
-            <div>📍 {exp.location}</div>
-          </div>
-        </div>
-
-        {/* Short description */}
-        <p className="text-xs leading-relaxed text-secondary-custom" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-          {exp.description}
-        </p>
-
-        {/* Collapsible content container (hidden on large screens because it is shown in the sticky panel) */}
-        {expanded ? (
-          <div ref={detailsRef} className="space-y-4 pt-4 border-t border-gray-800 overflow-hidden text-left lg:hidden">
-            {/* Responsibilities list */}
-            <div className="space-y-2">
-              <div className="text-xs font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-                ▸ key_responsibilities_and_contributions
-              </div>
-              <div className="space-y-2">
-                {exp.achievements.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
-                    <span style={{ color: 'var(--terminal-green)', fontSize: '0.85rem' }}>✓</span>
-                    <span className="text-xs leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-                      {item}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Tech tag list */}
-            <div className="space-y-2">
-              <div className="text-xs font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-                ▸ technologies_deployed
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {exp.tech.map((t) => (
-                  <span key={t} className="tech-tag" style={{ fontSize: '0.6rem' }}>
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="pt-2 text-center text-[0.68rem] text-muted-custom lg:hidden" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-            [ Click to expand responsibilities & technologies ]
-          </div>
-        )}
-      </div>
-    </div>
-  );
 }
 
-function ExperienceDetailsPanel({ exp }: { exp: typeof experienceData[0] }) {
-  const typeColors: Record<string, string> = {
-    Internship: 'var(--terminal-cyan)',
-    Research: 'var(--terminal-blue)',
-    Leadership: 'var(--terminal-purple)',
-    'Open Source': 'var(--terminal-green)',
+export function ExperienceCard({ exp, isActive, onClick }: ExperienceCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // Parallax and lift handler
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const card = cardRef.current;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
+    // Subtle 5px parallax translation + 4px vertical lift on hover
+    const moveX = (x / rect.width) * 5;
+    const moveY = ((y / rect.height) * 5) - 4;
+
+    gsap.to(card, {
+      x: moveX,
+      y: moveY,
+      duration: 0.25,
+      ease: 'power2.out',
+    });
   };
 
-  const color = typeColors[exp.type] || 'var(--text-muted)';
+  const handleMouseLeave = () => {
+    if (!cardRef.current) return;
+    gsap.to(cardRef.current, {
+      x: 0,
+      y: 0,
+      duration: 0.25,
+      ease: 'power2.out',
+    });
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onClick();
+    }
+  };
 
   return (
     <div
-      className="terminal-card p-8 space-y-6 sticky top-24 text-left"
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="button"
+      aria-label={`View experience details for ${exp.role} at ${exp.company}`}
+      aria-selected={isActive}
+      className={`w-full max-w-[950px] rounded-2xl border p-8 transition-all duration-250 ease-out text-left select-none relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--terminal-green)] ${
+        isActive
+          ? 'border-[rgba(0,255,136,0.45)] bg-[rgba(8,16,29,0.96)] shadow-[0_0_30px_rgba(0,255,136,0.08),_0_20px_45px_rgba(0,0,0,0.65)]'
+          : 'border-[rgba(0,255,136,0.12)] bg-[rgba(8,16,29,0.82)] shadow-[0_10px_30px_rgba(0,0,0,0.4)] group-hover:border-[rgba(0,255,136,0.32)] group-hover:shadow-[0_0_20px_rgba(0,255,136,0.05),_0_15px_35px_rgba(0,0,0,0.55)]'
+      }`}
       style={{
-        borderColor: 'rgba(0, 255, 136, 0.15)',
-        background: 'rgba(8, 12, 24, 0.95)',
-        boxShadow: '0 0 40px rgba(0, 255, 136, 0.05)',
+        backdropFilter: 'blur(10px)',
+        transform: isActive ? 'translateY(-4px)' : 'none',
       }}
     >
-      {/* Title bar decoration */}
-      <div className="flex items-center gap-3 pb-4 border-b border-gray-800">
-        <div className="flex gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#ff5f57' }} />
-          <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#febc2e' }} />
-          <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#28c840' }} />
-        </div>
-        <span className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>
-          experience_viewer.sh
-        </span>
-      </div>
+      <div className="flex flex-col gap-6 w-full">
+        {/* Badge & Info Header */}
+        <ExperienceHeader
+          type={exp.type}
+          role={exp.role}
+          company={exp.company}
+          duration={exp.duration}
+          location={exp.location}
+        />
 
-      <div className="flex items-start gap-4">
-        {/* Logo */}
-        <div
-          className="w-14 h-14 rounded-2xl flex items-center justify-center font-bold shrink-0 text-xl"
-          style={{
-            background: `${exp.color}15`,
-            border: `1px solid ${exp.color}35`,
-            color: exp.color,
-            fontFamily: 'var(--font-mono)',
-          }}
-        >
-          {exp.logo}
-        </div>
+        {/* Short Summary & Bullet Points */}
+        <ExperienceDetails
+          description={exp.description}
+          achievements={exp.achievements}
+        />
 
-        <div className="space-y-1">
-          <span
-            className="text-[0.62rem] font-bold px-2 py-0.5 rounded uppercase"
-            style={{
-              fontFamily: 'var(--font-mono)',
-              background: `${color}08`,
-              border: `1px solid ${color}25`,
-              color,
-            }}
-          >
-            {exp.type}
-          </span>
-          <h3 className="text-xl font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-            {exp.role}
-          </h3>
-          <div className="text-sm font-medium" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-            {exp.company} — <span style={{ color: 'var(--text-muted)' }}>{exp.team}</span>
-          </div>
-        </div>
-      </div>
+        {/* Divider */}
+        <div className="h-[1px] w-full bg-slate-800 opacity-50 my-1" />
 
-      <div className="grid grid-cols-2 gap-4 py-3 border-y border-gray-800 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-        <div>📅 Duration: <span style={{ color: 'var(--text-secondary)' }}>{exp.duration}</span></div>
-        <div>📍 Location: <span style={{ color: 'var(--text-secondary)' }}>{exp.location}</span></div>
-      </div>
-
-      <div className="space-y-3">
-        <div className="text-xs font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-          ▸ key_responsibilities_and_contributions
-        </div>
-        <div className="space-y-3">
-          {exp.achievements.map((item, idx) => (
-            <div key={idx} className="flex items-start gap-3">
-              <span style={{ color: 'var(--terminal-green)', fontSize: '0.85rem' }}>✓</span>
-              <span className="text-xs leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-                {item}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="space-y-3">
-        <div className="text-xs font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-          ▸ technologies_deployed
-        </div>
-        <div className="flex flex-wrap gap-2">
+        {/* Tech Stack Badge Pills */}
+        <div className="flex flex-wrap gap-2.5 w-full">
           {exp.tech.map((t) => (
-            <span key={t} className="tech-tag" style={{ fontSize: '0.65rem', padding: '4px 10px' }}>
-              {t}
-            </span>
+            <TechBadge key={t} tech={t} />
           ))}
         </div>
       </div>
@@ -347,13 +276,155 @@ function ExperienceDetailsPanel({ exp }: { exp: typeof experienceData[0] }) {
   );
 }
 
-function Breadcrumb({ path }: { path: string }) {
+// ── Main Experience Section component ──
+export default function Experience() {
+  const [activeId, setActiveId] = useState(experienceData[0]?.id || '');
+  const pageRef = useRef<HTMLDivElement>(null);
+
+  // GSAP Viewport stagger reveal animations
+  useEffect(() => {
+    // 1. Terminal title commands fade down
+    gsap.fromTo('.reveal-title',
+      { opacity: 0, y: -20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.1 }
+    );
+
+    // 2. Subtitle log categories fade in
+    gsap.fromTo('.reveal-subtitle',
+      { opacity: 0, y: -10 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: 0.2 }
+    );
+
+    // 3. Staggered card fade-up on entry (Scroll-Triggered)
+    const cards = gsap.utils.toArray('.reveal-card');
+    cards.forEach((card: any) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          }
+        }
+      );
+    });
+
+    // 4. Vertical timeline connector scale animation
+    gsap.fromTo('.timeline-connector-line',
+      { scaleY: 0 },
+      {
+        scaleY: 1,
+        duration: 1.2,
+        ease: 'power2.out',
+        transformOrigin: 'top',
+        scrollTrigger: {
+          trigger: '.timeline-container',
+          start: 'top 80%',
+        }
+      }
+    );
+
+    // 5. Initial timeline node scale entry
+    gsap.fromTo('.timeline-node-inner',
+      { scale: 0 },
+      {
+        scale: 1,
+        duration: 0.4,
+        ease: 'back.out(2)',
+        stagger: 0.15,
+        delay: 0.5,
+        scrollTrigger: {
+          trigger: '.timeline-container',
+          start: 'top 80%',
+        }
+      }
+    );
+  }, []);
+
   return (
-    <div className="flex items-center gap-1 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-      <span style={{ color: 'var(--terminal-green)' }}>{personalInfo.prompt}</span>
-      <span>:</span>
-      <span style={{ color: 'var(--terminal-cyan)' }}>~/{path}</span>
-      <span>$</span>
+    <div
+      ref={pageRef}
+      className="desktop-container py-16 flex flex-col items-center min-h-[calc(100vh-56px)]"
+    >
+      {/* Page Header */}
+      <div className="w-full max-w-[950px] mb-12 text-left space-y-4">
+        {/* Terminal git log style subtitle breadcrumb */}
+        <div
+          className="reveal-title flex items-center gap-1.5 text-xs font-mono select-none"
+          style={{ color: 'var(--text-muted)' }}
+        >
+          <span style={{ color: 'var(--terminal-green)' }}>&gt;</span>
+          <span>git log --oneline experience/</span>
+        </div>
+
+        {/* Page Title */}
+        <h1
+          className="reveal-title font-extrabold text-[40px] md:text-[56px] tracking-tight leading-none"
+          style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}
+        >
+          Experience
+        </h1>
+
+        <div className="reveal-title h-[1px] w-full bg-slate-800 opacity-50 my-4" />
+
+        {/* Log categories subtitle */}
+        <p
+          className="reveal-subtitle text-xs md:text-sm font-mono tracking-wider"
+          style={{ color: 'var(--text-secondary)' }}
+        >
+          Internships · Hackathons · Leadership · Open Source
+        </p>
+      </div>
+
+      {/* Timeline Section container */}
+      <div className="timeline-container w-full max-w-[950px] mt-12 flex flex-col">
+        {experienceData.map((exp, idx) => {
+          const isActive = exp.id === activeId;
+          const isLast = idx === experienceData.length - 1;
+
+          return (
+            <div
+              key={exp.id}
+              className="flex gap-6 md:gap-10 items-stretch relative group reveal-card"
+            >
+              {/* Left Column: Timeline line & nodes (Hidden on mobile) */}
+              <div className="hidden md:flex flex-col items-center shrink-0 w-8 relative">
+                {/* Node containing company initial */}
+                <TimelineNode isActive={isActive} logo={exp.logo} />
+
+                {/* Horizontal link connection */}
+                <div
+                  className={`absolute left-4 top-3.5 w-4 md:w-6 h-[2px] transition-all duration-250 z-0 ${
+                    isActive
+                      ? 'bg-terminal-green opacity-100 shadow-[0_0_8px_rgba(0,255,136,0.5)]'
+                      : 'bg-zinc-800 opacity-40 group-hover:bg-[rgba(0,255,136,0.35)] group-hover:opacity-80'
+                  }`}
+                  style={{
+                    backgroundColor: isActive ? 'var(--terminal-green)' : undefined,
+                  }}
+                />
+
+                {/* Vertical Line Connector segment */}
+                <TimelineConnector isLast={isLast} />
+              </div>
+
+              {/* Right Column: Experience Card */}
+              <div className="flex-1 pb-10">
+                <ExperienceCard
+                  exp={exp}
+                  isActive={isActive}
+                  onClick={() => setActiveId(exp.id)}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
