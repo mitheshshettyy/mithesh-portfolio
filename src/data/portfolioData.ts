@@ -97,44 +97,42 @@ export const educationData = [
 
 export const skillsData = {
   languages: [
-    { name: "JavaScript", level: 90 },
-    { name: "TypeScript", level: 85 },
-    { name: "Python", level: 85 },
+    { name: "C++", level: 90 },
     { name: "Java", level: 80 },
-    { name: "C/C++", level: 75 },
-    { name: "HTML/CSS", level: 90 },
+    { name: "Python", level: 80 },
+    { name: "JavaScript", level: 85 },
+    { name: "TypeScript", level: 80 },
   ],
   frontend: [
-    { name: "React", level: 90 },
-    { name: "Next.js", level: 85 },
-    { name: "Tailwind CSS", level: 90 },
-    { name: "Three.js", level: 80 },
+    { name: "React", level: 85 },
+    { name: "Next.js", level: 80 },
+    { name: "Tailwind CSS", level: 80 },
+    { name: "Three.js", level: 75 },
   ],
   backend: [
-    { name: "Node.js", level: 85 },
-    { name: "Express.js", level: 85 },
-    { name: "FastAPI", level: 80 },
-    { name: "REST APIs", level: 90 },
+    { name: "Node.js", level: 80 },
+    { name: "Express.js", level: 80 },
+    { name: "REST APIs", level: 85 },
   ],
   databases: [
-    { name: "MongoDB", level: 85 },
-    { name: "MySQL", level: 80 },
+    { name: "MongoDB", level: 90 },
+    { name: "MySQL", level: 85 },
+    { name: "PostgreSQL", level: 80 },
   ],
-  tools: [
+  developerEcosystem: [
     { name: "Git & GitHub", level: 90 },
     { name: "Postman", level: 85 },
     { name: "VS Code", level: 90 },
-  ],
-  cloud: [
-    { name: "Google Cloud Platform", level: 70 },
     { name: "Vercel", level: 85 },
+    { name: "Docker", level: 80 },
+    { name: "Linux", level: 90 },
   ],
-  devops: [
-    { name: "Docker", level: 75 },
-  ],
-  ai: [
-    { name: "Scikit-learn", level: 75 },
-    { name: "ML Basics", level: 70 },
+  csFundamentals: [
+    { name: "Data Structures", level: 85 },
+    { name: "Operating Systems", level: 90 },
+    { name: "DBMS", level: 85 },
+    { name: "Computer Networks", level: 80 },
+    { name: "Compiler Design", level: 90 },
   ],
   concepts: [
     "Full-Stack Development",

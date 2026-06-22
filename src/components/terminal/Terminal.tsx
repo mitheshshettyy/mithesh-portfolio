@@ -87,11 +87,12 @@ I believe great software is born at the intersection of clean database architect
   },
   
   skillsData: `--- SKILLS ---
-Languages: Java, Python, C/C++, JavaScript, TypeScript, HTML/CSS
+Languages: C++, Java, Python, JavaScript, TypeScript
 Frontend:  React, Next.js, Tailwind CSS, Three.js
-Backend:   Node.js, Express.js, FastAPI, REST APIs
-Databases: MySQL, MongoDB
-Tools:     Git, GitHub, Postman, Docker, Google Cloud Platform, Vercel, VS Code`,
+Backend:   Node.js, Express.js, REST APIs
+Databases: MongoDB, MySQL, PostgreSQL
+Developer Ecosystem: Git & GitHub, Postman, VS Code, Vercel, Docker, Linux
+CS Fundamentals:     Data Structures & Algorithms, Operating Systems, DBMS, Computer Networks, Compiler Design`,
 
   get resumeData() {
     return `--- RESUME ---

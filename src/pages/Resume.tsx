@@ -220,9 +220,10 @@ export default function Resume() {
                 <div className="space-y-2">
                   <SkillLine label="Languages" skills={skillsData.languages.map(s => s.name)} />
                   <SkillLine label="Frontend" skills={skillsData.frontend.map(s => s.name)} />
-                  <SkillLine label="Backend" skills={skillsData.backend.slice(0, 6).map(s => s.name)} />
+                  <SkillLine label="Backend" skills={skillsData.backend.map(s => s.name)} />
                   <SkillLine label="Databases" skills={skillsData.databases.map(s => s.name)} />
-                  <SkillLine label="Tools" skills={skillsData.tools.slice(0, 6).map(s => s.name)} />
+                  <SkillLine label="Ecosystem" skills={skillsData.developerEcosystem.map(s => s.name)} />
+                  <SkillLine label="CS Fund." skills={skillsData.csFundamentals.map(s => s.name)} />
                 </div>
               </ResumeSection>
             </div>
