@@ -49,11 +49,10 @@ export function TimelineNode({ isActive, logo }: TimelineNodeProps) {
     <div className="relative flex items-center justify-center shrink-0">
       {/* Outer ring / initials container */}
       <div
-        className={`w-6 h-6 rounded-full border bg-slate-950 flex items-center justify-center transition-all duration-250 z-10 select-none font-mono text-[10px] font-bold ${
-          isActive
+        className={`w-6 h-6 rounded-full border bg-slate-950 flex items-center justify-center transition-all duration-250 z-10 select-none font-mono text-[10px] font-bold ${isActive
             ? 'border-terminal-green scale-110 shadow-[0_0_10px_rgba(0,255,136,0.4)]'
             : 'border-[rgba(0,255,136,0.15)] group-hover:border-[rgba(0,255,136,0.35)] group-hover:scale-105 group-hover:shadow-[0_0_6px_rgba(0,255,136,0.2)]'
-        }`}
+          }`}
         style={{
           borderColor: isActive ? 'var(--terminal-green)' : undefined,
           color: isActive ? 'var(--terminal-green)' : 'var(--text-secondary)',
@@ -259,11 +258,10 @@ export function ExperienceCard({ exp, isActive, onClick }: ExperienceCardProps) 
       role="button"
       aria-label={`View experience details for ${exp.role} at ${exp.company}`}
       aria-selected={isActive}
-      className={`w-full max-w-[800px] rounded-xl border p-6 sm:p-8 transition-all duration-250 ease-out text-left select-none relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--terminal-green)] ${
-        isActive
+      className={`w-full max-w-[800px] rounded-xl border p-6 sm:p-8 transition-all duration-250 ease-out text-left select-none relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--terminal-green)] ${isActive
           ? 'border-[rgba(0,255,136,0.18)] bg-[rgba(8,12,24,0.65)] shadow-[0_0_20px_rgba(0,255,136,0.04),_0_10px_30px_rgba(0,0,0,0.5)]'
           : 'border-[rgba(0,255,136,0.08)] bg-[rgba(8,12,24,0.45)] shadow-[0_5px_15px_rgba(0,0,0,0.3)]'
-      }`}
+        }`}
       style={{
         backdropFilter: 'blur(12px)',
       }}
@@ -321,7 +319,26 @@ export default function Experience() {
     color: "#00d4ff",
   };
 
-  const displayExperiences = [...experienceData, dummyExperience];
+  const dummyExperience2 = {
+    id: "dummy-temp-experience-2",
+    role: "Backend Engineer Intern",
+    company: "Mock Industries",
+    team: "Data Core Team",
+    type: "Internship (Temporary)",
+    duration: "Sep 2023 – Nov 2023",
+    location: "Bangalore, India (Hybrid)",
+    description: "Additional temporary placeholder to check stacking, timeline continuation, and scroll performance.",
+    achievements: [
+      "Designed mock RESTful service endpoints and database schemas for testing scaling workflows.",
+      "Implemented automated testing script runner achieving full code coverage reports.",
+      "Visualized queue bottlenecks on simulation dashboards to test UI performance."
+    ],
+    tech: ["Node.js", "Express.js", "PostgreSQL", "Docker"],
+    logo: "M",
+    color: "#a855f7",
+  };
+
+  const displayExperiences = [...experienceData, dummyExperience, dummyExperience2];
 
   // GSAP Viewport reveal animations
   useEffect(() => {
@@ -360,7 +377,7 @@ export default function Experience() {
   return (
     <div
       ref={pageRef}
-      className="desktop-container py-16 flex flex-col items-center justify-center min-h-[calc(100vh-56px)]"
+      className="desktop-container pt-16 pb-28 sm:pb-36 lg:pb-52 flex flex-col items-center justify-center min-h-[calc(100vh-56px)]"
     >
       <div className="w-full max-w-[800px] flex flex-col items-center gap-6">
         {/* Page Header aligned perfectly with the main content grid */}
@@ -386,35 +403,45 @@ export default function Experience() {
           <p
             className="reveal-subtitle text-[11px] sm:text-[12px] font-mono tracking-wider text-slate-400 mt-1 mb-6"
           >
-            Internships • Hackathons • Leadership • Open Source
+            Internships • Open Source
           </p>
         </div>
 
         {/* Experience Cards Stack with Timeline connector line */}
-        <div className="w-full flex flex-col gap-8 relative pl-8 sm:pl-12">
-          {/* Straight Vertical Timeline Line */}
-          <div
-            className="absolute left-[16px] sm:left-[24px] top-[36px] sm:top-[44px] bottom-[36px] sm:bottom-[44px] w-[1px] pointer-events-none"
-            style={{
-              background: 'linear-gradient(to bottom, var(--terminal-green) 0%, rgba(0, 255, 136, 0.08) 100%)',
-            }}
-          />
-
+        <div className="w-full flex flex-col gap-8 relative pl-12 sm:pl-16">
           {displayExperiences.map((exp, idx) => (
             <div key={exp.id || idx} className="relative w-full reveal-card">
-              {/* Timeline Marker Node */}
-              <div className="absolute left-[-28px] sm:left-[-36px] top-6 sm:top-8 flex items-center justify-center z-10">
+              {/* Continuous Straight Vertical Timeline Line Segment */}
+              {idx < displayExperiences.length - 1 && (
                 <div
-                  className={`w-6 h-6 rounded-full border bg-slate-950 flex items-center justify-center font-mono text-[10px] font-bold transition-all duration-300 ${
-                    idx === 0
-                      ? 'border-[var(--terminal-green)] scale-110 shadow-[0_0_10px_rgba(0,255,136,0.35)]'
-                      : 'border-slate-800 text-slate-500'
-                  }`}
+                  className="absolute -left-[24px] sm:-left-[32px] -translate-x-1/2 top-[36px] sm:top-[44px] -bottom-[68px] sm:-bottom-[76px] w-[1px] pointer-events-none"
                   style={{
-                    color: idx === 0 ? 'var(--terminal-green)' : undefined,
+                    backgroundColor: 'rgba(0, 255, 136, 0.2)',
                   }}
+                />
+              )}
+
+              {/* Timeline Marker Node */}
+              <div className="absolute -left-[24px] sm:-left-[32px] -translate-x-1/2 top-6 sm:top-8 flex items-center justify-center z-10">
+                <div
+                  className={`w-6 h-6 rounded-full border bg-slate-950 flex items-center justify-center transition-all duration-300 ${idx === 0
+                      ? 'border-[var(--terminal-green)]'
+                      : 'border-slate-800'
+                    }`}
                 >
-                  {exp.logo || 'J'}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke={idx === 0 ? "var(--terminal-green)" : "#475569"}
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-3 h-3"
+                  >
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                  </svg>
                 </div>
               </div>
 
@@ -423,7 +450,7 @@ export default function Experience() {
                 <ExperienceCard
                   exp={exp}
                   isActive={idx === 0}
-                  onClick={() => {}}
+                  onClick={() => { }}
                 />
               </div>
             </div>
