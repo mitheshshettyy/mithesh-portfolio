@@ -302,6 +302,27 @@ export function ExperienceCard({ exp, isActive, onClick }: ExperienceCardProps) 
 export default function Experience() {
   const pageRef = useRef<HTMLDivElement>(null);
 
+  const dummyExperience = {
+    id: "dummy-temp-experience",
+    role: "Full Stack Developer Intern",
+    company: "Dummy Company",
+    team: "Testing Team",
+    type: "Internship (Temporary)",
+    duration: "Jan 2024 – Mar 2024",
+    location: "Remote",
+    description: "Temporary placeholder experience added to test spacing, alignment, and card stacking.",
+    achievements: [
+      "Placeholder contribution bullet point for layout and visual testing.",
+      "Verify typography, color consistency, and margins of stacked experience entries.",
+      "Easily removable after layout confirmation."
+    ],
+    tech: ["React", "TypeScript", "Tailwind CSS"],
+    logo: "D",
+    color: "#00d4ff",
+  };
+
+  const displayExperiences = [...experienceData, dummyExperience];
+
   // GSAP Viewport reveal animations
   useEffect(() => {
     // 1. Terminal title commands fade down
@@ -341,13 +362,13 @@ export default function Experience() {
       ref={pageRef}
       className="desktop-container py-16 flex flex-col items-center justify-center min-h-[calc(100vh-56px)]"
     >
-      <div className="w-full max-w-[800px] flex flex-col items-start gap-4">
+      <div className="w-full max-w-[800px] flex flex-col items-center gap-6">
         {/* Page Header aligned perfectly with the main content grid */}
-        <div className="w-full text-left flex flex-col">
+        <div className="w-full text-center flex flex-col items-center">
           {/* Terminal git log style subtitle command */}
           <div
-            className="reveal-title flex items-center gap-1.5 font-mono select-none mb-2"
-            style={{ color: 'var(--text-muted)', fontSize: '12px' }}
+            className="reveal-title flex items-center gap-1.5 font-mono select-none mb-1 text-[11px] sm:text-[12px]"
+            style={{ color: 'var(--text-muted)' }}
           >
             <span style={{ color: 'var(--terminal-green)' }}>&gt;</span>
             <span>git log --oneline experience/</span>
@@ -355,7 +376,7 @@ export default function Experience() {
 
           {/* Page Title */}
           <h1
-            className="reveal-title font-bold text-2xl sm:text-3xl md:text-[32px] tracking-tight leading-tight mt-1 mb-2"
+            className="reveal-title font-bold text-xl sm:text-2xl md:text-[28px] tracking-tight leading-tight mt-1 mb-1"
             style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}
           >
             Experience
@@ -363,21 +384,50 @@ export default function Experience() {
 
           {/* Log categories subtitle */}
           <p
-            className="reveal-subtitle text-[12px] sm:text-[13px] font-mono tracking-wider text-slate-400 mt-1 mb-6"
+            className="reveal-subtitle text-[11px] sm:text-[12px] font-mono tracking-wider text-slate-400 mt-1 mb-6"
           >
             Internships • Hackathons • Leadership • Open Source
           </p>
         </div>
 
-        {/* Experience Card */}
-        <div className="w-full reveal-card">
-          {experienceData[0] && (
-            <ExperienceCard
-              exp={experienceData[0]}
-              isActive={true}
-              onClick={() => {}}
-            />
-          )}
+        {/* Experience Cards Stack with Timeline connector line */}
+        <div className="w-full flex flex-col gap-8 relative pl-8 sm:pl-12">
+          {/* Straight Vertical Timeline Line */}
+          <div
+            className="absolute left-[16px] sm:left-[24px] top-[36px] sm:top-[44px] bottom-[36px] sm:bottom-[44px] w-[1px] pointer-events-none"
+            style={{
+              background: 'linear-gradient(to bottom, var(--terminal-green) 0%, rgba(0, 255, 136, 0.08) 100%)',
+            }}
+          />
+
+          {displayExperiences.map((exp, idx) => (
+            <div key={exp.id || idx} className="relative w-full reveal-card">
+              {/* Timeline Marker Node */}
+              <div className="absolute left-[-28px] sm:left-[-36px] top-6 sm:top-8 flex items-center justify-center z-10">
+                <div
+                  className={`w-6 h-6 rounded-full border bg-slate-950 flex items-center justify-center font-mono text-[10px] font-bold transition-all duration-300 ${
+                    idx === 0
+                      ? 'border-[var(--terminal-green)] scale-110 shadow-[0_0_10px_rgba(0,255,136,0.35)]'
+                      : 'border-slate-800 text-slate-500'
+                  }`}
+                  style={{
+                    color: idx === 0 ? 'var(--terminal-green)' : undefined,
+                  }}
+                >
+                  {exp.logo || 'J'}
+                </div>
+              </div>
+
+              {/* Experience Card */}
+              <div className="w-full">
+                <ExperienceCard
+                  exp={exp}
+                  isActive={idx === 0}
+                  onClick={() => {}}
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
