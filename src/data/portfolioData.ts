@@ -231,45 +231,6 @@ export const experienceData = [
     tech: ["React", "Node.js", "Express.js", "MongoDB", "JWT"],
     logo: "A",
     color: "#00ff88",
-  },
-  {
-    id: "software-engineering-intern-razorpay",
-    role: "Software Engineering Intern",
-    company: "Razorpay",
-    team: "Payments Platform Team",
-    type: "Internship",
-    duration: "May 2024 – July 2024",
-    location: "Bangalore, India",
-    description:
-      "Worked on the Payments Platform team, contributing to high-throughput transaction processing systems and internal developer tooling.",
-    achievements: [
-      "Reduced API response time by 28% by profiling and optimizing N+1 query patterns in the merchant dashboard service",
-      "Built an internal webhook retry dashboard used by 20+ engineers for debugging failed payment events",
-      "Migrated 3 legacy REST endpoints to GraphQL, reducing over-fetching by ~40%",
-      "Wrote 45+ unit and integration tests, achieving 94% coverage on modified modules",
-    ],
-    tech: ["Node.js", "TypeScript", "GraphQL", "PostgreSQL", "Redis", "Kafka"],
-    logo: "R",
-    color: "#00d4ff",
-  },
-  {
-    id: "full-stack-intern-clairco",
-    role: "Full Stack Developer Intern",
-    company: "Clairco (YC W22)",
-    team: "Sensor Dashboard Team",
-    type: "Internship",
-    duration: "Dec 2023 – Feb 2024",
-    location: "Remote",
-    description:
-      "Early-stage startup focused on air quality monitoring for commercial spaces. Built dashboard features and sensor data pipeline APIs.",
-    achievements: [
-      "Built a real-time air quality dashboard consuming MQTT sensor data, visualizing 10 metrics across 50+ sensor nodes",
-      "Designed and implemented alerting engine for threshold breaches, reducing response time from 30 min to under 2 min",
-      "Created PDF report generation pipeline for client health summaries (used weekly by 8 enterprise clients)",
-    ],
-    tech: ["React", "Python", "FastAPI", "MQTT", "InfluxDB", "Tailwind CSS"],
-    logo: "C",
-    color: "#a855f7",
   }
 ];
 
