@@ -300,45 +300,7 @@ export function ExperienceCard({ exp, isActive, onClick }: ExperienceCardProps) 
 export default function Experience() {
   const pageRef = useRef<HTMLDivElement>(null);
 
-  const dummyExperience = {
-    id: "dummy-temp-experience",
-    role: "Full Stack Developer Intern",
-    company: "Dummy Company",
-    team: "Testing Team",
-    type: "Internship (Temporary)",
-    duration: "Jan 2024 – Mar 2024",
-    location: "Remote",
-    description: "Temporary placeholder experience added to test spacing, alignment, and card stacking.",
-    achievements: [
-      "Placeholder contribution bullet point for layout and visual testing.",
-      "Verify typography, color consistency, and margins of stacked experience entries.",
-      "Easily removable after layout confirmation."
-    ],
-    tech: ["React", "TypeScript", "Tailwind CSS"],
-    logo: "D",
-    color: "#00d4ff",
-  };
-
-  const dummyExperience2 = {
-    id: "dummy-temp-experience-2",
-    role: "Backend Engineer Intern",
-    company: "Mock Industries",
-    team: "Data Core Team",
-    type: "Internship (Temporary)",
-    duration: "Sep 2023 – Nov 2023",
-    location: "Bangalore, India (Hybrid)",
-    description: "Additional temporary placeholder to check stacking, timeline continuation, and scroll performance.",
-    achievements: [
-      "Designed mock RESTful service endpoints and database schemas for testing scaling workflows.",
-      "Implemented automated testing script runner achieving full code coverage reports.",
-      "Visualized queue bottlenecks on simulation dashboards to test UI performance."
-    ],
-    tech: ["Node.js", "Express.js", "PostgreSQL", "Docker"],
-    logo: "M",
-    color: "#a855f7",
-  };
-
-  const displayExperiences = [...experienceData, dummyExperience, dummyExperience2];
+  const displayExperiences = experienceData;
 
   // GSAP Viewport reveal animations
   useEffect(() => {

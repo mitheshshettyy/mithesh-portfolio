@@ -37,10 +37,12 @@ const VIRTUAL_FS: Record<string, { dirs: string[]; files: Record<string, string>
     dirs: ['about', 'education', 'skills', 'projects', 'experience', 'contact', 'resume'],
     files: {
       'about.txt': 'aboutData',
+      'education.txt': 'educationData',
       'skills.txt': 'skillsData',
-      'resume.txt': 'resumeData',
       'projects.txt': 'projectsData',
-      'experience.txt': 'experienceData'
+      'experience.txt': 'experienceData',
+      'contact.txt': 'contactData',
+      'resume.txt': 'resumeData'
     }
   },
   '~/about': {
@@ -49,7 +51,7 @@ const VIRTUAL_FS: Record<string, { dirs: string[]; files: Record<string, string>
   },
   '~/education': {
     dirs: [],
-    files: {}
+    files: { 'education.txt': 'educationData' }
   },
   '~/skills': {
     dirs: [],
@@ -65,7 +67,7 @@ const VIRTUAL_FS: Record<string, { dirs: string[]; files: Record<string, string>
   },
   '~/contact': {
     dirs: [],
-    files: {}
+    files: { 'contact.txt': 'contactData' }
   },
   '~/resume': {
     dirs: [],
@@ -86,6 +88,18 @@ Philosophy:
 I believe great software is born at the intersection of clean database architecture, structured backend APIs, and responsive user interfaces.`;
   },
   
+  get educationData() {
+    return `--- EDUCATION ---
+1. ${config.personal.university.split(',')[0]}
+   Degree:   B.Tech in Computer Science & Engineering
+   Duration: Aug 2023 – Present
+   CGPA:     ${config.personal.cgpa}
+2. Vidyodaya Pre-University College
+   Degree:   Pre-University (PCMC)
+   Duration: Aug 2021 – May 2023
+   Score:    94.5%`;
+  },
+
   skillsData: `--- SKILLS ---
 Languages: C++, Java, Python, JavaScript, TypeScript
 Frontend:  React, Next.js, Tailwind CSS, Three.js
@@ -115,7 +129,15 @@ Experience:
 3. Virtual Garden: 3D interactive medicinal plant platform (Next.js, MongoDB, Three.js) - 25 stars`,
 
   experienceData: `--- EXPERIENCE ---
-- Full Stack Development Intern @ ALGOORBIT Innovations (Nov 2025 - Jan 2026)`
+- Full Stack Development Intern @ ALGOORBIT Innovations (Nov 2025 - Jan 2026)`,
+
+  get contactData() {
+    return `--- CONTACT INFO ---
+Email: ${config.contact.email}
+GitHub: ${config.contact.github}
+LinkedIn: ${config.contact.linkedin}
+Location: ${config.personal.location}`;
+  }
 };
 
 // Helper for syntax highlighting
@@ -126,8 +148,9 @@ function renderSyntaxHighlightedCommand(command: string) {
 
   const isCommandValid = [
     'help', 'about', 'education', 'skills', 'projects', 'experience', 'contact', 'resume', 
-    'whoami', 'pwd', 'ls', 'cd', 'tree', 'clear', 'date', 'time', 'history', 'echo', 'cat', 
-    'neofetch', 'github', 'linkedin', 'email', 'theme', 'open', 'download'
+    'whoami', 'pwd', 'ls', 'cd', 'tree', 'clear', 'cls', 'date', 'time', 'history', 'echo', 'cat', 
+    'neofetch', 'github', 'linkedin', 'email', 'theme', 'open', 'download', 'social', 'status', 
+    'ascii', 'banner', 'uptime', 'intro', 'matrix', 'exit'
   ].includes(cmd.toLowerCase());
 
   const cmdColor = isCommandValid ? 'var(--terminal-green)' : 'var(--terminal-red)';
@@ -177,36 +200,45 @@ function useCommandProcessor(
           line('section', '╚═══════════════════════════════════════════════════════╝'),
           blank(),
           line('info', '  NAVIGATION'),
-          line('output', '  about          → Navigate to About Me page'),
-          line('output', '  education      → Navigate to Education page'),
-          line('output', '  skills         → Navigate to Skills page'),
-          line('output', '  projects       → Navigate to Projects page'),
-          line('output', '  experience     → Navigate to Experience page'),
-          line('output', '  contact        → Navigate to Contact page'),
-          line('output', '  resume         → Open/download resume PDF'),
+          line('output', '  about           → Navigate to About Me page'),
+          line('output', '  education       → Navigate to Education page'),
+          line('output', '  skills          → Navigate to Skills page'),
+          line('output', '  projects        → Navigate to Projects page'),
+          line('output', '  experience      → Navigate to Experience page'),
+          line('output', '  contact         → Navigate to Contact page'),
+          line('output', '  resume          → Navigate to Resume page'),
           blank(),
           line('info', '  FILESYSTEM & UTILITIES'),
-          line('output', '  cd <dir>       → Change directory (e.g. cd about, cd ..)'),
-          line('output', '  ls             → List files and directories here'),
-          line('output', '  tree           → Display filesystem tree'),
-          line('output', '  cat <file>     → View file contents (e.g. cat about.txt)'),
-          line('output', '  pwd            → Print working directory path'),
-          line('output', '  history        → View typed command history'),
+          line('output', '  cd <dir>        → Change directory (e.g. cd about, cd ..)'),
+          line('output', '  ls              → List files and directories here'),
+          line('output', '  tree            → Display filesystem tree'),
+          line('output', '  cat <file>      → View file contents (e.g. cat about.txt)'),
+          line('output', '  pwd             → Print working directory path'),
+          line('output', '  history         → View typed command history'),
           blank(),
           line('info', '  IDENTITY & SYSTEM'),
-          line('output', '  whoami         → Display identity summary'),
-          line('output', '  neofetch       → Display system & stack info'),
-          line('output', '  date / time    → Display current date / time'),
-          line('output', '  uptime         → Portfolio uptime'),
-          line('output', '  clear          → Clear terminal'),
-          line('output', '  echo <msg>     → Print a message'),
+          line('output', '  whoami          → Display identity summary'),
+          line('output', '  neofetch        → Display system & stack info'),
+          line('output', '  date / time     → Display current date / time'),
+          line('output', '  uptime          → Portfolio uptime'),
+          line('output', '  clear / cls     → Clear terminal'),
+          line('output', '  echo <msg>      → Print a message'),
           blank(),
           line('info', '  SOCIAL & ACTIONS'),
-          line('output', '  github         → Open GitHub profile'),
-          line('output', '  linkedin       → Open LinkedIn profile'),
-          line('output', '  email          → View email address'),
+          line('output', '  github          → Open GitHub profile'),
+          line('output', '  linkedin        → Open LinkedIn profile'),
+          line('output', '  email           → View email address'),
+          line('output', '  social          → Display all social links'),
           line('output', '  download resume → Download resume PDF directly'),
-          line('output', '  open resume    → Open resume in a new tab'),
+          line('output', '  open resume     → Open resume in a new tab'),
+          blank(),
+          line('info', '  EXTRA COMMANDS & FUN'),
+          line('output', '  status          → View availability & role target'),
+          line('output', '  theme           → Show terminal theme profile'),
+          line('output', '  banner / ascii  → Display ASCII art banner'),
+          line('output', '  matrix          → Toggle matrix rain effect'),
+          line('output', '  intro           → Replay intro sequence'),
+          line('output', '  exit            → Redirect back to home'),
           blank(),
           line('success', '  SHORTCUT: Ctrl+` → Return to terminal from any page'),
           blank(),
@@ -360,6 +392,7 @@ function useCommandProcessor(
           line('info', '├── about/'),
           line('output', '│   └── about.txt'),
           line('info', '├── education/'),
+          line('output', '│   └── education.txt'),
           line('info', '├── skills/'),
           line('output', '│   └── skills.txt'),
           line('info', '├── projects/'),
@@ -367,6 +400,7 @@ function useCommandProcessor(
           line('info', '├── experience/'),
           line('output', '│   └── experience.txt'),
           line('info', '├── contact/'),
+          line('output', '│   └── contact.txt'),
           line('info', '└── resume/'),
           line('output', '    └── resume.txt'),
         ];
@@ -398,6 +432,7 @@ function useCommandProcessor(
         return history.slice().reverse().map((cmd, idx) => line('output', `  ${idx + 1}  ${cmd}`));
       }
 
+      case 'cls':
       case 'clear':
         return [{ id: 'CLEAR', type: 'blank', content: '__CLEAR__', dir: currentDir }];
 
@@ -458,11 +493,19 @@ function useCommandProcessor(
           blank(),
         ];
 
+      case 'banner':
       case 'ascii':
         return [
           line('success', ASCII_BANNER),
           line('output', `  ${personalInfo.title}`),
           blank(),
+        ];
+
+      case 'exit':
+        setTimeout(() => navigate('/'), 400);
+        return [
+          line('success', '▶ Closing terminal session...'),
+          line('output', '  Exiting workspace, redirecting to home.'),
         ];
 
       case 'uptime':
