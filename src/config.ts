@@ -43,9 +43,9 @@ export const config = {
     theme: import.meta.env.VITE_NEOFETCH_THEME || 'NightShell Dark',
   },
   website: {
-    title: import.meta.env.VITE_SITE_TITLE || 'Mithesh R Shetty | Developer Portfolio',
-    metaDesc: import.meta.env.VITE_SITE_META_DESC || 'Terminal-style developer portfolio of Mithesh R Shetty, Full-Stack Developer & Computer Science Student.',
-    keywords: import.meta.env.VITE_SITE_KEYWORDS || 'Mithesh R Shetty, portfolio, terminal, developer, full-stack, react',
+    title: import.meta.env.VITE_SITE_TITLE || 'Mithesh R Shetty',
+    metaDesc: import.meta.env.VITE_SITE_META_DESC || 'Official portfolio of Mithesh R Shetty showcasing software engineering projects, technical skills, experience, and achievements.',
+    keywords: import.meta.env.VITE_SITE_KEYWORDS || 'Mithesh R Shetty, Portfolio, Software Engineer, Full Stack Developer, React, TypeScript, Node.js, Web Developer',
     author: import.meta.env.VITE_SITE_AUTHOR || 'Mithesh R Shetty',
     copyright: import.meta.env.VITE_SITE_COPYRIGHT || '© 2026 Mithesh R Shetty',
   },

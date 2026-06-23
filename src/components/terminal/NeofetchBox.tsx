@@ -63,7 +63,7 @@ export default function NeofetchBox() {
         {/* Specs List */}
         {specs.map((spec, idx) => (
           <div key={idx} className="flex flex-row">
-            <span style={{ color: 'var(--terminal-cyan)', width: '10ch', shrink: 0 }}>
+            <span style={{ color: 'var(--terminal-cyan)', width: '10ch', flexShrink: 0 }}>
               {spec.label.padEnd(9)}:
             </span>
             <span className="pl-2 break-all text-[var(--text-primary)]">
