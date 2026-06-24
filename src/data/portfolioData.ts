@@ -280,6 +280,40 @@ export const projectsData = [
     stars: 8,
     featured: true,
   },
+  {
+    id: "eventsphere",
+    name: "EventSphere",
+    tagline: "College Event Management System",
+    shortDescription:
+      "A secure college event management platform built using Spring Boot MVC and Thymeleaf, enabling admins to coordinate campus events and students to register dynamically.",
+    description:
+      "EventSphere is a secure college event management system designed to streamline organizing, scheduling, and tracking campus activities. The application provides dedicated administrative dashboards for event orchestration and student registration monitoring, alongside a personalized portal for students to register for events.",
+    category: "Full-Stack",
+    tech: ["Java", "Spring Boot", "MySQL", "Thymeleaf", "Tailwind CSS", "Maven"],
+    features: [
+      "Secure user registration and login with session role redirection",
+      "Administrative controls for the complete event lifecycle (creation, update, deletion)",
+      "Student registration portal to browse events and sign up securely",
+      "Admin event management dashboard displaying registration counts and student details",
+      "Dynamic, modular frontend rendering using Thymeleaf layouts and fragments"
+    ],
+    problemSolved:
+      "Campus event organization is often fragmented and dependent on manual tracking sheets. EventSphere unifies event publishing, registration, and attendance rosters into a single secure web portal.",
+    approach:
+      "Developed a responsive multi-role Java web application with Spring Boot. Designed relational database schemas in MySQL managed via Spring Data JPA. Leveraged server-side Thymeleaf templates for fast rendering and dynamic state management based on user session roles.",
+    architecture:
+      "A full-stack MVC application using Spring Boot controllers to handle HTTP requests, JPA/Hibernate repositories to interface with a MySQL database, and Thymeleaf for server-rendered page layouts.",
+    challenges:
+      "Ensuring proper session-based validation for page routes (e.g. protecting admin pages from student users) without configuring full Spring Security. Resolved this by building controller interceptors and HTTP session validation checks directly within the view controllers.",
+    futureImprovements:
+      "Integrate automated email notifications for successful registration, enforce dynamic event capacity limits, and build a REST API version for future mobile application integration.",
+    github: "https://github.com/mitheshshettyy/EventSphere",
+    demo: null,
+    status: "Completed",
+    year: 2025,
+    stars: 5,
+    featured: true,
+  },
 ];
 
 export const experienceData = [
