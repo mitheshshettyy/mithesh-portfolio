@@ -641,3 +641,48 @@ body {
   color: var(--terminal-green) !important;
 }
 
+/* ===== Premium GitHub Terminal-Style Button ===== */
+.btn-github-premium {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #0b1220; /* Dark navy matching surface color */
+  border: 1px solid rgba(0, 255, 136, 0.2); /* Low opacity green accent border */
+  color: var(--text-primary);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              border-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              background-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-github-premium svg {
+  color: var(--text-primary);
+  transition: color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Hover state */
+.btn-github-premium:hover {
+  background-color: var(--bg-card-hover) !important;
+  border-color: var(--terminal-green) !important;
+  color: var(--terminal-green) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.25);
+}
+
+.btn-github-premium:hover svg {
+  color: var(--terminal-green) !important;
+}
+
+/* Active state */
+.btn-github-premium:active {
+  transform: scale(0.96) translateY(0);
+  box-shadow: 0 0 5px rgba(0, 255, 136, 0.1) !important;
+}
+
