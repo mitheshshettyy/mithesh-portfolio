@@ -129,7 +129,7 @@ function ProjectCard({
               </span>
             </div>
             <span className="text-xs text-[var(--text-secondary)] font-mono">
-              📅 {project.year}
+              📅 {project.date}
             </span>
           </div>
 
@@ -542,7 +542,7 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
                   {project.status || 'Completed'}
                 </span>
                 <span className="text-xs text-[var(--text-secondary)] font-mono self-center">
-                  📅 {project.year}
+                  📅 {project.date}
                 </span>
               </div>
             </div>
