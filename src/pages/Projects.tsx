@@ -90,6 +90,7 @@ function ProjectCard({
   project: Project;
   onOpenModal: (project: Project) => void;
 }) {
+  const demoUrl = project.liveDemo || project.demo;
   return (
     <div
       onClick={() => onOpenModal(project)}
@@ -166,34 +167,36 @@ function ProjectCard({
       {/* Footer Details: Action Buttons */}
       <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[rgba(255,255,255,0.05)]">
         <div className="flex gap-2">
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="px-3 py-1.5 rounded text-[0.7rem] transition-all duration-200"
-            style={{
-              fontFamily: 'var(--font-mono)',
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              color: 'var(--text-secondary)',
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = 'rgba(255,255,255,0.08)';
-              el.style.color = 'var(--text-primary)';
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = 'rgba(255,255,255,0.03)';
-              el.style.color = 'var(--text-secondary)';
-            }}
-          >
-            GitHub ↗
-          </a>
-          {project.demo && (
+          {project.github && (
             <a
-              href={project.demo}
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="px-3 py-1.5 rounded text-[0.7rem] transition-all duration-200"
+              style={{
+                fontFamily: 'var(--font-mono)',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                color: 'var(--text-secondary)',
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = 'rgba(255,255,255,0.08)';
+                el.style.color = 'var(--text-primary)';
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = 'rgba(255,255,255,0.03)';
+                el.style.color = 'var(--text-secondary)';
+              }}
+            >
+              GitHub ↗
+            </a>
+          )}
+          {demoUrl && (
+            <a
+              href={demoUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
@@ -340,6 +343,8 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
 
   if (!project || !isVisible) return null;
 
+  const demoUrl = project.liveDemo || project.demo;
+
   // Spaced, terminal-syntax sections
   const sections = [
     {
@@ -425,7 +430,7 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
     },
     {
       heading: '// links',
-      show: !!(project.github || project.demo),
+      show: !!(project.github || demoUrl),
       content: (
         <div className="flex flex-wrap items-center gap-3">
           {project.github && (
@@ -441,31 +446,19 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
               View on GitHub
             </a>
           )}
-          {project.demo && (
+          {demoUrl && (
             <a
-              href={project.demo}
+              href={demoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 rounded text-xs transition-all duration-200 inline-flex items-center justify-center"
-              style={{
-                fontFamily: 'var(--font-mono)',
-                background: 'rgba(0,255,136,0.08)',
-                border: '1px solid rgba(0,255,136,0.3)',
-                color: 'var(--terminal-green)',
-                height: '35px'
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.background = 'rgba(0,255,136,0.15)';
-                el.style.boxShadow = '0 0 15px rgba(0,255,136,0.2)';
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.background = 'rgba(0,255,136,0.08)';
-                el.style.boxShadow = 'none';
-              }}
+              className="btn-terminal-premium"
             >
-              Live Demo ↗
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+              Live Demo
             </a>
           )}
         </div>

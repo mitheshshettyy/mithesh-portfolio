@@ -245,6 +245,41 @@ export const projectsData = [
     stars: 25,
     featured: true,
   },
+  {
+    id: "my-coffee-co",
+    name: "My Coffee Co.",
+    tagline: "Premium, high-performance coffee e-commerce experience",
+    shortDescription:
+      "A premium, mobile-first e-commerce frontend optimized for 60 FPS scrolling with render isolation and Core Web Vital tuning.",
+    description:
+      "My Coffee Co. is a premium, mobile-first, high-converting e-commerce frontend designed to make coffee buying fast, tactile, and frictionless. By reorganizing responsive layouts, eliminating main-thread render dependencies, and utilizing GPU-composited layers, the application is optimized for mobile touchscreens (from iPhone SE up to Galaxy S22 Ultra), securing consistent 60 FPS scroll performance.",
+    category: "Frontend",
+    tech: ["React", "Vite", "Tailwind CSS", "TypeScript", "Framer Motion", "Vercel"],
+    features: [
+      "Split-Context Render Isolation separating cart state from product cards to eliminate re-renders",
+      "Swipeable mobile horizontal scroll-snapping carousels reducing page height by over 70%",
+      "Interactive cart drawer with Framer Motion transitions and free-shipping progress tracker",
+      "Core Web Vital tuning with React.lazy/Suspense loading below-the-fold sections dynamically",
+      "LCP preloading and WebP asset optimizations reducing initial payload size significantly",
+      "Glassmorphic sticky header and persistent mobile bottom navigation bar",
+    ],
+    problemSolved:
+      "Traditional mobile e-commerce sites often suffer from high payload sizes, layout shifts, and heavy catalog re-renders when items are added to the cart, leading to scroll lag. My Coffee Co. solves this by isolating reactive state from static components and optimizing asset delivery to maintain a stable 60 FPS experience.",
+    approach:
+      "The application leverages a split-context architecture where catalog items do not subscribe to cart state updates directly. It optimizes the critical rendering path using lazy loading for lower sections and high-priority preloading (fetchPriority) for above-the-fold hero images, cutting initial HTML payload size to just 0.58 KB.",
+    architecture:
+      "A client-side e-commerce frontend built using React 19, Vite 7, and Tailwind CSS v4, deployed on Vercel. State management utilizes isolated contexts separating read-only cart values from item dispatchers to prevent catalog-wide DOM updates.",
+    challenges:
+      "Avoiding catalog re-renders upon cart updates and optimizing mobile scroll physics. This was resolved by using custom context isolation and deploying hardware-accelerated GPU-composited layers for the horizontal touch carousels.",
+    futureImprovements:
+      "Integrate Stripe/UPI checkout processing, implement persistent cart sync with an Express backend, and add user account dashboards.",
+    github: "https://github.com/mitheshshettyy/my-coffee-co",
+    liveDemo: "https://my-coffee-co.vercel.app/",
+    status: "Completed",
+    year: 2025,
+    stars: 8,
+    featured: true,
+  },
 ];
 
 export const experienceData = [
