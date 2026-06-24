@@ -5,8 +5,11 @@ import { projectsData, personalInfo } from '../data/portfolioData';
 type FilterCategory = 'All' | 'Frontend' | 'Full-Stack' | 'AI/ML';
 const filters: FilterCategory[] = ['All', 'Frontend', 'Full-Stack', 'AI/ML'];
 
+type Project = typeof projectsData[0];
+
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState<FilterCategory>('All');
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const pageRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -70,139 +73,366 @@ export default function Projects() {
       {/* Projects Grid */}
       <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
         {filtered.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+          <ProjectCard key={project.id} project={project} onOpenModal={setSelectedProject} />
         ))}
       </div>
+
+      {/* Details Modal */}
+      <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
     </div>
   );
 }
 
-function ProjectCard({ project }: { project: typeof projectsData[0] }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseEnter = () => {
-    if (cardRef.current) {
-      gsap.to(cardRef.current, {
-        y: -4,
-        borderColor: 'rgba(0, 212, 255, 0.4)',
-        boxShadow: '0 0 25px rgba(0, 212, 255, 0.15)',
-        duration: 0.3,
-        ease: 'power2.out'
-      });
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (cardRef.current) {
-      gsap.to(cardRef.current, {
-        y: 0,
-        borderColor: 'rgba(0, 255, 136, 0.12)',
-        boxShadow: 'none',
-        duration: 0.3,
-        ease: 'power2.out'
-      });
-    }
-  };
-
+function ProjectCard({
+  project,
+  onOpenModal
+}: {
+  project: Project;
+  onOpenModal: (project: Project) => void;
+}) {
   return (
     <div
-      ref={cardRef}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className="project-card terminal-card p-6 flex flex-col justify-between space-y-6 h-full"
+      onClick={() => onOpenModal(project)}
+      className="project-card project-card-custom p-6 flex flex-col justify-between space-y-5 h-full rounded-lg border"
       style={{
         borderColor: 'rgba(0, 255, 136, 0.12)',
         background: 'var(--bg-card)',
       }}
     >
-      {/* Upper Meta details */}
-      <div className="space-y-4 flex-1 flex flex-col">
-        <div className="flex items-center justify-between">
-          <span
-            className="text-[0.65rem] font-bold px-2.5 py-0.5 rounded uppercase"
-            style={{
-              fontFamily: 'var(--font-mono)',
-              background: 'rgba(0,212,255,0.08)',
-              border: '1px solid rgba(0,212,255,0.2)',
-              color: 'var(--terminal-cyan)',
-            }}
-          >
-            {project.category}
-          </span>
-          <div className="flex items-center gap-3 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-            <span>📅 {project.year}</span>
-            <span>⭐ {project.stars}</span>
+      <div className="space-y-4 flex-1 flex flex-col justify-between">
+        <div className="space-y-4">
+          {/* Upper row details */}
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex gap-2">
+              <span
+                className="text-[0.65rem] font-bold px-2 py-0.5 rounded uppercase"
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  background: 'rgba(0,212,255,0.08)',
+                  border: '1px solid rgba(0,212,255,0.2)',
+                  color: 'var(--terminal-cyan)',
+                }}
+              >
+                {project.category}
+              </span>
+              <span
+                className="text-[0.65rem] font-bold px-2 py-0.5 rounded uppercase"
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  background: 'rgba(0, 255, 136, 0.08)',
+                  border: '1px solid rgba(0, 255, 136, 0.2)',
+                  color: 'var(--terminal-green)',
+                }}
+              >
+                {project.status || 'Completed'}
+              </span>
+            </div>
+            <span className="text-xs text-[var(--text-secondary)] font-mono">
+              📅 {project.year}
+            </span>
           </div>
-        </div>
 
-        {/* Title */}
-        <div className="space-y-1">
-          <h3 className="text-xl font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-            {project.name}
-          </h3>
-          <p className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
-            {project.tagline}
+          {/* Title and tagline */}
+          <div className="space-y-1">
+            <h3 className="project-card-title text-xl font-bold transition-colors duration-250" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
+              {project.name}
+            </h3>
+            <p className="text-xs font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
+              {project.tagline}
+            </p>
+          </div>
+
+          {/* Description */}
+          <p className="text-xs leading-relaxed line-clamp-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
+            {project.shortDescription || project.description}
           </p>
         </div>
 
-        {/* Mock Terminal Screenshot */}
-        <div
-          className="rounded p-4 overflow-x-auto select-none"
-          style={{
-            background: 'rgba(0,0,0,0.4)',
-            border: '1px solid rgba(255,255,255,0.05)',
-            maxHeight: '180px',
-          }}
-        >
-          <div className="flex gap-1.5 mb-2.5">
-            <div className="w-2 h-2 rounded-full" style={{ background: '#ff5f57' }} />
-            <div className="w-2 h-2 rounded-full" style={{ background: '#febc2e' }} />
-            <div className="w-2 h-2 rounded-full" style={{ background: '#28c840' }} />
-          </div>
-          <pre
-            className="text-[0.68rem] leading-relaxed text-left whitespace-pre"
-            style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}
-          >
-            {getProjectMockVisual(project.id)}
-          </pre>
-        </div>
-
-        {/* Description */}
-        <p className="text-xs leading-relaxed flex-1" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-          {project.description}
-        </p>
-
-        {/* Key Features */}
-        <div className="space-y-1.5">
-          {project.features.slice(0, 3).map((f, i) => (
-            <div key={i} className="flex items-start gap-2.5">
-              <span className="text-xs mt-0.5" style={{ color: 'var(--terminal-green)' }}>→</span>
-              <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                {f}
-              </span>
-            </div>
+        {/* Tech stack */}
+        <div className="flex flex-wrap gap-2 pt-2">
+          {project.tech.slice(0, 6).map((t) => (
+            <span key={t} className="project-card-tech tech-tag" style={{ fontSize: '0.62rem' }}>
+              {t}
+            </span>
           ))}
+          {project.tech.length > 6 && (
+            <span className="tech-tag opacity-60" style={{ fontSize: '0.62rem' }}>
+              +{project.tech.length - 6}
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Footer Details: Tech Tags & Buttons */}
-      <div className="space-y-4 shrink-0 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        {/* Technology tags */}
+      {/* Footer Details: Action Buttons */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[rgba(255,255,255,0.05)]">
+        <div className="flex gap-2">
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="px-3 py-1.5 rounded text-[0.7rem] transition-all duration-200"
+            style={{
+              fontFamily: 'var(--font-mono)',
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              color: 'var(--text-secondary)',
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.background = 'rgba(255,255,255,0.08)';
+              el.style.color = 'var(--text-primary)';
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.background = 'rgba(255,255,255,0.03)';
+              el.style.color = 'var(--text-secondary)';
+            }}
+          >
+            GitHub ↗
+          </a>
+          {project.demo && (
+            <a
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="px-3 py-1.5 rounded text-[0.7rem] transition-all duration-200"
+              style={{
+                fontFamily: 'var(--font-mono)',
+                background: 'rgba(0,255,136,0.08)',
+                border: '1px solid rgba(0,255,136,0.3)',
+                color: 'var(--terminal-green)',
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = 'rgba(0,255,136,0.15)';
+                el.style.boxShadow = '0 0 15px rgba(0,255,136,0.2)';
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = 'rgba(0,255,136,0.08)';
+                el.style.boxShadow = 'none';
+              }}
+            >
+              Demo ↗
+            </a>
+          )}
+        </div>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onOpenModal(project);
+          }}
+          className="text-xs font-semibold flex items-center gap-1 cursor-pointer transition-colors duration-250"
+          style={{
+            fontFamily: 'var(--font-mono)',
+            color: 'var(--terminal-cyan)',
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget as HTMLElement;
+            el.style.color = 'var(--text-primary)';
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget as HTMLElement;
+            el.style.color = 'var(--terminal-cyan)';
+          }}
+        >
+          View Details →
+        </button>
+      </div>
+    </div>
+  );
+}
+
+interface ProjectModalProps {
+  project: Project | null;
+  onClose: () => void;
+}
+
+function ProjectModal({ project, onClose }: ProjectModalProps) {
+  const [isVisible, setIsVisible] = useState(false);
+  const backdropRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (project) {
+      setIsVisible(true);
+      // Run open animation (GSAP opening sequence)
+      gsap.fromTo(backdropRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.25, ease: 'power2.out' }
+      );
+      gsap.fromTo(modalRef.current,
+        { scale: 0.96, y: 16, opacity: 0 },
+        { scale: 1, y: 0, opacity: 1, duration: 0.25, ease: 'power2.out' }
+      );
+    }
+  }, [project]);
+
+  const handleClose = () => {
+    // Run close animation
+    gsap.to(backdropRef.current, {
+      opacity: 0,
+      duration: 0.2,
+      ease: 'power2.in',
+    });
+    gsap.to(modalRef.current, {
+      scale: 0.96,
+      y: 16,
+      opacity: 0,
+      duration: 0.2,
+      ease: 'power2.in',
+      onComplete: () => {
+        setIsVisible(false);
+        onClose();
+      }
+    });
+  };
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === backdropRef.current) {
+      handleClose();
+    }
+  };
+
+  useEffect(() => {
+    if (!isVisible || !project) return;
+
+    document.body.style.overflow = 'hidden';
+
+    // Set initial focus to close button for access
+    const timer = setTimeout(() => {
+      if (closeButtonRef.current) {
+        closeButtonRef.current.focus();
+      }
+    }, 100);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleClose();
+      }
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button, [tabindex="0"]'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          last.focus();
+          e.preventDefault();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          first.focus();
+          e.preventDefault();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+      clearTimeout(timer);
+    };
+  }, [isVisible, project]);
+
+  if (!project || !isVisible) return null;
+
+  // Spaced, terminal-syntax sections
+  const sections = [
+    {
+      heading: '// description',
+      show: true,
+      content: (
+        <p className="leading-relaxed text-[var(--text-primary)] font-mono text-[13px]">
+          {project.description}
+        </p>
+      )
+    },
+    {
+      heading: '// problem_solved',
+      show: !!project.problemSolved,
+      content: (
+        <p className="leading-relaxed text-[var(--text-primary)] font-mono text-[13px]">
+          {project.problemSolved}
+        </p>
+      )
+    },
+    {
+      heading: '// approach',
+      show: !!project.approach,
+      content: (
+        <p className="leading-relaxed text-[var(--text-primary)] font-mono text-[13px]">
+          {project.approach}
+        </p>
+      )
+    },
+    {
+      heading: '// key_features',
+      show: !!(project.features && project.features.length > 0),
+      content: (
+        <ul className="space-y-2 list-none font-mono text-[13px]">
+          {project.features.map((feature, idx) => (
+            <li key={idx} className="flex items-start gap-2.5">
+              <span className="text-[var(--terminal-green)] mt-1.5 text-[8px] shrink-0">■</span>
+              <span className="text-[var(--text-primary)]">{feature}</span>
+            </li>
+          ))}
+        </ul>
+      )
+    },
+    {
+      heading: '// tech_stack',
+      show: !!(project.tech && project.tech.length > 0),
+      content: (
         <div className="flex flex-wrap gap-2">
           {project.tech.map((t) => (
-            <span key={t} className="tech-tag" style={{ fontSize: '0.62rem' }}>
+            <span key={t} className="tech-tag" style={{ fontSize: '0.7rem' }}>
               {t}
             </span>
           ))}
         </div>
-
-        {/* Action Buttons */}
+      )
+    },
+    {
+      heading: '// architecture',
+      show: !!project.architecture,
+      content: (
+        <p className="leading-relaxed text-[var(--text-primary)] font-mono text-[13px]">
+          {project.architecture}
+        </p>
+      )
+    },
+    {
+      heading: '// challenges',
+      show: !!project.challenges,
+      content: (
+        <p className="leading-relaxed text-[var(--text-primary)] font-mono text-[13px]">
+          {project.challenges}
+        </p>
+      )
+    },
+    {
+      heading: '// future_improvements',
+      show: !!project.futureImprovements,
+      content: (
+        <p className="leading-relaxed text-[var(--text-primary)] font-mono text-[13px]">
+          {project.futureImprovements}
+        </p>
+      )
+    },
+    {
+      heading: '// links',
+      show: true,
+      content: (
         <div className="flex gap-3">
           <a
             href={project.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 text-center text-xs py-2 rounded transition-all duration-200"
+            className="px-4 py-2 rounded text-xs transition-all duration-200"
             style={{
               fontFamily: 'var(--font-mono)',
               background: 'rgba(255,255,255,0.03)',
@@ -227,7 +457,7 @@ function ProjectCard({ project }: { project: typeof projectsData[0] }) {
               href={project.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 text-center text-xs py-2 rounded transition-all duration-200"
+              className="px-4 py-2 rounded text-xs transition-all duration-200"
               style={{
                 fontFamily: 'var(--font-mono)',
                 background: 'rgba(0,255,136,0.08)',
@@ -249,39 +479,131 @@ function ProjectCard({ project }: { project: typeof projectsData[0] }) {
             </a>
           )}
         </div>
+      )
+    }
+  ];
+
+  const visibleSections = sections.filter(s => s.show);
+
+  return (
+    <div
+      ref={backdropRef}
+      onClick={handleBackdropClick}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-black/70 backdrop-blur-md"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-project-title"
+    >
+      <div
+        ref={modalRef}
+        className="relative w-full max-w-[850px] md:w-[90%] rounded-lg border bg-[#0d1224] overflow-hidden shadow-[0_0_35px_rgba(0,255,136,0.15)] flex flex-col max-h-[85vh]"
+        style={{
+          borderColor: 'rgba(0, 255, 136, 0.2)',
+        }}
+      >
+        {/* Terminal Header */}
+        <div className="flex items-center justify-between px-4 py-3 bg-[#080c18] border-b border-[rgba(0,255,136,0.12)] shrink-0 select-none">
+          <div className="flex gap-1.5">
+            <button
+              onClick={handleClose}
+              className="w-3 h-3 rounded-full bg-[#ff5f57] border-0 cursor-pointer"
+              aria-label="Close modal"
+              ref={closeButtonRef}
+            />
+            <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
+            <div className="w-3 h-3 rounded-full bg-[#28c840]" />
+          </div>
+          <div
+            className="text-xs font-semibold"
+            style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}
+          >
+            project :: <span style={{ color: 'var(--terminal-green)' }}>{project.id}</span>
+          </div>
+          <div className="w-12" /> {/* Spacer to align title center */}
+        </div>
+
+        {/* Scrollable Content */}
+        <div className="overflow-y-auto terminal-scroll p-6 md:p-8 space-y-8 text-left bg-[#0d1224] text-sm">
+          
+          {/* Main Title Block */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <h2
+                id="modal-project-title"
+                className="text-2xl font-bold text-white"
+                style={{ fontFamily: 'var(--font-mono)' }}
+              >
+                {project.name}
+              </h2>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span
+                  className="text-[0.65rem] font-bold px-2 py-0.5 rounded uppercase"
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    background: 'rgba(0,212,255,0.08)',
+                    border: '1px solid rgba(0,212,255,0.2)',
+                    color: 'var(--terminal-cyan)',
+                  }}
+                >
+                  {project.category}
+                </span>
+                <span
+                  className="text-[0.65rem] font-bold px-2 py-0.5 rounded uppercase"
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    background: 'rgba(0, 255, 136, 0.08)',
+                    border: '1px solid rgba(0, 255, 136, 0.2)',
+                    color: 'var(--terminal-green)',
+                  }}
+                >
+                  {project.status || 'Completed'}
+                </span>
+                <span className="text-xs text-[var(--text-secondary)] font-mono self-center">
+                  📅 {project.year}
+                </span>
+              </div>
+            </div>
+            <p className="text-xs text-[var(--terminal-green)] font-semibold font-mono">
+              {project.tagline}
+            </p>
+          </div>
+
+          <div
+            className="text-[var(--text-muted)] opacity-20 select-none font-mono text-xs pt-2"
+            aria-hidden="true"
+          >
+            --------------------------------------------------------------------------------
+          </div>
+
+          {/* Render sections sequentially with custom separators */}
+          {visibleSections.map((sec, i) => (
+            <div key={sec.heading}>
+              <div className="space-y-3">
+                <div
+                  className="text-sm font-semibold tracking-wider"
+                  style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}
+                >
+                  {sec.heading}
+                </div>
+                <div className="pl-0 md:pl-4 border-l border-[rgba(0,255,136,0.05)] py-0.5">
+                  {sec.content}
+                </div>
+              </div>
+              {i < visibleSections.length - 1 && (
+                <div
+                  className="text-[var(--text-muted)] opacity-20 select-none font-mono text-xs pt-8 pb-4"
+                  aria-hidden="true"
+                >
+                  --------------------------------------------------------------------------------
+                </div>
+              )}
+            </div>
+          ))}
+
+        </div>
       </div>
     </div>
   );
-}
-
-function getProjectMockVisual(id: string): string {
-  switch (id) {
-    case 'complexify':
-      return `$ python classifier.py --predict "def foo(n):\\n  for i in range(n):\\n    print(i)"
-Parsing AST... Done.
-[Features] Nesting Depth: 1, Branching: 0
-[Model] Classifier Accuracy: 78.4%
-Result: Time Complexity O(N) | Space Complexity O(1)`;
-    
-    case 'nextresume':
-      return `$ npm run dev --editor
-[NextAuth] Session started for user: mithesh
-[React-PDF] Rendering document...
-[ATS Check] Score: 98% (passed all checks)
-Output: resume_2026.pdf ready for download`;
-    
-    case 'virtual-garden':
-      return `[Three.js] Initializing WebGL Renderer
-[Three.js] Loading GLTF models... Success
-[Three.js] Scene render loop active at 60 FPS
-[MongoDB] Connected to database: medicinal_plants`;
-    
-    default:
-      return `$ node -v
-v22.12.0
-$ npm run dev
-Vite dev server running...`;
-  }
 }
 
 function Breadcrumb({ path }: { path: string }) {

@@ -152,8 +152,10 @@ export const projectsData = [
     id: "complexify",
     name: "Complexify",
     tagline: "AI-powered Python code complexity classifier",
-    description:
+    shortDescription:
       "A tool that accepts Python code and predicts time and space complexity, readability score, and optimization suggestions via a FastAPI backend and JavaScript frontend.",
+    description:
+      "A production-ready machine learning tool designed to analyze Python source code and instantly classify its algorithmic complexity. By parsing the Abstract Syntax Tree (AST) of the input code, the system extracts rich structural features to predict time and space complexity categories, alongside providing readability scores and actionable code optimization suggestions.",
     category: "AI/ML",
     tech: ["Python", "FastAPI", "Scikit-learn", "HTML", "CSS", "JavaScript"],
     features: [
@@ -162,6 +164,16 @@ export const projectsData = [
       "Achieved ~78% validation accuracy across five complexity classes",
       "Generates time/space complexity predictions and optimization suggestions",
     ],
+    problemSolved:
+      "Developers, especially students and junior engineers, often struggle to evaluate the efficiency of their algorithms or understand time/space complexity implications. Existing static analysis tools are either overly simplistic or require complex local setups. Complexify offers a web-based, instant feedback loop to analyze and improve code efficiency.",
+    approach:
+      "The application uses a lightweight FastAPI backend to parse Python code into an Abstract Syntax Tree (AST). It extracts code features such as loop nesting depth, recursive calls, branching complexity, and built-in function calls. These features are passed to a Scikit-learn Random Forest classifier trained on over 1,000 labeled code blocks, which returns predictions to a clean JavaScript frontend.",
+    architecture:
+      "Frontend (HTML/CSS/JS) sends source code via a POST request to a FastAPI backend. The backend runs the code through a custom AST parser to extract structural metrics, transforms these into a feature vector, feeds it to a serialized Scikit-learn model, and responds with the classification and optimization recommendations.",
+    challenges:
+      "Accurately predicting complexity for unstructured code or deeply nested logical branches was a challenge. Simple regex parsing failed to capture execution depth, which required migrating to full AST node traversal to identify control flow structures reliably.",
+    futureImprovements:
+      "Support for multi-file analysis, integration of transformer-based LLMs for more nuanced code optimization suggestions, and support for additional programming languages like Java and C++.",
     github: "https://github.com/mitheshshettyy/Complexify",
     demo: null,
     status: "Completed",
@@ -173,8 +185,10 @@ export const projectsData = [
     id: "nextresume",
     name: "NextResume",
     tagline: "Live preview resume builder",
-    description:
+    shortDescription:
       "A modern resume builder with a live preview editor where changes to structured sections are reflected instantly in the formatted layout, with PDF download support.",
+    description:
+      "A modern, full-stack resume builder featuring a real-time, side-by-side interactive editor. Users can input their professional details in structured fields and watch the document layout dynamically adapt. The app integrates secure authentication and PDF generation to deliver print-ready, high-quality resumes.",
     category: "Full-Stack",
     tech: ["Next.js", "React", "Node.js", "NextAuth.js", "JavaScript"],
     features: [
@@ -182,6 +196,16 @@ export const projectsData = [
       "Session-based authentication with NextAuth.js and protected dashboard routes",
       "Integrated react-pdf to render the layout as a downloadable, print-ready PDF",
     ],
+    problemSolved:
+      "Traditional resume builders are often slow, lack real-time visual feedback, or lock layouts behind premium paywalls. NextResume solves this by providing a developer-focused, instant-rendering resume builder with zero lag and clean PDF export functionality.",
+    approach:
+      "Built on Next.js, NextResume leverages React's state management to synchronize user input fields with a formatted document preview in real time. It uses NextAuth.js to handle secure credentials and OAuth logins. PDF rendering is handled client-side using react-pdf to compile HTML components into a pixel-perfect downloadable PDF.",
+    architecture:
+      "The frontend is built with React and Tailwind CSS on Next.js, handling state sync and rendering the PDF document using react-pdf. The backend is powered by Next.js API Routes, storing user profiles and resume data, and using NextAuth.js to manage sessions securely.",
+    challenges:
+      "Synchronizing state changes across complex, nested sections (Education, Experience, Skills) without triggering full-page rerenders or lagging the live preview. This was resolved by optimizing React contexts and memoizing form fields.",
+    futureImprovements:
+      "Add multiple professional resume templates, integrate an AI assistant to write bullet points, and add ATS-friendliness scanning checks.",
     github: "https://github.com/mitheshshettyy/NextResume",
     demo: null,
     status: "Completed",
@@ -193,8 +217,10 @@ export const projectsData = [
     id: "virtual-garden",
     name: "Virtual Garden",
     tagline: "3D interactive medicinal plant platform",
-    description:
+    shortDescription:
       "A platform for browsing and submitting medicinal plant entries, including a gallery, submission form, and contact features, featuring an interactive Three.js 3D landing page scene.",
+    description:
+      "An immersive, interactive web platform that showcases a digital library of medicinal plants. The application combines a structured database of botanical entries with a beautifully rendered 3D scene on the landing page, allowing users to interact with plant models in a virtual greenhouse environment.",
     category: "Frontend",
     tech: ["Next.js", "React", "Tailwind CSS", "MongoDB", "Three.js", "TypeScript"],
     features: [
@@ -202,6 +228,16 @@ export const projectsData = [
       "Rendered interactive Three.js 3D scene on landing page with animated plant models",
       "Fully responsive UI designed with Tailwind CSS utility classes",
     ],
+    problemSolved:
+      "Online botanical databases are typically static, text-heavy, and unengaging. Virtual Garden bridges the gap between scientific information and modern interactive experiences by adding dynamic 3D elements that make learning about nature visually appealing.",
+    approach:
+      "The landing page embeds a Three.js canvas loading optimized GLTF/GLB models of plants and gardens. The models are rendered in a 3D scene with custom lighting, camera controls (OrbitControls), and hover-based node annotations. The database operations use Next.js API routes linked to a MongoDB Atlas cluster.",
+    architecture:
+      "The client uses Three.js and React Three Fiber to display a WebGL canvas in the browser. Interactive click handlers on 3D elements trigger detailed information cards. Plant meta-information and user submissions are routed through Next.js serverless functions to MongoDB.",
+    challenges:
+      "VRAM usage and loading times for 3D assets on mobile devices. I optimized the GLTF meshes, applied texture compression (DRACO loader), and implemented a lazy-loading skeleton placeholder to prevent blocking the initial page load.",
+    futureImprovements:
+      "Add real-time weather and daylight simulation affecting the 3D scene, expand the database to cover 100+ species, and introduce virtual reality (WebXR) support.",
     github: "https://github.com/mitheshshettyy/Virtual-Garden",
     demo: null,
     status: "Completed",
