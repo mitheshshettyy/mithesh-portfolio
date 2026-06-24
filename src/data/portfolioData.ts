@@ -314,6 +314,41 @@ export const projectsData = [
     stars: 5,
     featured: true,
   },
+  {
+    id: "orbitlearn",
+    name: "OrbitLearn",
+    tagline: "Premium Learning Management System (LMS)",
+    shortDescription:
+      "A secure, role-based LMS featuring an interactive React + Vite frontend client and an Express backend API storing course progress in MongoDB.",
+    description:
+      "OrbitLearn is a secure, premium Learning Management System (LMS) designed to streamline course delivery, user management, and performance tracking. Featuring a modern, dark-mode Cosmic design language with glassmorphism and smooth micro-animations, the application provides dedicated portals for student course consumption, instructor course creation, and administrative platform controls.",
+    category: "Full-Stack",
+    tech: ["React", "Node.js", "Express.js", "MongoDB", "Vite", "JWT"],
+    features: [
+      "Secure user authentication with JWT tokens and bcryptjs password hashing",
+      "Role-Based Access Control (RBAC) supporting custom Student, Instructor, and Admin dashboard layouts",
+      "Course studio with multi-chapter editing and interactive quiz sets generation",
+      "Dynamic chapter completion status and course registration progress trackers",
+      "Multer-configured file upload logic for custom course thumbnails and certificates",
+      "Cosmic styling with glassmorphism layouts and responsive flex/grid viewport scaling"
+    ],
+    problemSolved:
+      "Traditional online learning platforms are often cluttered, visually outdated, and difficult to manage across different roles. OrbitLearn solves this by separating concerns into distinct dashboards with JWT protection and dynamic frontend routing.",
+    approach:
+      "Engineered a full-stack, decoupled SPA. The frontend utilizes React context providers to manage authentication and application states, while the Node/Express backend hosts secure REST APIs mapping data to MongoDB via Mongoose ODM schemas.",
+    architecture:
+      "A client-server application composed of a React 19 frontend SPA and a Node.js/Express 5 API server. Persistence is managed in MongoDB, while security middleware intercepts and verifies requests using JSON Web Tokens.",
+    challenges:
+      "Optimizing the application to synchronize student progress counters and quiz submissions without sluggish page rerenders. Resolved this by building a dedicated React context layer that implements optimistic client updates prior to API persistence.",
+    futureImprovements:
+      "Integrate automated email certificates on completion, add real-time messaging between students and instructors, and support cloud storage services like AWS S3 for media uploads.",
+    github: "https://github.com/mitheshshettyy/OrbitLearn",
+    demo: null,
+    status: "Completed",
+    year: 2025,
+    stars: 6,
+    featured: true,
+  },
 ];
 
 export const experienceData = [
