@@ -61,200 +61,224 @@ export default function Contact() {
   };
 
   return (
-    <div ref={pageRef} className="desktop-container py-12">
-      {/* Header */}
-      <div className="reveal mb-12">
-        <Breadcrumb path="contact" />
-        <h1 className="text-3xl sm:text-4xl font-bold mt-4 mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-          init{' '}<span style={{ color: 'var(--terminal-green)' }}>connection</span>
-          <span style={{ color: 'var(--text-muted)' }}>();</span>
-        </h1>
-        <p className="text-sm" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-          # Open to opportunities, collaborations, and interesting conversations
-        </p>
-      </div>
-
-      <div className="grid lg:grid-cols-5 gap-8 items-stretch">
-        {/* Contact Form - Left Column */}
-        <div className="lg:col-span-3 h-full">
-          <div className="reveal terminal-card p-6 h-full">
-            {/* Terminal header */}
-            <div className="flex items-center gap-3 mb-6 pb-4" style={{ borderBottom: '1px solid rgba(0,255,136,0.1)' }}>
-              <div className="flex gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#ff5f57' }} />
-                <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#febc2e' }} />
-                <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#28c840' }} />
-              </div>
-              <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                contact_form.sh — bash
-              </span>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Name */}
-              <FormField
-                label="name *"
-                type="text"
-                value={form.name}
-                onChange={(v) => handleChange('name', v)}
-                placeholder="Your full name"
-                focused={focused === 'name'}
-                onFocus={() => setFocused('name')}
-                onBlur={() => setFocused(null)}
-              />
-
-              {/* Email */}
-              <FormField
-                label="email *"
-                type="email"
-                value={form.email}
-                onChange={(v) => handleChange('email', v)}
-                placeholder="you@example.com"
-                focused={focused === 'email'}
-                onFocus={() => setFocused('email')}
-                onBlur={() => setFocused(null)}
-              />
-
-              {/* Subject */}
-              <FormField
-                label="subject"
-                type="text"
-                value={form.subject}
-                onChange={(v) => handleChange('subject', v)}
-                placeholder="What's this about?"
-                focused={focused === 'subject'}
-                onFocus={() => setFocused('subject')}
-                onBlur={() => setFocused(null)}
-              />
-
-              {/* Message */}
-              <div>
-                <label className="block text-xs mb-1.5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                  <span style={{ color: 'var(--terminal-green)' }}>$</span> message *
-                </label>
-                <textarea
-                  rows={5}
-                  value={form.message}
-                  onChange={(e) => handleChange('message', e.target.value)}
-                  onFocus={() => setFocused('message')}
-                  onBlur={() => setFocused(null)}
-                  placeholder="Tell me what's on your mind..."
-                  className="w-full resize-none rounded px-3 py-2.5 text-sm transition-all duration-200"
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    background: 'rgba(0,0,0,0.3)',
-                    border: `1px solid ${focused === 'message' ? 'rgba(0,255,136,0.4)' : 'rgba(255,255,255,0.08)'}`,
-                    color: 'var(--text-primary)',
-                    outline: 'none',
-                    boxShadow: focused === 'message' ? '0 0 10px rgba(0,255,136,0.1)' : 'none',
-                  }}
-                />
-              </div>
-
-              {/* Submit */}
-              <button
-                type="submit"
-                disabled={submitState.status === 'loading'}
-                className="w-full py-3 rounded text-sm font-medium transition-all duration-200"
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  background: submitState.status === 'loading'
-                    ? 'rgba(0,255,136,0.1)'
-                    : 'rgba(0,255,136,0.12)',
-                  border: '1px solid rgba(0,255,136,0.35)',
-                  color: 'var(--terminal-green)',
-                  cursor: submitState.status === 'loading' ? 'not-allowed' : 'pointer',
-                }}
-                onMouseEnter={(e) => {
-                  if (submitState.status !== 'loading') {
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(0,255,136,0.2)';
-                    (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(0,255,136,0.2)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(0,255,136,0.12)';
-                  (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-                }}
-              >
-                {submitState.status === 'loading' ? '$ sending...' : '$ send_message --async'}
-              </button>
-
-              {/* Status */}
-              {submitState.status === 'success' && (
-                <div
-                  className="p-3 rounded text-xs"
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    background: 'rgba(0,255,136,0.08)',
-                    border: '1px solid rgba(0,255,136,0.25)',
-                    color: 'var(--terminal-green)',
-                  }}
-                >
-                  ✓ {submitState.message}
-                </div>
-              )}
-              {submitState.status === 'error' && (
-                <div
-                  className="p-3 rounded text-xs"
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    background: 'rgba(255,71,87,0.08)',
-                    border: '1px solid rgba(255,71,87,0.25)',
-                    color: 'var(--terminal-red)',
-                  }}
-                >
-                  ✗ {submitState.message}
-                </div>
-              )}
-            </form>
-          </div>
+    <div ref={pageRef} className="desktop-container py-12 flex justify-center">
+      <div className="w-full max-w-[1150px] flex flex-col gap-10">
+        {/* Header */}
+        <div className="reveal">
+          <Breadcrumb path="contact" />
+          <h1 className="text-3xl sm:text-4xl font-bold mt-4 mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
+            init{' '}<span style={{ color: 'var(--terminal-green)' }}>connection</span>
+            <span style={{ color: 'var(--text-muted)' }}>();</span>
+          </h1>
+          <p className="text-sm" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+            # Open to opportunities, collaborations, and interesting conversations
+          </p>
         </div>
 
-        {/* Contact Details - Right Column */}
-        <div className="lg:col-span-2 h-full">
-          <div className="reveal terminal-card p-6 h-full">
-            <div className="text-xs mb-4 uppercase tracking-wider font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}>
-              ▸ contact_details
+        <div className="grid lg:grid-cols-5 gap-8 items-start">
+          {/* Contact Form - Left Column */}
+          <div className="lg:col-span-3">
+            <div className="reveal terminal-card p-6">
+              {/* Terminal header */}
+              <div className="flex items-center gap-3 mb-6 pb-4" style={{ borderBottom: '1px solid rgba(0,255,136,0.1)' }}>
+                <div className="flex gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#ff5f57' }} />
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#febc2e' }} />
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#28c840' }} />
+                </div>
+                <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                  new_message.sh
+                </span>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Two-column Row for Name and Email */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Name */}
+                  <FormField
+                    label="name *"
+                    type="text"
+                    value={form.name}
+                    onChange={(v) => handleChange('name', v)}
+                    placeholder="Your name"
+                    focused={focused === 'name'}
+                    onFocus={() => setFocused('name')}
+                    onBlur={() => setFocused(null)}
+                  />
+
+                  {/* Email */}
+                  <FormField
+                    label="email *"
+                    type="email"
+                    value={form.email}
+                    onChange={(v) => handleChange('email', v)}
+                    placeholder="your@email.com"
+                    focused={focused === 'email'}
+                    onFocus={() => setFocused('email')}
+                    onBlur={() => setFocused(null)}
+                  />
+                </div>
+
+                {/* Subject */}
+                <FormField
+                  label="subject"
+                  type="text"
+                  value={form.subject}
+                  onChange={(v) => handleChange('subject', v)}
+                  placeholder="Internship opportunity / collaboration / etc."
+                  focused={focused === 'subject'}
+                  onFocus={() => setFocused('subject')}
+                  onBlur={() => setFocused(null)}
+                />
+
+                {/* Message */}
+                <div>
+                  <label className="block text-xs mb-1.5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                    <span style={{ color: 'var(--terminal-green)' }}>$</span> message *
+                  </label>
+                  <textarea
+                    rows={6}
+                    value={form.message}
+                    onChange={(e) => handleChange('message', e.target.value)}
+                    onFocus={() => setFocused('message')}
+                    onBlur={() => setFocused(null)}
+                    placeholder="Tell me about the opportunity, project, or just say hi..."
+                    className="w-full resize-none rounded px-3 py-2.5 text-sm transition-all duration-200"
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      background: 'rgba(0,0,0,0.3)',
+                      border: `1px solid ${focused === 'message' ? 'rgba(0,255,136,0.4)' : 'rgba(255,255,255,0.08)'}`,
+                      color: 'var(--text-primary)',
+                      outline: 'none',
+                      boxShadow: focused === 'message' ? '0 0 10px rgba(0,255,136,0.1)' : 'none',
+                    }}
+                  />
+                </div>
+
+                {/* Submit */}
+                <button
+                  type="submit"
+                  disabled={submitState.status === 'loading'}
+                  className="px-6 py-2.5 rounded text-sm font-medium transition-all duration-200 w-fit block"
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    background: submitState.status === 'loading'
+                      ? 'rgba(0,255,136,0.05)'
+                      : 'rgba(0,255,136,0.08)',
+                    border: '1px solid rgba(0,255,136,0.35)',
+                    color: 'var(--terminal-green)',
+                    cursor: submitState.status === 'loading' ? 'not-allowed' : 'pointer',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (submitState.status !== 'loading') {
+                      (e.currentTarget as HTMLElement).style.background = 'rgba(0,255,136,0.18)';
+                      (e.currentTarget as HTMLElement).style.boxShadow = '0 0 15px rgba(0,255,136,0.2)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(0,255,136,0.08)';
+                    (e.currentTarget as HTMLElement).style.boxShadow = 'none';
+                  }}
+                >
+                  {submitState.status === 'loading' ? '+ Sending...' : '+ Send Message'}
+                </button>
+
+                {/* Status */}
+                {submitState.status === 'success' && (
+                  <div
+                    className="p-3 rounded text-xs"
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      background: 'rgba(0,255,136,0.08)',
+                      border: '1px solid rgba(0,255,136,0.25)',
+                      color: 'var(--terminal-green)',
+                    }}
+                  >
+                    ✓ {submitState.message}
+                  </div>
+                )}
+                {submitState.status === 'error' && (
+                  <div
+                    className="p-3 rounded text-xs"
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      background: 'rgba(255,71,87,0.08)',
+                      border: '1px solid rgba(255,71,87,0.25)',
+                      color: 'var(--terminal-red)',
+                    }}
+                  >
+                    ✗ {submitState.message}
+                  </div>
+                )}
+              </form>
             </div>
-            <div className="space-y-4">
-              <ContactItem
-                icon="📧"
-                label="Email"
-                value={personalInfo.email}
-                href={`mailto:${personalInfo.email}`}
-              />
-              <ContactItem
-                icon="🐙"
-                label="GitHub"
-                value={socialLinks.github.handle}
-                href={personalInfo.github}
-              />
-              <ContactItem
-                icon="💼"
-                label="LinkedIn"
-                value={socialLinks.linkedin.handle}
-                href={personalInfo.linkedin}
-              />
-              <ContactItem
-                icon="📍"
-                label="Location"
-                value={personalInfo.location}
-                href={`https://maps.google.com/?q=${encodeURIComponent(personalInfo.location)}`}
-              />
-              <ContactItem
-                icon="🟢"
-                label="Availability"
-                value={personalInfo.availability}
-                href="#"
-                isLink={false}
-              />
-              <ContactItem
-                icon="📄"
-                label="Resume"
-                value="View / Download Resume PDF"
-                href="/resume"
-                isLink={true}
-              />
+          </div>
+
+          {/* Stacked Info Cards - Right Column */}
+          <div className="lg:col-span-2 flex flex-col gap-6 w-full">
+            {/* reach_me card */}
+            <div className="reveal terminal-card p-6 w-full">
+              <div className="text-xs mb-4 tracking-wider font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
+                // reach_me
+              </div>
+              <div className="space-y-4">
+                <ContactItem
+                  icon="🐙"
+                  label="GitHub"
+                  value={socialLinks.github.handle}
+                  href={personalInfo.github}
+                />
+                <ContactItem
+                  icon="💼"
+                  label="LinkedIn"
+                  value={socialLinks.linkedin.handle}
+                  href={personalInfo.linkedin}
+                />
+                <ContactItem
+                  icon="⚡"
+                  label="LeetCode"
+                  value="mitheshshettyy"
+                  href="https://leetcode.com/u/mitheshshettyy/"
+                />
+                <ContactItem
+                  icon="📧"
+                  label="Email"
+                  value={personalInfo.email}
+                  href={`mailto:${personalInfo.email}`}
+                />
+              </div>
+            </div>
+
+            {/* response_time card */}
+            <div className="reveal terminal-card p-6 w-full">
+              <div className="text-xs mb-4 tracking-wider font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
+                // response_time
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center text-xs font-mono py-1">
+                  <span style={{ color: 'var(--text-secondary)' }}>Email / Form</span>
+                  <span style={{ color: 'var(--terminal-green)' }}>~ 24 hrs</span>
+                </div>
+                <div className="flex justify-between items-center text-xs font-mono py-1">
+                  <span style={{ color: 'var(--text-secondary)' }}>LinkedIn DM</span>
+                  <span style={{ color: 'var(--terminal-green)' }}>~ 48 hrs</span>
+                </div>
+                <div className="flex justify-between items-center text-xs font-mono py-1">
+                  <span style={{ color: 'var(--text-secondary)' }}>Timezone</span>
+                  <span style={{ color: 'var(--text-muted)' }}>IST (UTC+5:30)</span>
+                </div>
+              </div>
+            </div>
+
+            {/* currently available card */}
+            <div className="reveal terminal-card p-6 w-full">
+              <div className="text-xs mb-4 tracking-wider font-bold flex items-center gap-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
+                <span>Currently available</span>
+              </div>
+              <p className="text-xs leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
+                Actively looking for internships & software engineering roles. Open to project collaborations and technical discussions.
+              </p>
             </div>
           </div>
         </div>
@@ -308,19 +332,19 @@ function ContactItem({
     <div className="flex items-center gap-3 py-1 group">
       <span className="text-base shrink-0">{icon}</span>
       <div className="flex-1 min-w-0">
-        <div className="text-xs font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
+        <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
           {label}
         </div>
         <div
-          className="text-xs truncate transition-colors duration-200 group-hover:text-emerald-400"
-          style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}
+          className="text-xs font-semibold truncate transition-colors duration-200 group-hover:text-emerald-400"
+          style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}
         >
           {value}
         </div>
       </div>
       {isLink && href !== '#' && (
-        <div className="text-xs shrink-0 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', fontSize: '0.65rem' }}>
-          ↗
+        <div className="text-xs shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', fontSize: '0.75rem' }}>
+          →
         </div>
       )}
     </div>
