@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
 import { personalInfo, socialLinks } from '../data/portfolioData';
 
 interface FormState {
@@ -62,7 +63,7 @@ export default function Contact() {
 
   return (
     <div ref={pageRef} className="desktop-container py-12 flex justify-center">
-      <div className="w-full max-w-[1150px] flex flex-col gap-10">
+      <div className="w-full max-w-[1300px] flex flex-col gap-10">
         {/* Header */}
         <div className="reveal">
           <Breadcrumb path="contact" />
@@ -91,7 +92,7 @@ export default function Contact() {
                 </span>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Two-column Row for Name and Email */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Name */}
@@ -132,8 +133,8 @@ export default function Contact() {
                 />
 
                 {/* Message */}
-                <div>
-                  <label className="block text-xs mb-1.5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                <div className="flex flex-col gap-2">
+                  <label className="block text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
                     <span style={{ color: 'var(--terminal-green)' }}>$</span> message *
                   </label>
                   <textarea
@@ -153,35 +154,41 @@ export default function Contact() {
                       boxShadow: focused === 'message' ? '0 0 10px rgba(0,255,136,0.1)' : 'none',
                     }}
                   />
+                  <div className="flex justify-between items-center text-[10px] px-1" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                    <span></span>
+                    <span>{form.message.length} chars</span>
+                  </div>
                 </div>
 
-                {/* Submit */}
-                <button
-                  type="submit"
-                  disabled={submitState.status === 'loading'}
-                  className="px-6 py-2.5 rounded text-sm font-medium transition-all duration-200 w-fit block"
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    background: submitState.status === 'loading'
-                      ? 'rgba(0,255,136,0.05)'
-                      : 'rgba(0,255,136,0.08)',
-                    border: '1px solid rgba(0,255,136,0.35)',
-                    color: 'var(--terminal-green)',
-                    cursor: submitState.status === 'loading' ? 'not-allowed' : 'pointer',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (submitState.status !== 'loading') {
-                      (e.currentTarget as HTMLElement).style.background = 'rgba(0,255,136,0.18)';
-                      (e.currentTarget as HTMLElement).style.boxShadow = '0 0 15px rgba(0,255,136,0.2)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(0,255,136,0.08)';
-                    (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-                  }}
-                >
-                  {submitState.status === 'loading' ? '+ Sending...' : '+ Send Message'}
-                </button>
+                {/* Submit button with padding container to create a larger gap */}
+                <div className="pt-4">
+                  <button
+                    type="submit"
+                    disabled={submitState.status === 'loading'}
+                    className="px-6 py-2.5 rounded text-sm font-medium transition-all duration-200 w-fit block"
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      background: submitState.status === 'loading'
+                        ? 'rgba(0,255,136,0.05)'
+                        : 'rgba(0,255,136,0.08)',
+                      border: '1px solid rgba(0,255,136,0.35)',
+                      color: 'var(--terminal-green)',
+                      cursor: submitState.status === 'loading' ? 'not-allowed' : 'pointer',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (submitState.status !== 'loading') {
+                        (e.currentTarget as HTMLElement).style.background = 'rgba(0,255,136,0.18)';
+                        (e.currentTarget as HTMLElement).style.boxShadow = '0 0 15px rgba(0,255,136,0.2)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.background = 'rgba(0,255,136,0.08)';
+                      (e.currentTarget as HTMLElement).style.boxShadow = 'none';
+                    }}
+                  >
+                    {submitState.status === 'loading' ? '+ Sending...' : '+ Send Message'}
+                  </button>
+                </div>
 
                 {/* Status */}
                 {submitState.status === 'success' && (
@@ -189,7 +196,7 @@ export default function Contact() {
                     className="p-3 rounded text-xs"
                     style={{
                       fontFamily: 'var(--font-mono)',
-                      background: 'rgba(0,255,136,0.08)',
+                      background: 'rgba(0,0,0,0.2)',
                       border: '1px solid rgba(0,255,136,0.25)',
                       color: 'var(--terminal-green)',
                     }}
@@ -221,27 +228,21 @@ export default function Contact() {
               <div className="text-xs mb-4 tracking-wider font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
                 // reach_me
               </div>
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <ContactItem
-                  icon="🐙"
+                  icon={<FiGithub size={18} strokeWidth={1.8} />}
                   label="GitHub"
                   value={socialLinks.github.handle}
                   href={personalInfo.github}
                 />
                 <ContactItem
-                  icon="💼"
+                  icon={<FiLinkedin size={18} strokeWidth={1.8} />}
                   label="LinkedIn"
                   value={socialLinks.linkedin.handle}
                   href={personalInfo.linkedin}
                 />
                 <ContactItem
-                  icon="⚡"
-                  label="LeetCode"
-                  value="mitheshshettyy"
-                  href="https://leetcode.com/u/mitheshshettyy/"
-                />
-                <ContactItem
-                  icon="📧"
+                  icon={<FiMail size={18} strokeWidth={1.8} />}
                   label="Email"
                   value={personalInfo.email}
                   href={`mailto:${personalInfo.email}`}
@@ -254,16 +255,16 @@ export default function Contact() {
               <div className="text-xs mb-4 tracking-wider font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
                 // response_time
               </div>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center text-xs font-mono py-1">
+              <div className="space-y-4">
+                <div className="flex justify-between items-center text-xs font-mono py-2">
                   <span style={{ color: 'var(--text-secondary)' }}>Email / Form</span>
                   <span style={{ color: 'var(--terminal-green)' }}>~ 24 hrs</span>
                 </div>
-                <div className="flex justify-between items-center text-xs font-mono py-1">
+                <div className="flex justify-between items-center text-xs font-mono py-2">
                   <span style={{ color: 'var(--text-secondary)' }}>LinkedIn DM</span>
                   <span style={{ color: 'var(--terminal-green)' }}>~ 48 hrs</span>
                 </div>
-                <div className="flex justify-between items-center text-xs font-mono py-1">
+                <div className="flex justify-between items-center text-xs font-mono py-2">
                   <span style={{ color: 'var(--text-secondary)' }}>Timezone</span>
                   <span style={{ color: 'var(--text-muted)' }}>IST (UTC+5:30)</span>
                 </div>
@@ -327,10 +328,10 @@ function FormField({
 
 function ContactItem({
   icon, label, value, href, isLink = true,
-}: { icon: string; label: string; value: string; href: string; isLink?: boolean }) {
+}: { icon: React.ReactNode; label: string; value: string; href: string; isLink?: boolean }) {
   const content = (
-    <div className="flex items-center gap-3 py-1 group">
-      <span className="text-base shrink-0">{icon}</span>
+    <div className="flex items-center gap-3.5 py-1.5 group">
+      <span className="shrink-0 text-secondary transition-colors duration-200 group-hover:text-emerald-400" style={{ color: 'var(--text-secondary)' }}>{icon}</span>
       <div className="flex-1 min-w-0">
         <div className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
           {label}
