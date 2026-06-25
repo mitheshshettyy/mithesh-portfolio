@@ -38,7 +38,7 @@ export default function Resume() {
   return (
     <div
       ref={pageRef}
-      className="desktop-container flex flex-col items-center justify-center py-6 md:py-10 gap-4"
+      className="desktop-container flex flex-col items-center justify-start pt-36 pb-52 md:pt-48 md:pb-64 gap-6"
       style={{
         minHeight: 'calc(100vh - 110px)',
         boxSizing: 'border-box',
@@ -69,14 +69,7 @@ export default function Resume() {
       </div>
 
       {/* Resume Preview macOS-Style Window */}
-      <div
-        className="reveal w-full max-w-[760px] rounded-lg overflow-hidden border border-[rgba(0,255,136,0.15)] bg-[#121212] shadow-2xl flex flex-col"
-        style={{
-          height: '62vh',
-          minHeight: '400px',
-          maxHeight: '680px',
-        }}
-      >
+      <div className="reveal w-full max-w-[760px] rounded-lg overflow-hidden border border-[rgba(0,255,136,0.15)] bg-[#121212] shadow-2xl flex flex-col h-auto">
         {/* macOS Title Bar */}
         <div
           className="flex items-center px-4 py-2.5 shrink-0"
@@ -105,14 +98,12 @@ export default function Resume() {
         </div>
         
         {/* Editor Content Area with dark background surrounding the white PDF */}
-        <div className="flex-1 bg-[#181818] p-4 sm:p-6 md:p-8 flex justify-center items-center overflow-hidden h-full">
+        <div className="bg-[#181818] p-4 sm:p-6 md:p-8 flex justify-center items-center h-auto">
           <iframe
             src={`${personalInfo.resumeUrl}#toolbar=0&navpanes=0`}
-            className="w-full h-full border border-gray-800/50 shadow-lg rounded bg-white"
+            className="w-full aspect-[1/1.414] border border-gray-800/50 shadow-lg rounded bg-white h-auto"
             title="Resume PDF"
             style={{
-              aspectRatio: '1 / 1.414',
-              maxHeight: '100%',
               maxWidth: '100%',
             }}
           />
