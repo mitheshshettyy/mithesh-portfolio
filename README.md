@@ -26,7 +26,7 @@ Visitors can explore my education, projects, technical skills, internship experi
 * 📄 **Resume Preview & Download**: Seamless online resume rendering with direct single-click PDF download option.
 * 📚 **Dedicated Sub-pages**: Custom views for About, Education, Skills, Projects, Experience, Contact, and Resume.
 * 📱 **Fully Responsive Layout**: Built mobile-first, rendering beautifully on smartphones, tablets, and wide-screen monitors.
-* 📬 **Express.js API Backend**: Secure server handling contact form submissions, rate-limiting, and portfolio data routing.
+* 📬 **Functional Contact Form**: End-to-end working contact form — submissions are emailed directly via Nodemailer + Gmail SMTP with real-time success/error feedback and per-field validation.
 * 🌙 **NightShell Theme**: High-contrast, premium dark mode palette with neon green and electric cyan terminal accents.
 
 ---
@@ -47,6 +47,7 @@ Visitors can explore my education, projects, technical skills, internship experi
 
 * Node.js
 * Express.js
+* Nodemailer (Gmail SMTP)
 * Helmet
 * CORS
 * dotenv
@@ -79,11 +80,13 @@ portfolio/
 │   └── resume/
 │
 ├── server/
-│   ├── index.js
+│   ├── index.js          # Express API + Nodemailer contact endpoint
 │   ├── package.json
-│   └── .env.example
+│   ├── .env.example      # Environment variable template
+│   └── README.md         # Backend setup & Gmail App Password guide
 │
 ├── package.json
+├── vite.config.ts        # Vite dev proxy → Express on :3001
 └── README.md
 ```
 
@@ -161,31 +164,48 @@ The terminal commands are categorized into four logical modules:
 
 ```bash
 git clone https://github.com/mitheshshettyy/<repository-name>.git
-
 cd <repository-name>
 ```
 
 ### Install Dependencies
 
 ```bash
+# Frontend
 npm install
-```
 
-### Start Frontend
-
-```bash
-npm run dev
-```
-
-### Start Backend
-
-```bash
+# Backend
 cd server
-
 npm install
+```
 
+### Configure Email (Contact Form)
+
+```bash
+cp server/.env.example server/.env
+```
+
+Then open `server/.env` and add your Gmail App Password:
+
+```env
+SMTP_USER=your@gmail.com
+SMTP_PASS=xxxx xxxx xxxx xxxx
+CONTACT_EMAIL=your@gmail.com
+```
+
+> See [`server/README.md`](./server/README.md) for the full Gmail App Password setup guide.
+
+### Start Development Servers
+
+```bash
+# Terminal 1 — Frontend (port 5173)
+npm run dev
+
+# Terminal 2 — Backend (port 3001)
+cd server
 npm run dev
 ```
+
+The Vite dev server automatically proxies `/api/*` requests to the Express backend — no CORS configuration needed in development.
 
 ### Build for Production
 

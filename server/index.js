@@ -2,33 +2,84 @@
  * ============================================================
  *  Portfolio Backend — Express.js API Server
  *  Author: Mithesh R Shetty
- *  Stack: Node.js + Express + CORS + dotenv
+ *  Stack: Node.js + Express + Nodemailer + Helmet + Rate Limit
  * ============================================================
  */
 
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const nodemailer = require('nodemailer');
 const path = require('path');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// ── Middleware ──
+// ── Security Middleware ──
+app.use(helmet());
+
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:5173', 'http://localhost:3000'],
   methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type'],
+  credentials: false,
 }));
 
 app.use(express.json({ limit: '10kb' }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
-// ── Request logging ──
+// ── Request Logging ──
 app.use((req, res, next) => {
   const timestamp = new Date().toISOString();
   console.log(`[${timestamp}] ${req.method} ${req.path}`);
   next();
+});
+
+// ── Rate Limiting for Contact Endpoint ──
+const contactLimiter = rateLimit({
+  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000', 10), // 15 min
+  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '5', 10),        // 5 submissions per window
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    error: 'Too many messages submitted. Please wait 15 minutes before trying again.',
+  },
+  skip: (req) => process.env.NODE_ENV === 'development' && req.ip === '::1', // skip in local dev
+});
+
+// ── Input Sanitizer ──
+function sanitize(str) {
+  if (typeof str !== 'string') return '';
+  return str
+    .trim()
+    .replace(/[\u0000-\u001F\u007F]/g, '') // strip control chars
+    .substring(0, 5000);
+}
+
+// ── Nodemailer Transporter ──
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || 'smtp.gmail.com',
+  port: parseInt(process.env.SMTP_PORT || '587', 10),
+  secure: false, // STARTTLS
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+  tls: {
+    rejectUnauthorized: true,
+  },
+});
+
+// Verify transporter on startup (non-fatal)
+transporter.verify((error) => {
+  if (error) {
+    console.warn('[SMTP] Transporter verification failed:', error.message);
+    console.warn('[SMTP] Contact form emails will NOT be sent until SMTP is configured.');
+  } else {
+    console.log('[SMTP] Transporter ready ✓');
+  }
 });
 
 // ── Routes ──
@@ -40,6 +91,7 @@ app.get('/api/health', (req, res) => {
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
     version: '1.0.0',
+    smtp: !!(process.env.SMTP_USER && process.env.SMTP_PASS),
   });
 });
 
@@ -100,53 +152,149 @@ app.get('/api/projects', (req, res) => {
   res.json({ projects: filtered, total: filtered.length });
 });
 
-// Contact form submission
-app.post('/api/contact', (req, res) => {
-  const { name, email, subject, message } = req.body;
+// ── POST /api/contact ── Real email sending via Nodemailer
+app.post('/api/contact', contactLimiter, async (req, res) => {
+  // 1. Sanitize
+  const name    = sanitize(req.body.name);
+  const email   = sanitize(req.body.email);
+  const subject = sanitize(req.body.subject);
+  const message = sanitize(req.body.message);
 
-  // Validation
-  if (!name || !email || !message) {
-    return res.status(400).json({
-      error: 'Missing required fields',
-      required: ['name', 'email', 'message'],
+  // 2. Server-side validation
+  const errors = {};
+
+  if (!name)                  errors.name    = 'Name is required.';
+  if (!email)                 errors.email   = 'Email is required.';
+  if (!subject)               errors.subject = 'Subject is required.';
+  if (!message)               errors.message = 'Message is required.';
+  if (message && message.length < 10)
+                              errors.message = 'Message must be at least 10 characters.';
+  if (message && message.length > 5000)
+                              errors.message = 'Message must be under 5000 characters.';
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (email && !emailRegex.test(email)) errors.email = 'Invalid email address.';
+
+  // Basic spam: reject if name/message contains obvious spam keywords
+  const spamPattern = /\b(viagra|casino|crypto|bitcoin|click here|free money|winner|congratulations)\b/i;
+  if (spamPattern.test(name) || spamPattern.test(message)) {
+    return res.status(400).json({ error: 'Message flagged as spam.' });
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return res.status(400).json({ error: 'Validation failed', fields: errors });
+  }
+
+  // 3. Check SMTP is configured
+  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    console.error('[CONTACT] SMTP credentials not configured — cannot send email.');
+    return res.status(503).json({
+      error: 'Email service is not configured. Please contact me directly at shettymithesh030@gmail.com',
     });
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return res.status(400).json({ error: 'Invalid email format' });
-  }
-
-  if (message.length > 5000) {
-    return res.status(400).json({ error: 'Message exceeds maximum length of 5000 characters' });
-  }
-
-  // In production: send email via Nodemailer / Resend / SendGrid
-  console.log(`[CONTACT] New message from ${name} <${email}>`);
-  console.log(`[CONTACT] Subject: ${subject || 'No subject'}`);
-  console.log(`[CONTACT] Message: ${message.substring(0, 100)}...`);
-
-  // Simulate processing
-  const messageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
-  return res.status(200).json({
-    success: true,
-    messageId,
-    message: 'Message received! I\'ll get back to you within 24 hours.',
-    timestamp: new Date().toISOString(),
+  // 4. Build and send email
+  const submittedAt = new Date().toLocaleString('en-IN', {
+    timeZone: 'Asia/Kolkata',
+    dateStyle: 'full',
+    timeStyle: 'long',
   });
+
+  const mailOptions = {
+    from: `"Portfolio Contact" <${process.env.SMTP_USER}>`,
+    to: process.env.CONTACT_EMAIL || 'shettymithesh030@gmail.com',
+    replyTo: email,
+    subject: `New Portfolio Contact - ${subject}`,
+    text: [
+      '----------------------------------',
+      'New Contact Form Submission',
+      '----------------------------------',
+      '',
+      `Name:`,
+      name,
+      '',
+      `Email:`,
+      email,
+      '',
+      `Subject:`,
+      subject,
+      '',
+      `Message:`,
+      message,
+      '',
+      `Submitted at:`,
+      submittedAt,
+      '',
+      '----------------------------------',
+    ].join('\n'),
+    html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: 'Courier New', monospace; background: #0a0f1a; color: #e2e8f0; margin: 0; padding: 24px; }
+    .card { background: #0d1424; border: 1px solid rgba(0,255,136,0.2); border-radius: 8px; padding: 32px; max-width: 600px; margin: 0 auto; }
+    .header { color: #00ff88; font-size: 13px; letter-spacing: 2px; margin-bottom: 24px; border-bottom: 1px solid rgba(0,255,136,0.15); padding-bottom: 16px; }
+    .field-label { color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .field-value { color: #e2e8f0; font-size: 14px; margin-bottom: 20px; line-height: 1.6; white-space: pre-wrap; }
+    .field-value a { color: #00ff88; text-decoration: none; }
+    .divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 8px 0 20px; }
+    .footer { color: #475569; font-size: 11px; margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .badge { display: inline-block; background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.25); color: #00ff88; border-radius: 4px; padding: 2px 8px; font-size: 11px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">// NEW CONTACT FORM SUBMISSION — PORTFOLIO</div>
+
+    <div class="field-label">$ name</div>
+    <div class="field-value">${escapeHtml(name)}</div>
+    <hr class="divider">
+
+    <div class="field-label">$ email</div>
+    <div class="field-value"><a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></div>
+    <hr class="divider">
+
+    <div class="field-label">$ subject</div>
+    <div class="field-value">${escapeHtml(subject)}</div>
+    <hr class="divider">
+
+    <div class="field-label">$ message</div>
+    <div class="field-value">${escapeHtml(message)}</div>
+    <hr class="divider">
+
+    <div class="field-label">$ submitted_at</div>
+    <div class="field-value">${submittedAt}</div>
+
+    <div class="footer">
+      Reply directly to this email to respond to <span class="badge">${escapeHtml(name)}</span>
+    </div>
+  </div>
+</body>
+</html>`,
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`[CONTACT] ✓ Email sent — MessageId: ${info.messageId} | From: ${name} <${email}>`);
+
+    return res.status(200).json({
+      success: true,
+      message: "Message sent successfully! I'll get back to you within 24 hours.",
+    });
+  } catch (err) {
+    console.error('[CONTACT] ✗ Failed to send email:', err.message);
+    return res.status(500).json({
+      error: 'Failed to send your message. Please try again or email me directly at shettymithesh030@gmail.com',
+    });
+  }
 });
 
-// Resume download endpoint
+// Resume endpoints
 app.get('/api/resume/download', (req, res) => {
   const resumePath = process.env.RESUME_FILE_PATH || path.join(__dirname, '..', 'public', 'resume', 'Mithesh_R_Shetty.pdf');
-
-  // Check if file exists (in production)
   try {
-    // In production, serve the actual PDF
-    // res.download(resumePath, 'Mithesh_R_Shetty_Resume.pdf');
-
-    // For now, return metadata
     res.json({
       filename: path.basename(resumePath),
       url: process.env.RESUME_PUBLIC_URL || '/resume/Mithesh_R_Shetty.pdf',
@@ -158,7 +306,6 @@ app.get('/api/resume/download', (req, res) => {
   }
 });
 
-// Resume info
 app.get('/api/resume', (req, res) => {
   const resumePath = process.env.RESUME_FILE_PATH || 'Mithesh_R_Shetty.pdf';
   res.json({
@@ -173,7 +320,6 @@ app.get('/api/resume', (req, res) => {
   });
 });
 
-// Skills endpoint
 app.get('/api/skills', (req, res) => {
   res.json({
     languages: ['Java', 'Python', 'C/C++', 'JavaScript', 'TypeScript', 'HTML/CSS'],
@@ -202,6 +348,16 @@ app.use((err, req, res, _next) => {
   });
 });
 
+// ── HTML Escape Helper ──
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 // ── Start Server ──
 app.listen(PORT, () => {
   console.log(`
@@ -209,6 +365,7 @@ app.listen(PORT, () => {
   ║   Portfolio API Server — Running           ║
   ║   Port: ${PORT}                              ║
   ║   Env:  ${(process.env.NODE_ENV || 'development').padEnd(12)}                 ║
+  ║   SMTP: ${(process.env.SMTP_USER ? '✓ configured' : '✗ not set   ').padEnd(12)}             ║
   ╚═══════════════════════════════════════════╝
   `);
 });

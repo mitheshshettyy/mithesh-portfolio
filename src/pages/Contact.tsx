@@ -10,16 +10,40 @@ interface FormState {
   message: string;
 }
 
+interface FieldErrors {
+  name?: string;
+  email?: string;
+  subject?: string;
+  message?: string;
+}
+
 interface SubmitState {
   status: 'idle' | 'loading' | 'success' | 'error';
   message: string;
 }
 
+// Client-side validation — mirrors server rules
+function validateForm(form: FormState): FieldErrors {
+  const errors: FieldErrors = {};
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!form.name.trim())                      errors.name    = 'Name is required.';
+  if (!form.email.trim())                     errors.email   = 'Email is required.';
+  else if (!emailRegex.test(form.email))      errors.email   = 'Enter a valid email address.';
+  if (!form.subject.trim())                   errors.subject = 'Subject is required.';
+  if (!form.message.trim())                   errors.message = 'Message is required.';
+  else if (form.message.trim().length < 10)   errors.message = 'Message must be at least 10 characters.';
+
+  return errors;
+}
+
 export default function Contact() {
   const pageRef = useRef<HTMLDivElement>(null);
   const [form, setForm] = useState<FormState>({ name: '', email: '', subject: '', message: '' });
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [submitState, setSubmitState] = useState<SubmitState>({ status: 'idle', message: '' });
   const [focused, setFocused] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (!pageRef.current) return;
@@ -32,34 +56,73 @@ export default function Contact() {
 
   const handleChange = (field: keyof FormState, value: string) => {
     setForm(prev => ({ ...prev, [field]: value }));
+    // Clear field error on change
+    if (fieldErrors[field]) {
+      setFieldErrors(prev => ({ ...prev, [field]: undefined }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitting) return;
 
-    if (!form.name || !form.email || !form.message) {
-      setSubmitState({ status: 'error', message: 'Please fill all required fields.' });
+    // Client-side validation
+    const errors = validateForm(form);
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(form.email)) {
-      setSubmitState({ status: 'error', message: 'Invalid email address.' });
-      return;
-    }
-
+    setFieldErrors({});
+    setSubmitting(true);
     setSubmitState({ status: 'loading', message: '' });
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          subject: form.subject.trim(),
+          message: form.message.trim(),
+        }),
+      });
 
-    setSubmitState({
-      status: 'success',
-      message: "Message sent! I'll get back to you within 24 hours.",
-    });
+      const data = await res.json();
 
-    setForm({ name: '', email: '', subject: '', message: '' });
+      if (res.ok && data.success) {
+        setSubmitState({
+          status: 'success',
+          message: data.message || "Message sent successfully! I'll get back to you within 24 hours.",
+        });
+        setForm({ name: '', email: '', subject: '', message: '' });
+      } else if (res.status === 400 && data.fields) {
+        // Server returned per-field validation errors
+        setFieldErrors(data.fields);
+        setSubmitState({ status: 'error', message: 'Please fix the errors below.' });
+      } else if (res.status === 429) {
+        setSubmitState({
+          status: 'error',
+          message: data.error || 'Too many requests. Please wait before trying again.',
+        });
+      } else {
+        setSubmitState({
+          status: 'error',
+          message: data.error || 'Failed to send message. Please try again.',
+        });
+      }
+    } catch {
+      setSubmitState({
+        status: 'error',
+        message: 'Network error. Please check your connection and try again.',
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
+
+  const isLoading = submitState.status === 'loading';
 
   return (
     <div ref={pageRef} className="desktop-container py-10 flex justify-center">
@@ -92,11 +155,11 @@ export default function Contact() {
                 </span>
               </div>
 
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                {/* Two-column Row for Name and Email */}
+              <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
+                {/* Name + Email row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  {/* Name */}
                   <FormField
+                    id="contact-name"
                     label="name *"
                     type="text"
                     value={form.name}
@@ -105,10 +168,11 @@ export default function Contact() {
                     focused={focused === 'name'}
                     onFocus={() => setFocused('name')}
                     onBlur={() => setFocused(null)}
+                    error={fieldErrors.name}
+                    disabled={isLoading}
                   />
-
-                  {/* Email */}
                   <FormField
+                    id="contact-email"
                     label="email *"
                     type="email"
                     value={form.email}
@@ -117,12 +181,15 @@ export default function Contact() {
                     focused={focused === 'email'}
                     onFocus={() => setFocused('email')}
                     onBlur={() => setFocused(null)}
+                    error={fieldErrors.email}
+                    disabled={isLoading}
                   />
                 </div>
 
                 {/* Subject */}
                 <FormField
-                  label="subject"
+                  id="contact-subject"
+                  label="subject *"
                   type="text"
                   value={form.subject}
                   onChange={(v) => handleChange('subject', v)}
@@ -130,53 +197,65 @@ export default function Contact() {
                   focused={focused === 'subject'}
                   onFocus={() => setFocused('subject')}
                   onBlur={() => setFocused(null)}
+                  error={fieldErrors.subject}
+                  disabled={isLoading}
                 />
 
                 {/* Message */}
                 <div className="flex flex-col gap-2">
-                  <label className="block text-xs mb-0.5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                  <label htmlFor="contact-message" className="block text-xs mb-0.5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
                     <span style={{ color: 'var(--terminal-green)' }}>$</span> message *
                   </label>
                   <textarea
+                    id="contact-message"
                     rows={4}
                     value={form.message}
                     onChange={(e) => handleChange('message', e.target.value)}
                     onFocus={() => setFocused('message')}
                     onBlur={() => setFocused(null)}
                     placeholder="Tell me about the opportunity, project, or just say hi..."
+                    disabled={isLoading}
                     className="w-full resize-none rounded px-3 py-2.5 text-sm transition-all duration-200"
                     style={{
                       fontFamily: 'var(--font-mono)',
                       background: 'rgba(0,0,0,0.3)',
-                      border: `1px solid ${focused === 'message' ? 'rgba(0,255,136,0.4)' : 'rgba(255,255,255,0.08)'}`,
+                      border: `1px solid ${
+                        fieldErrors.message
+                          ? 'rgba(255,71,87,0.5)'
+                          : focused === 'message'
+                            ? 'rgba(0,255,136,0.4)'
+                            : 'rgba(255,255,255,0.08)'
+                      }`,
                       color: 'var(--text-primary)',
                       outline: 'none',
                       boxShadow: focused === 'message' ? '0 0 10px rgba(0,255,136,0.1)' : 'none',
                       lineHeight: '1.6',
+                      opacity: isLoading ? 0.6 : 1,
                     }}
                   />
-                  <div className="flex justify-end text-[10px] px-0.5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                    <span>{form.message.length} chars</span>
+                  <div className="flex justify-between items-start text-[10px] px-0.5" style={{ fontFamily: 'var(--font-mono)' }}>
+                    <span style={{ color: 'var(--terminal-red)' }}>{fieldErrors.message || ''}</span>
+                    <span style={{ color: 'var(--text-muted)' }}>{form.message.length} chars</span>
                   </div>
                 </div>
 
                 {/* Submit button */}
                 <div className="pt-1">
                   <button
+                    id="contact-submit"
                     type="submit"
-                    disabled={submitState.status === 'loading'}
-                    className="px-6 py-2.5 rounded text-sm font-medium transition-all duration-200 w-fit block"
+                    disabled={isLoading}
+                    className="px-6 py-2.5 rounded text-sm font-medium transition-all duration-200 w-fit flex items-center gap-2"
                     style={{
                       fontFamily: 'var(--font-mono)',
-                      background: submitState.status === 'loading'
-                        ? 'rgba(0,255,136,0.05)'
-                        : 'rgba(0,255,136,0.08)',
+                      background: isLoading ? 'rgba(0,255,136,0.05)' : 'rgba(0,255,136,0.08)',
                       border: '1px solid rgba(0,255,136,0.35)',
                       color: 'var(--terminal-green)',
-                      cursor: submitState.status === 'loading' ? 'not-allowed' : 'pointer',
+                      cursor: isLoading ? 'not-allowed' : 'pointer',
+                      opacity: isLoading ? 0.8 : 1,
                     }}
                     onMouseEnter={(e) => {
-                      if (submitState.status !== 'loading') {
+                      if (!isLoading) {
                         (e.currentTarget as HTMLElement).style.background = 'rgba(0,255,136,0.18)';
                         (e.currentTarget as HTMLElement).style.boxShadow = '0 0 15px rgba(0,255,136,0.2)';
                       }
@@ -186,11 +265,18 @@ export default function Contact() {
                       (e.currentTarget as HTMLElement).style.boxShadow = 'none';
                     }}
                   >
-                    {submitState.status === 'loading' ? '+ Sending...' : '+ Send Message'}
+                    {isLoading ? (
+                      <>
+                        <Spinner />
+                        <span>Sending...</span>
+                      </>
+                    ) : (
+                      '+ Send Message'
+                    )}
                   </button>
                 </div>
 
-                {/* Status */}
+                {/* Status Messages */}
                 {submitState.status === 'success' && (
                   <div
                     className="p-3 rounded text-xs"
@@ -204,7 +290,7 @@ export default function Contact() {
                     ✓ {submitState.message}
                   </div>
                 )}
-                {submitState.status === 'error' && (
+                {submitState.status === 'error' && !Object.values(fieldErrors).some(Boolean) && (
                   <div
                     className="p-3 rounded text-xs"
                     style={{
@@ -288,9 +374,30 @@ export default function Contact() {
   );
 }
 
+// ── Sub-components ──
+
+function Spinner() {
+  return (
+    <svg
+      width="14" height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{ animation: 'spin 0.8s linear infinite' }}
+    >
+      <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
+      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+    </svg>
+  );
+}
+
 function FormField({
-  label, type, value, onChange, placeholder, focused, onFocus, onBlur,
+  id, label, type, value, onChange, placeholder, focused, onFocus, onBlur, error, disabled,
 }: {
+  id: string;
   label: string;
   type: string;
   value: string;
@@ -299,29 +406,45 @@ function FormField({
   focused: boolean;
   onFocus: () => void;
   onBlur: () => void;
+  error?: string;
+  disabled?: boolean;
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <label className="block text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+      <label htmlFor={id} className="block text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
         <span style={{ color: 'var(--terminal-green)' }}>$</span> {label}
       </label>
       <input
+        id={id}
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onFocus={onFocus}
         onBlur={onBlur}
         placeholder={placeholder}
+        disabled={disabled}
         className="w-full rounded px-3 py-2.5 text-sm transition-all duration-200"
         style={{
           fontFamily: 'var(--font-mono)',
           background: 'rgba(0,0,0,0.3)',
-          border: `1px solid ${focused ? 'rgba(0,255,136,0.4)' : 'rgba(255,255,255,0.08)'}`,
+          border: `1px solid ${
+            error
+              ? 'rgba(255,71,87,0.5)'
+              : focused
+                ? 'rgba(0,255,136,0.4)'
+                : 'rgba(255,255,255,0.08)'
+          }`,
           color: 'var(--text-primary)',
           outline: 'none',
           boxShadow: focused ? '0 0 10px rgba(0,255,136,0.1)' : 'none',
+          opacity: disabled ? 0.6 : 1,
         }}
       />
+      {error && (
+        <span className="text-[10px] px-0.5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-red)' }}>
+          {error}
+        </span>
+      )}
     </div>
   );
 }
@@ -344,7 +467,7 @@ function ContactItem({
         </div>
       </div>
       {isLink && href !== '#' && (
-        <div className="text-xs shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', fontSize: '0.75rem' }}>
+        <div className="text-xs shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
           →
         </div>
       )}
