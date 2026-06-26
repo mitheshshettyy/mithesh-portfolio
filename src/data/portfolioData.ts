@@ -371,44 +371,6 @@ export const experienceData = [
     tech: ["React", "Node.js", "Express.js", "MongoDB", "JWT"],
     logo: "A",
     color: "#00ff88",
-  },
-  {
-    id: "frontend-intern-novastack",
-    role: "Frontend Developer Intern",
-    company: "NovaStack Labs",
-    team: "Analytics UI Team",
-    type: "Internship",
-    duration: "Jun 2025 – Aug 2025",
-    location: "Bengaluru, Karnataka, India",
-    description:
-      "Built responsive dashboard components for an internal analytics platform and improved UI consistency across core pages.",
-    achievements: [
-      "Developed reusable React components for dashboards and forms",
-      "Improved page responsiveness and loading behavior",
-      "Collaborated with designers to refine UI spacing and typography",
-    ],
-    tech: ["React", "TypeScript", "Tailwind", "REST API"],
-    logo: "N",
-    color: "#00f0ff",
-  },
-  {
-    id: "web-intern-pixelforge",
-    role: "Web Development Intern",
-    company: "PixelForge Studio",
-    team: "Client Projects Team",
-    type: "Internship",
-    duration: "Jan 2025 – May 2025",
-    location: "Remote",
-    description:
-      "Contributed to landing pages and content-driven web modules for client projects with a focus on clean UI and performance.",
-    achievements: [
-      "Created reusable sections for marketing and portfolio pages",
-      "Optimized layouts for mobile and tablet screens",
-      "Integrated basic animations and smooth transitions",
-    ],
-    tech: ["HTML", "CSS", "JavaScript", "Framer Motion"],
-    logo: "P",
-    color: "#00ff88",
   }
 ];
 
