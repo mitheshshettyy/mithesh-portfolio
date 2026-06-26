@@ -17,8 +17,8 @@ export default function Projects() {
     if (!pageRef.current) return;
     const els = pageRef.current.querySelectorAll('.reveal');
     gsap.fromTo(els,
-      { opacity: 0, y: 24 },
-      { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out', delay: 0.15 }
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.55, stagger: 0.07, ease: 'power3.out', delay: 0.1 }
     );
   }, []);
 
@@ -26,8 +26,8 @@ export default function Projects() {
     if (!gridRef.current) return;
     const cards = gridRef.current.querySelectorAll('.project-card');
     gsap.fromTo(cards,
-      { opacity: 0, y: 20, scale: 0.98 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.4, stagger: 0.06, ease: 'power2.out' }
+      { opacity: 0, y: 18, scale: 0.97 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.38, stagger: 0.055, ease: 'power2.out' }
     );
   }, [activeFilter]);
 
@@ -36,160 +36,177 @@ export default function Projects() {
     : projectsData.filter(p => p.category === activeFilter);
 
   return (
-    <div ref={pageRef} className="desktop-container py-16 space-y-12">
-      {/* Header */}
-      <div className="reveal space-y-4">
-        <Breadcrumb path="projects" />
-        <h1 className="text-3xl sm:text-4xl font-extrabold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
+    <div ref={pageRef} className="desktop-container py-10 flex flex-col gap-8">
+      {/* ── Header ── */}
+      <div className="reveal flex flex-col gap-2">
+        <div className="flex items-center gap-1 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+          <span style={{ color: 'var(--terminal-green)' }}>{personalInfo.prompt}</span>
+          <span>:</span>
+          <span style={{ color: 'var(--terminal-cyan)' }}>~/projects</span>
+          <span>$</span>
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-extrabold leading-none" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
           ls <span style={{ color: 'var(--terminal-green)' }}>./projects/</span>
         </h1>
-        <p className="text-sm leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-          # Exploring my systems, backend pipelines, full-stack tools, and AI architectures
+        <p className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+          # {projectsData.length} projects — systems, full-stack apps, and AI tools
         </p>
       </div>
 
-      {/* Filter Tabs */}
-      <div className="reveal flex flex-wrap gap-3">
+      {/* ── Filter Tabs ── */}
+      <div className="reveal flex flex-wrap gap-2">
         {filters.map((filter) => (
           <button
             key={filter}
             onClick={() => setActiveFilter(filter)}
-            className="px-4 py-2 rounded text-xs font-semibold transition-all duration-200 cursor-pointer"
+            className="px-3.5 py-1.5 rounded text-[11px] font-semibold transition-all duration-200 cursor-pointer"
             style={{
               fontFamily: 'var(--font-mono)',
               background: activeFilter === filter ? 'rgba(0,255,136,0.1)' : 'rgba(255,255,255,0.03)',
-              border: `1px solid ${activeFilter === filter ? 'rgba(0,255,136,0.35)' : 'rgba(255,255,255,0.08)'}`,
+              border: `1px solid ${activeFilter === filter ? 'rgba(0,255,136,0.35)' : 'rgba(255,255,255,0.07)'}`,
               color: activeFilter === filter ? 'var(--terminal-green)' : 'var(--text-muted)',
             }}
           >
             {filter}
-            <span className="ml-2 text-[0.65rem] opacity-60">
+            <span className="ml-1.5 text-[9px] opacity-50">
               ({filter === 'All' ? projectsData.length : projectsData.filter(p => p.category === filter).length})
             </span>
           </button>
         ))}
       </div>
 
-      {/* Projects Grid */}
-      <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+      {/* ── Project Grid ── */}
+      <div
+        ref={gridRef}
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch"
+      >
         {filtered.map((project) => (
-          <ProjectCard key={project.id} project={project} onOpenModal={setSelectedProject} />
+          <ProjectCard key={project.id} project={project} onOpen={setSelectedProject} />
         ))}
       </div>
 
-      {/* Details Modal */}
+      {/* ── Detail Modal ── */}
       <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
     </div>
   );
 }
 
-function ProjectCard({
-  project,
-  onOpenModal
-}: {
-  project: Project;
-  onOpenModal: (project: Project) => void;
-}) {
+// ── Project Card ─────────────────────────────────────────────────────────────
+function ProjectCard({ project, onOpen }: { project: Project; onOpen: (p: Project) => void }) {
   const demoUrl = project.liveDemo || project.demo;
+
   return (
     <div
-      onClick={() => onOpenModal(project)}
-      className="project-card project-card-custom p-6 flex flex-col justify-between space-y-5 h-full rounded-lg border"
+      onClick={() => onOpen(project)}
+      className="project-card group flex flex-col cursor-pointer rounded-lg border transition-all duration-250"
       style={{
-        borderColor: 'rgba(0, 255, 136, 0.12)',
+        borderColor: 'rgba(0,255,136,0.1)',
         background: 'var(--bg-card)',
       }}
+      onMouseEnter={(e) => {
+        const el = e.currentTarget as HTMLElement;
+        el.style.borderColor = 'rgba(0,255,136,0.28)';
+        el.style.background = 'var(--bg-card-hover)';
+        el.style.boxShadow = '0 0 18px rgba(0,255,136,0.06), 0 4px 20px rgba(0,0,0,0.4)';
+        el.style.transform = 'translateY(-2px)';
+      }}
+      onMouseLeave={(e) => {
+        const el = e.currentTarget as HTMLElement;
+        el.style.borderColor = 'rgba(0,255,136,0.1)';
+        el.style.background = 'var(--bg-card)';
+        el.style.boxShadow = 'none';
+        el.style.transform = 'translateY(0)';
+      }}
     >
-      <div className="space-y-4 flex-1 flex flex-col justify-between">
-        <div className="space-y-4">
-          {/* Upper row details */}
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex gap-2">
-              <span
-                className="text-[0.65rem] font-bold px-2 py-0.5 rounded uppercase"
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  background: 'rgba(0,212,255,0.08)',
-                  border: '1px solid rgba(0,212,255,0.2)',
-                  color: 'var(--terminal-cyan)',
-                }}
-              >
-                {project.category}
-              </span>
-              <span
-                className="text-[0.65rem] font-bold px-2 py-0.5 rounded uppercase"
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  background: 'rgba(0, 255, 136, 0.08)',
-                  border: '1px solid rgba(0, 255, 136, 0.2)',
-                  color: 'var(--terminal-green)',
-                }}
-              >
-                {project.status || 'Completed'}
-              </span>
-            </div>
-            <span className="text-xs text-[var(--text-secondary)] font-mono">
-              📅 {project.date}
-            </span>
-          </div>
-
-          {/* Title and tagline */}
-          <div className="space-y-1">
-            <h3 className="project-card-title text-xl font-bold transition-colors duration-250" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-              {project.name}
-            </h3>
-            <p className="text-xs font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
-              {project.tagline}
-            </p>
-          </div>
-
-          {/* Description */}
-          <p className="text-xs leading-relaxed line-clamp-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-            {project.shortDescription || project.description}
-          </p>
+      {/* Card top */}
+      <div className="flex flex-col gap-3 p-5 flex-1">
+        {/* Row 1: title + date */}
+        <div className="flex items-start justify-between gap-3">
+          <h3
+            className="text-[15px] font-bold leading-tight"
+            style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}
+          >
+            {project.name}
+          </h3>
+          <span
+            className="text-[10px] shrink-0 mt-0.5 tabular-nums"
+            style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}
+          >
+            {project.date}
+          </span>
         </div>
 
-        {/* Tech stack */}
-        <div className="flex flex-wrap gap-2 pt-2">
-          {project.tech.slice(0, 6).map((t) => (
-            <span key={t} className="project-card-tech tech-tag" style={{ fontSize: '0.62rem' }}>
-              {t}
-            </span>
+        {/* Row 2: category pill + status */}
+        <div className="flex items-center gap-2">
+          <span
+            className="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider"
+            style={{
+              fontFamily: 'var(--font-mono)',
+              background: 'rgba(0,212,255,0.07)',
+              border: '1px solid rgba(0,212,255,0.18)',
+              color: 'var(--terminal-cyan)',
+            }}
+          >
+            {project.category}
+          </span>
+          <span
+            className="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider"
+            style={{
+              fontFamily: 'var(--font-mono)',
+              background: 'rgba(0,255,136,0.07)',
+              border: '1px solid rgba(0,255,136,0.18)',
+              color: 'var(--terminal-green)',
+            }}
+          >
+            {project.status || 'Completed'}
+          </span>
+        </div>
+
+        {/* Row 3: subtitle / tagline */}
+        <p
+          className="text-[11px] font-semibold leading-snug"
+          style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)', opacity: 0.85 }}
+        >
+          {project.tagline}
+        </p>
+
+        {/* Row 4: short description — 2 lines max */}
+        <p
+          className="text-[11px] leading-relaxed line-clamp-2"
+          style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}
+        >
+          {project.shortDescription}
+        </p>
+
+        {/* Row 5: tech chips */}
+        <div className="flex flex-wrap gap-1.5 mt-auto pt-1">
+          {project.tech.slice(0, 5).map((t) => (
+            <span key={t} className="tech-tag" style={{ fontSize: '0.6rem', padding: '2px 7px' }}>{t}</span>
           ))}
-          {project.tech.length > 6 && (
-            <span className="tech-tag opacity-60" style={{ fontSize: '0.62rem' }}>
-              +{project.tech.length - 6}
+          {project.tech.length > 5 && (
+            <span className="tech-tag opacity-50" style={{ fontSize: '0.6rem', padding: '2px 7px' }}>
+              +{project.tech.length - 5}
             </span>
           )}
         </div>
       </div>
 
-      {/* Footer Details: Action Buttons */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[rgba(255,255,255,0.05)]">
+      {/* Card footer */}
+      <div
+        className="flex items-center justify-between gap-2 px-5 py-3 border-t"
+        style={{ borderColor: 'rgba(255,255,255,0.05)' }}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex gap-2">
           {project.github && (
             <a
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="px-3 py-1.5 rounded text-[0.7rem] transition-all duration-200"
-              style={{
-                fontFamily: 'var(--font-mono)',
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                color: 'var(--text-secondary)',
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.background = 'rgba(255,255,255,0.08)';
-                el.style.color = 'var(--text-primary)';
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.background = 'rgba(255,255,255,0.03)';
-                el.style.color = 'var(--text-secondary)';
-              }}
+              className="text-[10px] font-semibold transition-colors duration-150"
+              style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)'; }}
             >
               GitHub ↗
             </a>
@@ -199,55 +216,30 @@ function ProjectCard({
               href={demoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="px-3 py-1.5 rounded text-[0.7rem] transition-all duration-200"
-              style={{
-                fontFamily: 'var(--font-mono)',
-                background: 'rgba(0,255,136,0.08)',
-                border: '1px solid rgba(0,255,136,0.3)',
-                color: 'var(--terminal-green)',
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.background = 'rgba(0,255,136,0.15)';
-                el.style.boxShadow = '0 0 15px rgba(0,255,136,0.2)';
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.background = 'rgba(0,255,136,0.08)';
-                el.style.boxShadow = 'none';
-              }}
+              className="text-[10px] font-semibold transition-colors duration-150"
+              style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = '0.75'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = '1'; }}
             >
-              Demo ↗
+              Live Demo ↗
             </a>
           )}
         </div>
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onOpenModal(project);
-          }}
-          className="text-xs font-semibold flex items-center gap-1 cursor-pointer transition-colors duration-250"
-          style={{
-            fontFamily: 'var(--font-mono)',
-            color: 'var(--terminal-cyan)',
-          }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget as HTMLElement;
-            el.style.color = 'var(--text-primary)';
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget as HTMLElement;
-            el.style.color = 'var(--terminal-cyan)';
-          }}
+          onClick={(e) => { e.stopPropagation(); (e.currentTarget.closest('.project-card') as HTMLElement)?.click(); }}
+          className="text-[10px] font-semibold cursor-pointer transition-colors duration-150"
+          style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--terminal-cyan)'; }}
         >
-          View Details →
+          details →
         </button>
       </div>
     </div>
   );
 }
 
+// ── Project Modal ─────────────────────────────────────────────────────────────
 interface ProjectModalProps {
   project: Project | null;
   onClose: () => void;
@@ -256,332 +248,235 @@ interface ProjectModalProps {
 function ProjectModal({ project, onClose }: ProjectModalProps) {
   const [isVisible, setIsVisible] = useState(false);
   const backdropRef = useRef<HTMLDivElement>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const modalRef    = useRef<HTMLDivElement>(null);
+  const closeRef    = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (project) {
       setIsVisible(true);
-      // Run open animation (GSAP opening sequence)
-      gsap.fromTo(backdropRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.25, ease: 'power2.out' }
-      );
-      gsap.fromTo(modalRef.current,
-        { scale: 0.96, y: 16, opacity: 0 },
-        { scale: 1, y: 0, opacity: 1, duration: 0.25, ease: 'power2.out' }
-      );
+      gsap.fromTo(backdropRef.current, { opacity: 0 }, { opacity: 1, duration: 0.22, ease: 'power2.out' });
+      gsap.fromTo(modalRef.current, { scale: 0.96, y: 14, opacity: 0 }, { scale: 1, y: 0, opacity: 1, duration: 0.22, ease: 'power2.out' });
     }
   }, [project]);
 
   const handleClose = () => {
-    // Run close animation
-    gsap.to(backdropRef.current, {
-      opacity: 0,
-      duration: 0.2,
-      ease: 'power2.in',
-    });
+    gsap.to(backdropRef.current, { opacity: 0, duration: 0.18, ease: 'power2.in' });
     gsap.to(modalRef.current, {
-      scale: 0.96,
-      y: 16,
-      opacity: 0,
-      duration: 0.2,
-      ease: 'power2.in',
-      onComplete: () => {
-        setIsVisible(false);
-        onClose();
-      }
+      scale: 0.96, y: 14, opacity: 0, duration: 0.18, ease: 'power2.in',
+      onComplete: () => { setIsVisible(false); onClose(); }
     });
-  };
-
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === backdropRef.current) {
-      handleClose();
-    }
   };
 
   useEffect(() => {
     if (!isVisible || !project) return;
-
     document.body.style.overflow = 'hidden';
+    const timer = setTimeout(() => closeRef.current?.focus(), 80);
 
-    // Set initial focus to close button for access
-    const timer = setTimeout(() => {
-      if (closeButtonRef.current) {
-        closeButtonRef.current.focus();
-      }
-    }, 100);
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        handleClose();
-      }
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { handleClose(); return; }
       if (e.key === 'Tab' && modalRef.current) {
-        const focusable = modalRef.current.querySelectorAll<HTMLElement>(
-          'a[href], button, [tabindex="0"]'
-        );
-        if (focusable.length === 0) return;
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-          last.focus();
-          e.preventDefault();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          first.focus();
-          e.preventDefault();
-        }
+        const focusable = modalRef.current.querySelectorAll<HTMLElement>('a[href], button, [tabindex="0"]');
+        if (!focusable.length) return;
+        const first = focusable[0], last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
+        else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', handleKeyDown);
-      clearTimeout(timer);
-    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKeyDown); clearTimeout(timer); };
   }, [isVisible, project]);
 
   if (!project || !isVisible) return null;
-
   const demoUrl = project.liveDemo || project.demo;
-
-  // Spaced, terminal-syntax sections
-  const sections = [
-    {
-      heading: '// description',
-      show: true,
-      content: (
-        <p className="leading-relaxed text-[var(--text-primary)] font-mono text-[13px]">
-          {project.description}
-        </p>
-      )
-    },
-    {
-      heading: '// problem_solved',
-      show: !!project.problemSolved,
-      content: (
-        <p className="leading-relaxed text-[var(--text-primary)] font-mono text-[13px]">
-          {project.problemSolved}
-        </p>
-      )
-    },
-    {
-      heading: '// approach',
-      show: !!project.approach,
-      content: (
-        <p className="leading-relaxed text-[var(--text-primary)] font-mono text-[13px]">
-          {project.approach}
-        </p>
-      )
-    },
-    {
-      heading: '// key_features',
-      show: !!(project.features && project.features.length > 0),
-      content: (
-        <ul className="space-y-2 list-none font-mono text-[13px]">
-          {project.features.map((feature, idx) => (
-            <li key={idx} className="flex items-start gap-2.5">
-              <span className="text-[var(--terminal-green)] mt-1.5 text-[8px] shrink-0">■</span>
-              <span className="text-[var(--text-primary)]">{feature}</span>
-            </li>
-          ))}
-        </ul>
-      )
-    },
-    {
-      heading: '// tech_stack',
-      show: !!(project.tech && project.tech.length > 0),
-      content: (
-        <div className="flex flex-wrap gap-2">
-          {project.tech.map((t) => (
-            <span key={t} className="tech-tag" style={{ fontSize: '0.7rem' }}>
-              {t}
-            </span>
-          ))}
-        </div>
-      )
-    },
-    {
-      heading: '// architecture',
-      show: !!project.architecture,
-      content: (
-        <p className="leading-relaxed text-[var(--text-primary)] font-mono text-[13px]">
-          {project.architecture}
-        </p>
-      )
-    },
-    {
-      heading: '// challenges',
-      show: !!project.challenges,
-      content: (
-        <p className="leading-relaxed text-[var(--text-primary)] font-mono text-[13px]">
-          {project.challenges}
-        </p>
-      )
-    },
-    {
-      heading: '// future_improvements',
-      show: !!project.futureImprovements,
-      content: (
-        <p className="leading-relaxed text-[var(--text-primary)] font-mono text-[13px]">
-          {project.futureImprovements}
-        </p>
-      )
-    },
-    {
-      heading: '// links',
-      show: !!(project.github || demoUrl),
-      content: (
-        <div className="flex flex-wrap items-center gap-3">
-          {project.github && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-github-premium"
-            >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-              </svg>
-              View on GitHub
-            </a>
-          )}
-          {demoUrl && (
-            <a
-              href={demoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-terminal-premium"
-            >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="2" y1="12" x2="22" y2="12"></line>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-              </svg>
-              Live Demo
-            </a>
-          )}
-        </div>
-      )
-    }
-  ];
-
-  const visibleSections = sections.filter(s => s.show);
 
   return (
     <div
       ref={backdropRef}
-      onClick={handleBackdropClick}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-black/70 backdrop-blur-md"
+      onClick={(e) => { if (e.target === backdropRef.current) handleClose(); }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+      style={{ background: 'rgba(4,6,16,0.82)', backdropFilter: 'blur(10px)' }}
       role="dialog"
       aria-modal="true"
-      aria-labelledby="modal-project-title"
+      aria-labelledby="modal-title"
     >
       <div
         ref={modalRef}
-        className="relative w-full max-w-[850px] md:w-[90%] rounded-lg border bg-[#0d1224] overflow-hidden shadow-[0_0_35px_rgba(0,255,136,0.15)] flex flex-col max-h-[85vh]"
+        className="relative w-full max-w-[700px] rounded-xl border flex flex-col overflow-hidden"
         style={{
-          borderColor: 'rgba(0, 255, 136, 0.2)',
+          background: '#0b1120',
+          borderColor: 'rgba(0,255,136,0.18)',
+          boxShadow: '0 0 40px rgba(0,255,136,0.1), 0 24px 60px rgba(0,0,0,0.7)',
+          maxHeight: '88vh',
         }}
       >
-        {/* Terminal Header */}
-        <div className="flex items-center justify-between px-4 py-3 bg-[#080c18] border-b border-[rgba(0,255,136,0.12)] shrink-0 select-none">
-          <div className="flex gap-1.5">
+        {/* ── Mac-style titlebar ── */}
+        <div
+          className="flex items-center justify-between px-4 py-3 shrink-0 select-none border-b"
+          style={{ background: '#080c18', borderColor: 'rgba(0,255,136,0.1)' }}
+        >
+          <div className="flex gap-1.5 items-center">
             <button
+              ref={closeRef}
               onClick={handleClose}
-              className="w-3 h-3 rounded-full bg-[#ff5f57] border-0 cursor-pointer"
-              aria-label="Close modal"
-              ref={closeButtonRef}
+              className="w-3 h-3 rounded-full border-0 cursor-pointer transition-opacity hover:opacity-80"
+              style={{ background: '#ff5f57' }}
+              aria-label="Close"
             />
-            <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
-            <div className="w-3 h-3 rounded-full bg-[#28c840]" />
+            <div className="w-3 h-3 rounded-full" style={{ background: '#febc2e' }} />
+            <div className="w-3 h-3 rounded-full" style={{ background: '#28c840' }} />
           </div>
-          <div
-            className="text-xs font-semibold"
-            style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}
-          >
+          <span className="text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
             project :: <span style={{ color: 'var(--terminal-green)' }}>{project.id}</span>
-          </div>
-          <div className="w-12" /> {/* Spacer to align title center */}
+          </span>
+          <div className="w-16" />
         </div>
 
-        {/* Scrollable Content */}
-        <div className="overflow-y-auto terminal-scroll p-6 md:p-8 space-y-8 text-left bg-[#0d1224] text-sm">
-          
-          {/* Main Title Block */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between flex-wrap gap-2">
+        {/* ── Scrollable body ── */}
+        <div className="overflow-y-auto flex flex-col gap-5 px-6 pt-8 pb-8 md:px-8 md:pt-10 md:pb-10 text-sm" style={{ scrollbarWidth: 'thin' }}>
+
+          {/* Title block */}
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <h2
-                id="modal-project-title"
-                className="text-2xl font-bold text-white"
-                style={{ fontFamily: 'var(--font-mono)' }}
+                id="modal-title"
+                className="text-2xl font-bold"
+                style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}
               >
                 {project.name}
               </h2>
               <div className="flex items-center gap-2 flex-wrap">
                 <span
-                  className="text-[0.65rem] font-bold px-2 py-0.5 rounded uppercase"
+                  className="text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider"
                   style={{
                     fontFamily: 'var(--font-mono)',
-                    background: 'rgba(0,212,255,0.08)',
-                    border: '1px solid rgba(0,212,255,0.2)',
-                    color: 'var(--terminal-cyan)',
-                  }}
-                >
-                  {project.category}
-                </span>
-                <span
-                  className="text-[0.65rem] font-bold px-2 py-0.5 rounded uppercase"
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    background: 'rgba(0, 255, 136, 0.08)',
-                    border: '1px solid rgba(0, 255, 136, 0.2)',
+                    background: 'rgba(0,255,136,0.07)',
+                    border: '1px solid rgba(0,255,136,0.2)',
                     color: 'var(--terminal-green)',
                   }}
                 >
                   {project.status || 'Completed'}
                 </span>
-                <span className="text-xs text-[var(--text-secondary)] font-mono self-center">
-                  📅 {project.date}
+                <span className="text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                  {project.date}
                 </span>
               </div>
             </div>
-            <p className="text-xs text-[var(--terminal-green)] font-semibold font-mono">
+            <p className="text-xs font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)', opacity: 0.8 }}>
               {project.tagline}
             </p>
           </div>
 
-          <div
-            className="text-[var(--text-muted)] opacity-20 select-none font-mono text-xs pt-2"
-            aria-hidden="true"
-          >
-            --------------------------------------------------------------------------------
-          </div>
+          <Divider compact />
 
-          {/* Render sections sequentially with custom separators */}
-          {visibleSections.map((sec, i) => (
-            <div key={sec.heading}>
-              <div className="space-y-3">
-                <div
-                  className="text-sm font-semibold tracking-wider"
-                  style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}
-                >
-                  {sec.heading}
-                </div>
-                <div className="pl-0 md:pl-4 border-l border-[rgba(0,255,136,0.05)] py-0.5">
-                  {sec.content}
-                </div>
+          {/* // description */}
+          <Section heading="// description">
+            <p className="text-[13px] leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', lineHeight: 1.7 }}>
+              {project.shortDescription}
+            </p>
+          </Section>
+
+          {/* // problem_solved */}
+          {project.problemSolved && (
+            <Section heading="// problem_solved">
+              <p className="text-[13px] leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', lineHeight: 1.7 }}>
+                {project.problemSolved}
+              </p>
+            </Section>
+          )}
+
+          {/* // key_features */}
+          {project.features?.length > 0 && (
+            <Section heading="// key_features">
+              <ul className="flex flex-col gap-2">
+                {project.features.map((f, i) => (
+                  <li key={i} className="flex items-start gap-2.5">
+                    <span className="shrink-0 mt-[3px] text-[8px]" style={{ color: 'var(--terminal-green)' }}>■</span>
+                    <span className="text-[13px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', lineHeight: 1.65 }}>{f}</span>
+                  </li>
+                ))}
+              </ul>
+            </Section>
+          )}
+
+          {/* // tech_stack */}
+          {project.tech?.length > 0 && (
+            <Section heading="// tech_stack">
+              <div className="flex flex-wrap gap-2">
+                {project.tech.map((t) => (
+                  <span key={t} className="tech-tag" style={{ fontSize: '0.68rem' }}>{t}</span>
+                ))}
               </div>
-              {i < visibleSections.length - 1 && (
-                <div
-                  className="text-[var(--text-muted)] opacity-20 select-none font-mono text-xs pt-8 pb-4"
-                  aria-hidden="true"
-                >
-                  --------------------------------------------------------------------------------
-                </div>
-              )}
-            </div>
-          ))}
+            </Section>
+          )}
+
+          {/* // links */}
+          {(project.github || demoUrl) && (
+            <Section heading="// links">
+              <div className="flex flex-wrap gap-3">
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2.5 px-5 py-2.5 rounded-lg text-[12px] font-semibold transition-all duration-200"
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      background: 'rgba(255,255,255,0.05)',
+                      border: '1px solid rgba(255,255,255,0.12)',
+                      color: 'var(--text-primary)',
+                    }}
+                    onMouseEnter={(e) => {
+                      const el = e.currentTarget as HTMLElement;
+                      el.style.background = 'rgba(255,255,255,0.1)';
+                      el.style.borderColor = 'rgba(255,255,255,0.2)';
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget as HTMLElement;
+                      el.style.background = 'rgba(255,255,255,0.05)';
+                      el.style.borderColor = 'rgba(255,255,255,0.12)';
+                    }}
+                  >
+                    <svg className="w-[15px] h-[15px] shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                    </svg>
+                    View on GitHub
+                  </a>
+                )}
+                {demoUrl && (
+                  <a
+                    href={demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2.5 px-5 py-2.5 rounded-lg text-[12px] font-semibold transition-all duration-200"
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      background: 'rgba(0,255,136,0.08)',
+                      border: '1px solid rgba(0,255,136,0.25)',
+                      color: 'var(--terminal-green)',
+                    }}
+                    onMouseEnter={(e) => {
+                      const el = e.currentTarget as HTMLElement;
+                      el.style.background = 'rgba(0,255,136,0.14)';
+                      el.style.boxShadow = '0 0 14px rgba(0,255,136,0.18)';
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget as HTMLElement;
+                      el.style.background = 'rgba(0,255,136,0.08)';
+                      el.style.boxShadow = 'none';
+                    }}
+                  >
+                    <svg className="w-[15px] h-[15px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="2" y1="12" x2="22" y2="12" />
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </svg>
+                    Live Demo
+                  </a>
+                )}
+              </div>
+            </Section>
+          )}
 
         </div>
       </div>
@@ -589,13 +484,31 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
   );
 }
 
-function Breadcrumb({ path }: { path: string }) {
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function Section({ heading, children }: { heading: string; children: React.ReactNode }) {
   return (
-    <div className="flex items-center gap-1 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-      <span style={{ color: 'var(--terminal-green)' }}>{personalInfo.prompt}</span>
-      <span>:</span>
-      <span style={{ color: 'var(--terminal-cyan)' }}>~/{path}</span>
-      <span>$</span>
+    <div className="flex flex-col gap-3">
+      <span
+        className="text-[12px] font-semibold tracking-wider"
+        style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}
+      >
+        {heading}
+      </span>
+      <div className="pl-4 border-l" style={{ borderColor: 'rgba(0,255,136,0.08)' }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function Divider({ compact = false }: { compact?: boolean }) {
+  return (
+    <div
+      className={`select-none text-[10px] opacity-15 ${compact ? 'my-0' : ''}`}
+      aria-hidden="true"
+      style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', letterSpacing: '0.05em' }}
+    >
+      ────────────────────────────────────────────────────────────
     </div>
   );
 }
