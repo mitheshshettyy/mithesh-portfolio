@@ -5,7 +5,7 @@ export default function Footer() {
 
   return (
     <footer
-      className="relative z-10 mt-auto"
+      className="relative z-10 mt-auto mt-12"
       style={{
         borderTop: '1px solid rgba(0,255,136,0.08)',
         background: 'rgba(8,12,24,0.8)',

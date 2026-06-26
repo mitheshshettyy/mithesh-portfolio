@@ -116,7 +116,7 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Page Content */}
       <main
-        className="page-content flex-1"
+        className="page-content flex-1 pb-6"
         style={{ position: 'relative', zIndex: 2 }}
       >
         {children}
@@ -124,29 +124,6 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Footer */}
       <Footer />
-
-      {/* Global keyboard shortcut hint (bottom right) */}
-      {!isHome && (
-        <div
-          className="fixed bottom-4 right-4 z-50"
-          style={{ pointerEvents: 'none' }}
-        >
-          <div
-            className="text-xs px-3 py-1.5 rounded"
-            style={{
-              fontFamily: 'var(--font-mono)',
-              background: 'rgba(8, 12, 24, 0.9)',
-              border: '1px solid rgba(0,255,136,0.15)',
-              color: 'var(--text-muted)',
-              backdropFilter: 'blur(8px)',
-              fontSize: '0.65rem',
-            }}
-          >
-            <span style={{ color: 'var(--terminal-green)' }}>ctrl+`</span>
-            {' '}→ terminal
-          </div>
-        </div>
-      )}
     </div>
   );
 }

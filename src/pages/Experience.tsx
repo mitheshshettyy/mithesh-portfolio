@@ -339,7 +339,7 @@ export default function Experience() {
   return (
     <div
       ref={pageRef}
-      className="desktop-container pt-16 pb-28 sm:pb-36 lg:pb-52 flex flex-col items-center justify-center min-h-[calc(100vh-56px)]"
+      className="desktop-container pt-16 pb-40 sm:pb-52 lg:pb-64 flex flex-col items-center justify-start min-h-[calc(100vh-56px)]"
     >
       <div className="w-full max-w-[800px] flex flex-col items-center gap-6">
         {/* Page Header aligned perfectly with the main content grid */}
@@ -370,7 +370,7 @@ export default function Experience() {
         </div>
 
         {/* Experience Cards Stack with Timeline connector line */}
-        <div className="w-full flex flex-col gap-8 relative pl-12 sm:pl-16">
+        <div className="w-full flex flex-col gap-8 relative pl-12 sm:pl-16 pb-12">
           {displayExperiences.map((exp, idx) => (
             <div key={exp.id || idx} className="relative w-full reveal-card">
               {/* Continuous Straight Vertical Timeline Line Segment */}

@@ -120,7 +120,9 @@ Education:
 - Vidyodaya Pre-University College (Pre-University: 94.5%)
 
 Experience:
-- Full Stack Development Intern at ALGOORBIT Innovations (MERN stack)`;
+- Full Stack Development Intern at ALGOORBIT Innovations (MERN stack)
+- Frontend Developer Intern at NovaStack Labs (React, TypeScript)
+- Web Development Intern at PixelForge Studio (HTML, CSS, JS)`;
   },
 
   projectsData: `--- PROJECTS ---
@@ -129,7 +131,9 @@ Experience:
 3. Virtual Garden: 3D interactive medicinal plant platform (Next.js, MongoDB, Three.js) - 25 stars`,
 
   experienceData: `--- EXPERIENCE ---
-- Full Stack Development Intern @ ALGOORBIT Innovations (Nov 2025 - Jan 2026)`,
+- Full Stack Development Intern @ ALGOORBIT Innovations (Nov 2025 - Jan 2026)
+- Frontend Developer Intern @ NovaStack Labs (Jun 2025 - Aug 2025)
+- Web Development Intern @ PixelForge Studio (Jan 2025 - May 2025)`,
 
   get contactData() {
     return `--- CONTACT INFO ---
