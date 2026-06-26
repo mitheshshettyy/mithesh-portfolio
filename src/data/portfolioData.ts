@@ -159,10 +159,11 @@ export const projectsData = [
     category: "AI/ML",
     tech: ["Python", "FastAPI", "Scikit-learn", "HTML", "CSS", "JavaScript"],
     features: [
-      "Extracted AST-based features such as loop nesting depth and branching structure",
-      "Trained a Scikit-learn classifier model on ~1,000 labeled samples",
-      "Achieved ~78% validation accuracy across five complexity classes",
-      "Generates time/space complexity predictions and optimization suggestions",
+      "Analyzes Python code snippets to predict algorithmic time complexity",
+      "Evaluates execution space complexity requirements",
+      "Computes code readability scores to measure maintenance quality",
+      "Generates actionable optimization suggestions to improve performance",
+      "Built with a fast FastAPI backend serving Scikit-learn predictive ML models",
     ],
     problemSolved:
       "Developers, especially students and junior engineers, often struggle to evaluate the efficiency of their algorithms or understand time/space complexity implications. Existing static analysis tools are either overly simplistic or require complex local setups. Complexify offers a web-based, instant feedback loop to analyze and improve code efficiency.",
@@ -192,9 +193,12 @@ export const projectsData = [
     category: "Full-Stack",
     tech: ["Next.js", "React", "Node.js", "NextAuth.js", "JavaScript"],
     features: [
-      "Live preview editor where changes to structured sections reflect instantly",
-      "Session-based authentication with NextAuth.js and protected dashboard routes",
-      "Integrated react-pdf to render the layout as a downloadable, print-ready PDF",
+      "Generates professional resumes using specialized AI models for descriptions",
+      "Provides an interactive editor for real-time resume building",
+      "Offers a variety of distinct, recruiter-friendly templates",
+      "Supports high-quality, ATS-ready, and printable PDF exports",
+      "Features a user dashboard to manage multiple resumes and track progress",
+      "Implements secure session-based authentication for user account data",
     ],
     problemSolved:
       "Traditional resume builders are often slow, lack real-time visual feedback, or lock layouts behind premium paywalls. NextResume solves this by providing a developer-focused, instant-rendering resume builder with zero lag and clean PDF export functionality.",
@@ -224,9 +228,11 @@ export const projectsData = [
     category: "Frontend",
     tech: ["Next.js", "React", "Tailwind CSS", "MongoDB", "Three.js", "TypeScript"],
     features: [
-      "Browsing and submitting medicinal plant entries with Next.js API routes and MongoDB",
-      "Rendered interactive Three.js 3D scene on landing page with animated plant models",
-      "Fully responsive UI designed with Tailwind CSS utility classes",
+      "Features a rich Plant Gallery to browse medicinal plants, uses, and images",
+      "Supports dynamic user submissions to add new plants to the library",
+      "Includes an interactive Contact Page for user collaboration and feedback",
+      "Implements an immersive 3D background showcasing an animated Earth with Three.js",
+      "Delivers a modern UI layout using glassmorphism and custom CSS gradients",
     ],
     problemSolved:
       "Online botanical databases are typically static, text-heavy, and unengaging. Virtual Garden bridges the gap between scientific information and modern interactive experiences by adding dynamic 3D elements that make learning about nature visually appealing.",
