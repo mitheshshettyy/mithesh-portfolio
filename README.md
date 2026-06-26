@@ -19,7 +19,8 @@ Visitors can explore my education, projects, technical skills, internship experi
 * 🖥️ **Interactive Terminal Shell**: A fully-functional terminal CLI landing page featuring auto-completion, command history, and dynamic suggestions.
 * ⌨️ **30+ Commands & Aliases**: Navigate sections, interact with files, and trigger special commands (e.g., `matrix`, `neofetch`, `theme`).
 * 📁 **Virtual Filesystem**: Explore a simulated directory tree with commands like `ls`, `cd`, `pwd`, `tree`, and view file contents using `cat`.
-* 📅 **GSAP-powered Experience Timeline**: Interactive vertical experience timeline featuring hover parallax card tilts and smooth entrance transitions.
+* 📅 **GSAP-powered Experience Timeline**: Clean chronological experience timeline featuring active status indicator pulses and smooth entrance transitions.
+* 📂 **Clean Project Grid & Detailed Modals**: A neat, scannable project grid showcasing high-level cards, expanding into detailed command-line style inspect modals containing 5+ key features extracted directly from GitHub repo READMEs, problem-solved statements, and design context.
 * 🌌 **Three.js Particle Field**: Immersive, interactive 3D particle background responding dynamically to mouse movement.
 * ⚡ **GSAP Page Transitions**: Smooth global page-to-page navigation and content entrance reveals.
 * 🔍 **Enhanced SEO & Branding**: Predefined search engine metadata, Open Graph tags, and a customized green prompt-style SVG favicon.
@@ -86,8 +87,7 @@ portfolio/
 │   └── README.md         # Backend setup & Gmail App Password guide
 │
 ├── package.json
-├── vite.config.ts        # Vite dev proxy → Express on :3001
-└── README.md
+│   └── README.md         # Root project documentation
 ```
 
 ---
@@ -233,7 +233,9 @@ POST /api/contact
 
 * **Interactive CLI Interface**: Realistic command validation with colorful terminal error reporting, tab-completion, and command history persistence.
 * **Premium Theme**: Modern dark mode based on the NightShell console theme, blending deep blues and blacks with bright emerald green (`#00ff88`) and electric cyan (`#00d4ff`) accents.
-* **Animated Vertical Timeline**: Scroll-triggered timeline for the Experience section, with active ripple pulses and mouse-tracking card hover tilts.
+* **Animated Zsh Skill Scanner**: Category reports loaded asynchronously with zsh prompt arrows (`↳`), color-coded level badges (`expert/advanced/proficient`), custom unicode block meters (`████░░░░`), and staggered GSAP/CSS animations.
+* **Experience Timeline**: Vertical timeline for the Experience section, with active ripple pulses and timeline connector lines.
+* **Clean Projects Grid & Modals**: Segmented tabs, minimal cards showing category taglines and date metrics, and detailed modal inspect sheets containing full problem-solved analyses and feature bullets.
 * **Liquid Transitions**: GSAP-powered canvas adjustments and page transitions ensuring a fluid flow from page to page.
 * **Responsive Styling**: Tailwind CSS media queries and optimized layout padding ensuring full usability across screens from 320px to ultra-wide desktop monitors.
 
