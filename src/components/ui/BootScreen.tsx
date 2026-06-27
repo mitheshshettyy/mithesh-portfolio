@@ -48,8 +48,8 @@ const BOOT_LOGS = [
 const WELCOME_LINES = [
   "═══════════════════════════════════════════════",
   "Welcome to MITHESH R SHETTY's Developer Portfolio",
-  "Boot completed successfully.",
-  "Launching interface...",
+  "System initialized successfully.",
+  "Launching portfolio...",
   "═══════════════════════════════════════════════"
 ];
 

@@ -16,19 +16,19 @@ Visitors can explore my education, projects, technical skills, internship experi
 
 ## ✨ Features
 
-* 🖥️ **Interactive Terminal Shell**: A fully-functional terminal CLI landing page featuring auto-completion, command history, and dynamic suggestions.
+* 🖥️ **Interactive Terminal Shell**: A fully functional terminal CLI landing page featuring auto-completion, command history, and dynamic suggestions.
 * ⌨️ **30+ Commands & Aliases**: Navigate sections, interact with files, and trigger special commands (e.g., `matrix`, `neofetch`, `theme`).
 * 📁 **Virtual Filesystem**: Explore a simulated directory tree with commands like `ls`, `cd`, `pwd`, `tree`, and view file contents using `cat`.
-* 📅 **GSAP-powered Experience Timeline**: Clean chronological experience timeline featuring active status indicator pulses and smooth entrance transitions.
-* 📂 **Clean Project Grid & Detailed Modals**: A neat, scannable project grid showcasing high-level cards, expanding into detailed command-line style inspect modals containing 5+ key features extracted directly from GitHub repo READMEs, problem-solved statements, and design context.
-* 🌌 **Three.js Particle Field**: Immersive, interactive 3D particle background responding dynamically to mouse movement.
+* 📅 **GSAP-powered Experience Timeline**: Chronological experience timeline with active status indicator pulses and smooth entrance transitions.
+* 📂 **Project Grid & Detail Modals**: A scannable project grid with high-level cards that expand into detailed, command-line-style inspect modals — each containing 5+ key features, problem statements, and design context extracted from GitHub READMEs.
+* 🌌 **Three.js Particle Field**: Immersive, interactive 3D particle background that responds dynamically to mouse movement.
 * ⚡ **GSAP Page Transitions**: Smooth global page-to-page navigation and content entrance reveals.
-* 🔍 **Enhanced SEO & Branding**: Predefined search engine metadata, Open Graph tags, and a customized green prompt-style SVG favicon.
-* 📄 **Resume Preview & Download**: Seamless online resume rendering with direct single-click PDF download option.
+* 🔍 **SEO & Branding**: Predefined search engine metadata, Open Graph tags, and a customized green prompt-style SVG favicon.
+* 📄 **Resume Preview & Download**: Embedded online resume viewer with a direct single-click PDF download.
 * 📚 **Dedicated Sub-pages**: Custom views for About, Education, Skills, Projects, Experience, Contact, and Resume.
-* 📱 **Fully Responsive Layout**: Built mobile-first, rendering beautifully on smartphones, tablets, and wide-screen monitors.
-* 📬 **Functional Contact Form**: End-to-end working contact form — submissions are emailed directly via Nodemailer + Gmail SMTP with real-time success/error feedback and per-field validation.
-* 🌙 **NightShell Theme**: High-contrast, premium dark mode palette with neon green and electric cyan terminal accents.
+* 📱 **Fully Responsive Layout**: Built mobile-first, rendering cleanly on smartphones, tablets, and wide-screen monitors.
+* 📬 **Functional Contact Form**: End-to-end contact form — submissions are emailed directly via Nodemailer + Gmail SMTP, with real-time success/error feedback and per-field validation.
+* 🌙 **NightShell Theme**: High-contrast, premium dark palette with neon green and electric cyan terminal accents.
 
 ---
 
@@ -233,10 +233,10 @@ POST /api/contact
 
 * **Interactive CLI Interface**: Realistic command validation with colorful terminal error reporting, tab-completion, and command history persistence.
 * **Premium Theme**: Modern dark mode based on the NightShell console theme, blending deep blues and blacks with bright emerald green (`#00ff88`) and electric cyan (`#00d4ff`) accents.
-* **Animated Zsh Skill Scanner**: Category reports loaded asynchronously with zsh prompt arrows (`↳`), color-coded level badges (`expert/advanced/proficient`), custom unicode block meters (`████░░░░`), and staggered GSAP/CSS animations.
-* **Experience Timeline**: Vertical timeline for the Experience section, with active ripple pulses and timeline connector lines.
-* **Clean Projects Grid & Modals**: Segmented tabs, minimal cards showing category taglines and date metrics, and detailed modal inspect sheets containing full problem-solved analyses and feature bullets.
-* **Liquid Transitions**: GSAP-powered canvas adjustments and page transitions ensuring a fluid flow from page to page.
-* **Responsive Styling**: Tailwind CSS media queries and optimized layout padding ensuring full usability across screens from 320px to ultra-wide desktop monitors.
+* **Animated Skill Scanner**: Skill categories load asynchronously with zsh prompt arrows (`↳`), color-coded proficiency badges (`expert/advanced/proficient`), custom Unicode block meters (`████░░░░`), and staggered GSAP/CSS animations.
+* **Experience Timeline**: Vertical timeline with active ripple pulses and connector lines.
+* **Project Grid & Modals**: Segmented filter tabs, minimal cards with category labels and date metadata, and detailed modal sheets with full problem statements and feature breakdowns.
+* **GSAP Page Transitions**: Canvas-synced page transitions ensuring a fluid, seamless flow between pages.
+* **Responsive Styling**: Tailwind CSS media queries and optimized layout padding ensuring full usability from 320px to ultra-wide desktop monitors.
 
 ---

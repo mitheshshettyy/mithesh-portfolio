@@ -193,7 +193,7 @@ export default function Contact() {
                   type="text"
                   value={form.subject}
                   onChange={(v) => handleChange('subject', v)}
-                  placeholder="Internship opportunity / collaboration / etc."
+                  placeholder="Internship opportunity, collaboration, project inquiry..."
                   focused={focused === 'subject'}
                   onFocus={() => setFocused('subject')}
                   onBlur={() => setFocused(null)}
@@ -364,7 +364,7 @@ export default function Contact() {
                 <span>Currently available</span>
               </div>
               <p className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', lineHeight: '1.65' }}>
-                Actively looking for internships &amp; software engineering roles. Open to project collaborations and technical discussions.
+                Open to internship and software engineering opportunities, project collaborations, and technical discussions.
               </p>
             </div>
           </div>

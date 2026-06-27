@@ -28,8 +28,8 @@ export const personalInfo = {
 };
 
 export const aboutData = {
-  summary: `I'm a Computer Science & Engineering student at NMAM Institute of Technology with a strong foundation in full-stack web development. I specialize in building web applications with React, Next.js, and Node.js, database optimization with MongoDB, and creating interactive user experiences with Three.js. I thrive at the intersection of robust backend systems and beautiful frontend designs.`,
-  philosophy: `I believe great software is born at the intersection of clean database architecture, structured backend APIs, and responsive user interfaces. I am passionate about writing clean, efficient, and well-documented code that solves real-world challenges.`,
+  summary: `I'm a Computer Science & Engineering student at NMAM Institute of Technology with a strong foundation in full-stack web development. I specialize in building web applications with React, Next.js, and Node.js, optimizing databases with MongoDB, and crafting interactive user experiences with Three.js. I thrive at the intersection of robust backend systems and polished frontend design.`,
+  philosophy: `I believe great software emerges at the intersection of clean database architecture, well-structured backend APIs, and responsive user interfaces. I'm passionate about writing clean, efficient, and well-documented code that solves real-world problems.`,
   interests: [
     "Data Structures & Algorithms",
     "Full-Stack Web Development",
@@ -41,14 +41,14 @@ export const aboutData = {
     { label: "Projects Built", value: "10+", color: "green" },
     { label: "CGPA", value: "8.78", color: "cyan" },
     { label: "LeetCode Problems", value: "300+", color: "purple" },
-    { label: "Internship", value: "1", color: "blue" },
+    { label: "Internships", value: "1", color: "blue" },
   ],
   funFacts: [
-    "Enjoys Full-Stack Development",
-    "DSA Enthusiast",
-    "Love Watching Series",
-    "Exploring Everything",
-    "Love Watching Cricket & F1",
+    "Full-Stack Development Enthusiast",
+    "DSA Practitioner",
+    "Avid Series Watcher",
+    "Always Exploring New Tech",
+    "Cricket & F1 Fan",
   ],
 };
 
@@ -63,14 +63,14 @@ export const educationData = [
     cgpa: config.personal.cgpa,
     location: "Nitte, Karnataka, India",
     highlights: [
-      "Distinction in academic terms",
+      "Distinction in multiple academic terms",
       "Built interactive 3D web scenes and full-stack projects",
-      "Active participant in technical student clubs",
+      "Active member of technical student clubs",
     ],
     coursework: [
       "Data Structures & Algorithms",
       "Database Management Systems",
-      "Object Oriented Programming",
+      "Object-Oriented Programming",
       "Web Development",
       "Software Engineering",
       "Computer Networks",
@@ -153,28 +153,28 @@ export const projectsData = [
     name: "Complexify",
     tagline: "AI-powered Python code complexity classifier",
     shortDescription:
-      "A tool that accepts Python code and predicts time and space complexity, readability score, and optimization suggestions via a FastAPI backend and JavaScript frontend.",
+      "A tool that accepts Python code and predicts time and space complexity, a readability score, and optimization suggestions — powered by a FastAPI backend and a JavaScript frontend.",
     description:
-      "A production-ready machine learning tool designed to analyze Python source code and instantly classify its algorithmic complexity. By parsing the Abstract Syntax Tree (AST) of the input code, the system extracts rich structural features to predict time and space complexity categories, alongside providing readability scores and actionable code optimization suggestions.",
+      "A production-ready machine learning tool that analyzes Python source code and instantly classifies its algorithmic complexity. By parsing the Abstract Syntax Tree (AST) of the input code, the system extracts rich structural features to predict time and space complexity categories, and provides readability scores alongside actionable optimization suggestions.",
     category: "AI/ML",
     tech: ["Python", "FastAPI", "Scikit-learn", "HTML", "CSS", "JavaScript"],
     features: [
-      "Analyzes Python code snippets to predict algorithmic time complexity",
-      "Evaluates execution space complexity requirements",
-      "Computes code readability scores to measure maintenance quality",
+      "Predicts algorithmic time complexity from Python code snippets",
+      "Evaluates space complexity requirements",
+      "Computes readability scores to assess code maintainability",
       "Generates actionable optimization suggestions to improve performance",
-      "Built with a fast FastAPI backend serving Scikit-learn predictive ML models",
+      "Powered by a FastAPI backend serving a Scikit-learn Random Forest model",
     ],
     problemSolved:
-      "Developers, especially students and junior engineers, often struggle to evaluate the efficiency of their algorithms or understand time/space complexity implications. Existing static analysis tools are either overly simplistic or require complex local setups. Complexify offers a web-based, instant feedback loop to analyze and improve code efficiency.",
+      "Developers — especially students and junior engineers — often struggle to assess algorithm efficiency or understand time/space complexity implications. Existing static analysis tools are either overly simplistic or require complex local setups. Complexify provides a web-based, instant feedback loop for analyzing and improving code efficiency.",
     approach:
-      "The application uses a lightweight FastAPI backend to parse Python code into an Abstract Syntax Tree (AST). It extracts code features such as loop nesting depth, recursive calls, branching complexity, and built-in function calls. These features are passed to a Scikit-learn Random Forest classifier trained on over 1,000 labeled code blocks, which returns predictions to a clean JavaScript frontend.",
+      "A lightweight FastAPI backend parses Python code into an Abstract Syntax Tree (AST) and extracts structural features such as loop nesting depth, recursive call patterns, branching complexity, and built-in function usage. These features are fed to a Scikit-learn Random Forest classifier trained on over 1,000 labeled code samples, which returns predictions to a clean JavaScript frontend.",
     architecture:
-      "Frontend (HTML/CSS/JS) sends source code via a POST request to a FastAPI backend. The backend runs the code through a custom AST parser to extract structural metrics, transforms these into a feature vector, feeds it to a serialized Scikit-learn model, and responds with the classification and optimization recommendations.",
+      "The HTML/CSS/JS frontend sends source code via POST request to a FastAPI backend. The backend runs the code through a custom AST parser to extract structural metrics, converts them into a feature vector, feeds it to a serialized Scikit-learn model, and returns the complexity classification along with optimization recommendations.",
     challenges:
-      "Accurately predicting complexity for unstructured code or deeply nested logical branches was a challenge. Simple regex parsing failed to capture execution depth, which required migrating to full AST node traversal to identify control flow structures reliably.",
+      "Accurately predicting complexity for unstructured code or deeply nested logic branches proved difficult. Simple regex parsing failed to capture execution depth, requiring a migration to full AST node traversal to reliably identify control flow structures.",
     futureImprovements:
-      "Support for multi-file analysis, integration of transformer-based LLMs for more nuanced code optimization suggestions, and support for additional programming languages like Java and C++.",
+      "Multi-file analysis support, integration of transformer-based LLMs for more nuanced optimization suggestions, and coverage of additional languages such as Java and C++.",
     github: "https://github.com/mitheshshettyy/Complexify",
     demo: null,
     status: "Completed",
@@ -185,31 +185,31 @@ export const projectsData = [
   {
     id: "nextresume",
     name: "NextResume",
-    tagline: "Live preview resume builder",
+    tagline: "Real-time resume builder with live preview",
     shortDescription:
-      "A modern resume builder with a live preview editor where changes to structured sections are reflected instantly in the formatted layout, with PDF download support.",
+      "A modern resume builder with a live side-by-side editor — changes to structured sections are reflected instantly in the formatted layout, with one-click PDF download.",
     description:
-      "A modern, full-stack resume builder featuring a real-time, side-by-side interactive editor. Users can input their professional details in structured fields and watch the document layout dynamically adapt. The app integrates secure authentication and PDF generation to deliver print-ready, high-quality resumes.",
+      "A modern, full-stack resume builder featuring a real-time, side-by-side interactive editor. Users enter their professional details in structured fields and watch the document layout update instantly. The app integrates secure authentication and PDF generation to deliver print-ready, high-quality resumes.",
     category: "Full-Stack",
     tech: ["Next.js", "React", "Node.js", "NextAuth.js", "JavaScript"],
     features: [
-      "Generates professional resumes using specialized AI models for descriptions",
-      "Provides an interactive editor for real-time resume building",
-      "Offers a variety of distinct, recruiter-friendly templates",
-      "Supports high-quality, ATS-ready, and printable PDF exports",
-      "Features a user dashboard to manage multiple resumes and track progress",
-      "Implements secure session-based authentication for user account data",
+      "AI-assisted bullet point generation for professional resume descriptions",
+      "Real-time, side-by-side interactive editor with instant preview updates",
+      "Multiple distinct, recruiter-friendly resume templates",
+      "High-quality, ATS-ready PDF exports",
+      "User dashboard for managing multiple resumes and tracking progress",
+      "Secure session-based authentication for user accounts",
     ],
     problemSolved:
-      "Traditional resume builders are often slow, lack real-time visual feedback, or lock layouts behind premium paywalls. NextResume solves this by providing a developer-focused, instant-rendering resume builder with zero lag and clean PDF export functionality.",
+      "Traditional resume builders are often slow, lack real-time visual feedback, or lock templates behind premium paywalls. NextResume addresses this with an instant-rendering editor, zero rendering lag, and clean PDF export — all available without a paywall.",
     approach:
-      "Built on Next.js, NextResume leverages React's state management to synchronize user input fields with a formatted document preview in real time. It uses NextAuth.js to handle secure credentials and OAuth logins. PDF rendering is handled client-side using react-pdf to compile HTML components into a pixel-perfect downloadable PDF.",
+      "Built on Next.js, the app uses React state management to synchronize form inputs with a live document preview. NextAuth.js handles secure credential and OAuth authentication. PDF rendering is performed client-side using react-pdf, compiling React components into a pixel-perfect downloadable PDF.",
     architecture:
-      "The frontend is built with React and Tailwind CSS on Next.js, handling state sync and rendering the PDF document using react-pdf. The backend is powered by Next.js API Routes, storing user profiles and resume data, and using NextAuth.js to manage sessions securely.",
+      "The frontend is built with React and Tailwind CSS on Next.js, managing state sync and rendering the PDF document via react-pdf. The backend uses Next.js API Routes to store user profiles and resume data, with NextAuth.js managing sessions securely.",
     challenges:
-      "Synchronizing state changes across complex, nested sections (Education, Experience, Skills) without triggering full-page rerenders or lagging the live preview. This was resolved by optimizing React contexts and memoizing form fields.",
+      "Synchronizing state across complex nested sections — Education, Experience, and Skills — without triggering full-page re-renders or lagging the live preview. Resolved by optimizing React context usage and memoizing individual form fields.",
     futureImprovements:
-      "Add multiple professional resume templates, integrate an AI assistant to write bullet points, and add ATS-friendliness scanning checks.",
+      "Additional professional resume templates, an AI assistant for writing achievement-focused bullet points, and an ATS compatibility scanner.",
     github: "https://github.com/mitheshshettyy/NextResume",
     demo: null,
     status: "Completed",
@@ -222,28 +222,28 @@ export const projectsData = [
     name: "Virtual Garden",
     tagline: "3D interactive medicinal plant platform",
     shortDescription:
-      "A platform for browsing and submitting medicinal plant entries, including a gallery, submission form, and contact features, featuring an interactive Three.js 3D landing page scene.",
+      "A platform for browsing and submitting medicinal plant entries, with a gallery, submission form, and contact page — anchored by an immersive Three.js 3D landing scene.",
     description:
-      "An immersive, interactive web platform that showcases a digital library of medicinal plants. The application combines a structured database of botanical entries with a beautifully rendered 3D scene on the landing page, allowing users to interact with plant models in a virtual greenhouse environment.",
+      "An immersive, interactive web platform showcasing a digital library of medicinal plants. The application pairs a structured botanical database with a beautifully rendered 3D landing page scene, letting users explore plant models in a virtual greenhouse environment.",
     category: "Frontend",
     tech: ["Next.js", "React", "Tailwind CSS", "MongoDB", "Three.js", "TypeScript"],
     features: [
-      "Features a rich Plant Gallery to browse medicinal plants, uses, and images",
-      "Supports dynamic user submissions to add new plants to the library",
-      "Includes an interactive Contact Page for user collaboration and feedback",
-      "Implements an immersive 3D background showcasing an animated Earth with Three.js",
-      "Delivers a modern UI layout using glassmorphism and custom CSS gradients",
+      "Plant Gallery for browsing medicinal plants with their uses and images",
+      "Dynamic user submission form for adding new plants to the library",
+      "Contact page for user collaboration and feedback",
+      "Immersive Three.js 3D background featuring an animated Earth scene",
+      "Modern UI with glassmorphism effects and custom CSS gradients",
     ],
     problemSolved:
-      "Online botanical databases are typically static, text-heavy, and unengaging. Virtual Garden bridges the gap between scientific information and modern interactive experiences by adding dynamic 3D elements that make learning about nature visually appealing.",
+      "Online botanical databases are typically static, text-heavy, and visually unengaging. Virtual Garden bridges the gap between scientific information and modern interactive experiences by layering dynamic 3D elements onto educational content.",
     approach:
-      "The landing page embeds a Three.js canvas loading optimized GLTF/GLB models of plants and gardens. The models are rendered in a 3D scene with custom lighting, camera controls (OrbitControls), and hover-based node annotations. The database operations use Next.js API routes linked to a MongoDB Atlas cluster.",
+      "The landing page embeds a Three.js canvas that loads optimized GLTF/GLB plant models with custom lighting, OrbitControls, and hover-triggered annotations. Database operations use Next.js API routes connected to a MongoDB Atlas cluster.",
     architecture:
-      "The client uses Three.js and React Three Fiber to display a WebGL canvas in the browser. Interactive click handlers on 3D elements trigger detailed information cards. Plant meta-information and user submissions are routed through Next.js serverless functions to MongoDB.",
+      "The client renders a WebGL canvas via Three.js and React Three Fiber. Click handlers on 3D elements surface detailed information cards. Plant data and user submissions are routed through Next.js serverless API functions to MongoDB.",
     challenges:
-      "VRAM usage and loading times for 3D assets on mobile devices. I optimized the GLTF meshes, applied texture compression (DRACO loader), and implemented a lazy-loading skeleton placeholder to prevent blocking the initial page load.",
+      "High VRAM usage and slow load times for 3D assets on mobile devices. Resolved by optimizing GLTF meshes, applying DRACO texture compression, and implementing a lazy-loading skeleton to avoid blocking the initial page render.",
     futureImprovements:
-      "Add real-time weather and daylight simulation affecting the 3D scene, expand the database to cover 100+ species, and introduce virtual reality (WebXR) support.",
+      "Real-time weather and daylight simulation affecting the 3D scene, a database expanded to 100+ species, and WebXR (virtual reality) support.",
     github: "https://github.com/mitheshshettyy/Virtual-Garden",
     demo: null,
     status: "Completed",
@@ -254,31 +254,31 @@ export const projectsData = [
   {
     id: "my-coffee-co",
     name: "My Coffee Co.",
-    tagline: "Premium, high-performance coffee e-commerce experience",
+    tagline: "Premium, performance-tuned coffee e-commerce frontend",
     shortDescription:
-      "A premium, mobile-first e-commerce frontend optimized for 60 FPS scrolling with render isolation and Core Web Vital tuning.",
+      "A premium, mobile-first e-commerce frontend optimized for consistent 60 FPS scrolling through render isolation and Core Web Vitals tuning.",
     description:
-      "My Coffee Co. is a premium, mobile-first, high-converting e-commerce frontend designed to make coffee buying fast, tactile, and frictionless. By reorganizing responsive layouts, eliminating main-thread render dependencies, and utilizing GPU-composited layers, the application is optimized for mobile touchscreens (from iPhone SE up to Galaxy S22 Ultra), securing consistent 60 FPS scroll performance.",
+      "My Coffee Co. is a premium, mobile-first e-commerce frontend designed to make coffee shopping fast, tactile, and frictionless. Through responsive layout restructuring, elimination of main-thread render bottlenecks, and GPU-composited layers, the app delivers consistent 60 FPS scroll performance across all mobile devices — from iPhone SE to Galaxy S22 Ultra.",
     category: "Frontend",
     tech: ["React", "Vite", "Tailwind CSS", "TypeScript", "Framer Motion", "Vercel"],
     features: [
-      "Split-Context Render Isolation separating cart state from product cards to eliminate re-renders",
-      "Swipeable mobile horizontal scroll-snapping carousels reducing page height by over 70%",
-      "Interactive cart drawer with Framer Motion transitions and free-shipping progress tracker",
-      "Core Web Vital tuning with React.lazy/Suspense loading below-the-fold sections dynamically",
-      "LCP preloading and WebP asset optimizations reducing initial payload size significantly",
+      "Split-context render isolation — cart state is separated from product cards to eliminate unnecessary re-renders",
+      "Swipeable horizontal scroll-snapping carousels that reduce page height by over 70%",
+      "Animated cart drawer with Framer Motion transitions and a free-shipping progress tracker",
+      "Core Web Vitals tuning via React.lazy/Suspense for dynamic below-the-fold loading",
+      "LCP preloading and WebP asset optimization to minimize initial payload size",
       "Glassmorphic sticky header and persistent mobile bottom navigation bar",
     ],
     problemSolved:
-      "Traditional mobile e-commerce sites often suffer from high payload sizes, layout shifts, and heavy catalog re-renders when items are added to the cart, leading to scroll lag. My Coffee Co. solves this by isolating reactive state from static components and optimizing asset delivery to maintain a stable 60 FPS experience.",
+      "Mobile e-commerce sites commonly suffer from large payloads, layout shifts, and catalog-wide re-renders when items are added to the cart — all leading to scroll lag. My Coffee Co. isolates reactive state from static components and optimizes asset delivery to maintain a stable 60 FPS experience.",
     approach:
-      "The application leverages a split-context architecture where catalog items do not subscribe to cart state updates directly. It optimizes the critical rendering path using lazy loading for lower sections and high-priority preloading (fetchPriority) for above-the-fold hero images, cutting initial HTML payload size to just 0.58 KB.",
+      "A split-context architecture ensures catalog components do not subscribe directly to cart state updates. The critical rendering path is optimized with lazy-loaded below-the-fold sections and high-priority preloading (fetchPriority) for above-the-fold hero images, reducing the initial HTML payload to just 0.58 KB.",
     architecture:
-      "A client-side e-commerce frontend built using React 19, Vite 7, and Tailwind CSS v4, deployed on Vercel. State management utilizes isolated contexts separating read-only cart values from item dispatchers to prevent catalog-wide DOM updates.",
+      "A client-side frontend built with React 19, Vite 7, and Tailwind CSS v4, deployed on Vercel. State management uses isolated contexts that separate read-only cart values from item dispatchers to prevent catalog-wide DOM updates.",
     challenges:
-      "Avoiding catalog re-renders upon cart updates and optimizing mobile scroll physics. This was resolved by using custom context isolation and deploying hardware-accelerated GPU-composited layers for the horizontal touch carousels.",
+      "Preventing catalog re-renders on cart updates while maintaining smooth mobile scroll physics. Resolved through custom context isolation and hardware-accelerated GPU-composited layers for the horizontal touch carousels.",
     futureImprovements:
-      "Integrate Stripe/UPI checkout processing, implement persistent cart sync with an Express backend, and add user account dashboards.",
+      "Stripe/UPI checkout integration, persistent cart sync via an Express backend, and user account dashboards.",
     github: "https://github.com/mitheshshettyy/my-coffee-co",
     liveDemo: "https://my-coffee-co.vercel.app/",
     status: "Completed",
@@ -291,28 +291,28 @@ export const projectsData = [
     name: "EventSphere",
     tagline: "College Event Management System",
     shortDescription:
-      "A secure college event management platform built using Spring Boot MVC and Thymeleaf, enabling admins to coordinate campus events and students to register dynamically.",
+      "A secure college event management platform built with Spring Boot MVC and Thymeleaf, enabling admins to coordinate campus events and students to register dynamically.",
     description:
-      "EventSphere is a secure college event management system designed to streamline organizing, scheduling, and tracking campus activities. The application provides dedicated administrative dashboards for event orchestration and student registration monitoring, alongside a personalized portal for students to register for events.",
+      "EventSphere is a secure college event management system designed to streamline the organizing, scheduling, and tracking of campus activities. It provides a dedicated administrative dashboard for event orchestration and registration monitoring, alongside a student portal for browsing and signing up for events.",
     category: "Full-Stack",
     tech: ["Java", "Spring Boot", "MySQL", "Thymeleaf", "Tailwind CSS", "Maven"],
     features: [
-      "Secure user registration and login with session role redirection",
-      "Administrative controls for the complete event lifecycle (creation, update, deletion)",
-      "Student registration portal to browse events and sign up securely",
-      "Admin event management dashboard displaying registration counts and student details",
-      "Dynamic, modular frontend rendering using Thymeleaf layouts and fragments"
+      "Secure user registration and login with session-based role redirection",
+      "Admin controls for the full event lifecycle — creation, update, and deletion",
+      "Student portal for browsing and registering for events securely",
+      "Admin dashboard displaying registration counts and enrolled student details",
+      "Dynamic, modular frontend rendering using Thymeleaf layouts and fragments",
     ],
     problemSolved:
-      "Campus event organization is often fragmented and dependent on manual tracking sheets. EventSphere unifies event publishing, registration, and attendance rosters into a single secure web portal.",
+      "Campus event organization is often fragmented and reliant on manual spreadsheets. EventSphere consolidates event publishing, student registration, and attendance rosters into a single secure web portal.",
     approach:
-      "Developed a responsive multi-role Java web application with Spring Boot. Designed relational database schemas in MySQL managed via Spring Data JPA. Leveraged server-side Thymeleaf templates for fast rendering and dynamic state management based on user session roles.",
+      "Built a responsive, multi-role Java web application with Spring Boot. Designed relational MySQL schemas managed via Spring Data JPA. Used server-side Thymeleaf templates for fast rendering and session-role-based dynamic state management.",
     architecture:
-      "A full-stack MVC application using Spring Boot controllers to handle HTTP requests, JPA/Hibernate repositories to interface with a MySQL database, and Thymeleaf for server-rendered page layouts.",
+      "A full-stack MVC application using Spring Boot controllers to handle HTTP requests, JPA/Hibernate repositories to interface with MySQL, and Thymeleaf for server-rendered page layouts.",
     challenges:
-      "Ensuring proper session-based validation for page routes (e.g. protecting admin pages from student users) without configuring full Spring Security. Resolved this by building controller interceptors and HTTP session validation checks directly within the view controllers.",
+      "Enforcing session-based route protection — preventing students from accessing admin pages — without configuring full Spring Security. Resolved by building custom controller interceptors and HTTP session validation checks inside the view controllers.",
     futureImprovements:
-      "Integrate automated email notifications for successful registration, enforce dynamic event capacity limits, and build a REST API version for future mobile application integration.",
+      "Automated email notifications on successful registration, dynamic event capacity enforcement, and a REST API layer for future mobile app integration.",
     github: "https://github.com/mitheshshettyy/EventSphere",
     demo: null,
     status: "Completed",
@@ -323,31 +323,31 @@ export const projectsData = [
   {
     id: "orbitlearn",
     name: "OrbitLearn",
-    tagline: "Premium Learning Management System (LMS)",
+    tagline: "Secure, role-based Learning Management System",
     shortDescription:
-      "A secure, role-based LMS featuring an interactive React + Vite frontend client and an Express backend API storing course progress in MongoDB.",
+      "A secure, role-based LMS with a React + Vite frontend and an Express backend API that persists course progress in MongoDB.",
     description:
-      "OrbitLearn is a secure, premium Learning Management System (LMS) designed to streamline course delivery, user management, and performance tracking. Featuring a modern, dark-mode Cosmic design language with glassmorphism and smooth micro-animations, the application provides dedicated portals for student course consumption, instructor course creation, and administrative platform controls.",
+      "OrbitLearn is a secure Learning Management System (LMS) built to streamline course delivery, user management, and performance tracking. Featuring a dark-mode Cosmic design language with glassmorphism and smooth micro-animations, it provides dedicated portals for students, instructors, and administrators.",
     category: "Full-Stack",
     tech: ["React", "Node.js", "Express.js", "MongoDB", "Vite", "JWT"],
     features: [
-      "Secure user authentication with JWT tokens and bcryptjs password hashing",
-      "Role-Based Access Control (RBAC) supporting custom Student, Instructor, and Admin dashboard layouts",
-      "Course studio with multi-chapter editing and interactive quiz sets generation",
-      "Dynamic chapter completion status and course registration progress trackers",
-      "Multer-configured file upload logic for custom course thumbnails and certificates",
-      "Cosmic styling with glassmorphism layouts and responsive flex/grid viewport scaling"
+      "Secure authentication with JWT tokens and bcryptjs password hashing",
+      "Role-Based Access Control (RBAC) with separate dashboards for Students, Instructors, and Admins",
+      "Course studio supporting multi-chapter editing and interactive quiz creation",
+      "Dynamic chapter completion tracking and course progress indicators",
+      "Multer-powered file uploads for custom course thumbnails and certificates",
+      "Cosmic dark-mode UI with glassmorphism and responsive flex/grid layouts",
     ],
     problemSolved:
-      "Traditional online learning platforms are often cluttered, visually outdated, and difficult to manage across different roles. OrbitLearn solves this by separating concerns into distinct dashboards with JWT protection and dynamic frontend routing.",
+      "Many online learning platforms are cluttered, visually dated, and difficult to manage across roles. OrbitLearn addresses this by separating concerns into distinct role-based dashboards, secured with JWT and backed by dynamic frontend routing.",
     approach:
-      "Engineered a full-stack, decoupled SPA. The frontend utilizes React context providers to manage authentication and application states, while the Node/Express backend hosts secure REST APIs mapping data to MongoDB via Mongoose ODM schemas.",
+      "Engineered as a decoupled full-stack SPA. The React frontend uses context providers for authentication and app state, while the Node.js/Express backend exposes secure REST APIs mapped to MongoDB via Mongoose ODM schemas.",
     architecture:
-      "A client-server application composed of a React 19 frontend SPA and a Node.js/Express 5 API server. Persistence is managed in MongoDB, while security middleware intercepts and verifies requests using JSON Web Tokens.",
+      "A client-server application composed of a React 19 SPA and a Node.js/Express 5 API server. MongoDB handles persistence, while JWT middleware intercepts and verifies requests before they reach protected routes.",
     challenges:
-      "Optimizing the application to synchronize student progress counters and quiz submissions without sluggish page rerenders. Resolved this by building a dedicated React context layer that implements optimistic client updates prior to API persistence.",
+      "Keeping student progress counters and quiz submissions in sync without causing sluggish re-renders. Resolved by implementing a dedicated React context layer with optimistic client-side updates applied before API persistence.",
     futureImprovements:
-      "Integrate automated email certificates on completion, add real-time messaging between students and instructors, and support cloud storage services like AWS S3 for media uploads.",
+      "Automated completion certificates sent by email, real-time student–instructor messaging, and AWS S3 integration for media storage.",
     github: "https://github.com/mitheshshettyy/OrbitLearn",
     demo: null,
     status: "Completed",
@@ -367,12 +367,12 @@ export const experienceData = [
     duration: "Nov 2025 – Jan 2026",
     location: "Karkala, Karnataka, India",
     description:
-      "Built course management and student progress tracking modules for a MERN stack EdTech platform. Implemented JWT role-based access control, resolved N+1 MongoDB query performance issues, and developed Express.js RESTful APIs.",
+      "Developed course management and student progress tracking modules for a MERN stack EdTech platform. Implemented JWT-based role access control, resolved N+1 MongoDB query performance issues, and built Express.js RESTful APIs.",
     achievements: [
-      "Built course management and student progress tracking modules for a MERN stack EdTech platform with 100+ registered users",
-      "Implemented role-based access control using JWT with separate permission scopes for admin, instructor, and student roles",
+      "Developed course management and student progress tracking modules for a MERN stack EdTech platform with 100+ registered users",
+      "Implemented role-based access control using JWT with distinct permission scopes for Admin, Instructor, and Student roles",
       "Resolved N+1 query issues in MongoDB aggregation pipelines and added field-level indexing, reducing average API response time by ~25%",
-      "Developed and tested RESTful API endpoints in Express.js with consistent schema validation and structured error handling",
+      "Designed and tested RESTful API endpoints in Express.js with consistent schema validation and structured error handling",
     ],
     tech: ["React", "Node.js", "Express.js", "MongoDB", "JWT"],
     logo: "A",

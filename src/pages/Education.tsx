@@ -23,7 +23,7 @@ export default function Education() {
           cat <span style={{ color: 'var(--terminal-green)' }}>education.log</span>
         </h1>
         <p className="text-sm leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-          # Academic path and coursework
+          # Academic background and coursework
         </p>
       </div>
 
@@ -146,7 +146,7 @@ function Breadcrumb({ path }: { path: string }) {
 const allCoursework = [
   'Data Structures & Algorithms',
   'Database Management Systems',
-  'Object Oriented Programming',
+  'Object-Oriented Programming',
   'Web Development',
   'Software Engineering',
   'Computer Networks',

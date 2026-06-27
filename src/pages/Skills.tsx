@@ -48,7 +48,7 @@ export default function Skills() {
           cat <span style={{ color: 'var(--terminal-green)' }}>skills.json</span>
         </h1>
         <p className="text-sm leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-          # Developer dashboard — technical proficiency across all categories
+          # Technical proficiency across all skill categories
         </p>
       </div>
 

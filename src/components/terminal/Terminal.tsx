@@ -473,7 +473,7 @@ function useCommandProcessor(
           line('success', `  ${personalInfo.status}`),
           blank(),
           line('output', `  Role target : Full-Stack Engineer / SDE`),
-          line('output', `  Availability: May 2025 onwards`),
+          line('output', `  Availability: Immediately available`),
           line('output', `  Preferred   : Full-time, Hybrid or Remote`),
           line('output', `  Open to     : Early-stage startups, Big Tech, Research`),
           blank(),
@@ -505,7 +505,7 @@ function useCommandProcessor(
         setTimeout(() => navigate('/'), 400);
         return [
           line('success', '▶ Closing terminal session...'),
-          line('output', '  Exiting workspace, redirecting to home.'),
+          line('output', '  Redirecting to home.'),
         ];
 
       case 'uptime':

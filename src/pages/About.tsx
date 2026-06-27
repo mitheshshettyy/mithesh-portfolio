@@ -26,7 +26,7 @@ export default function About() {
           cat <span style={{ color: 'var(--terminal-green)' }}>about.txt</span>
         </h1>
         <p className="text-sm leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-          # A deeper look at who I am beyond the command prompt
+          # A closer look at who I am beyond the command prompt
         </p>
       </div>
 
