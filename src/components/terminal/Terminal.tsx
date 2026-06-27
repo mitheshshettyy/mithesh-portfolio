@@ -442,7 +442,6 @@ function useCommandProcessor(
           line('section', '  ── SOCIAL LINKS ───────────────────────────────────────'),
           line('success', `  GitHub    → ${socialLinks.github.url}`),
           line('info', `  LinkedIn  → ${socialLinks.linkedin.url}`),
-          line('output', `  Twitter   → ${socialLinks.twitter.url}`),
           line('output', `  Email     → ${socialLinks.email.handle}`),
           blank(),
         ];

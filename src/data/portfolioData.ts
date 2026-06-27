@@ -15,7 +15,6 @@ export const personalInfo = {
   phone: "+91 63629 69943",
   github: config.contact.github,
   linkedin: config.contact.linkedin,
-  twitter: "https://twitter.com/mitheshshettyy",
   resumeUrl: config.resume.path,
   availability: config.personal.status,
   prompt: `${config.terminal.user}@${config.terminal.host}`,
@@ -421,6 +420,5 @@ export const commandDocs: Record<string, string> = {
 export const socialLinks = {
   github: { url: config.contact.github, label: "GitHub", handle: `@${config.contact.github.split('/').pop()}` },
   linkedin: { url: config.contact.linkedin, label: "LinkedIn", handle: `in/${config.contact.linkedin.split('/in/').pop()}` },
-  twitter: { url: "https://twitter.com/mitheshshettyy", label: "Twitter", handle: "@mitheshshettyy" },
   email: { url: `mailto:${config.contact.email}`, label: "Email", handle: config.contact.email },
 };
