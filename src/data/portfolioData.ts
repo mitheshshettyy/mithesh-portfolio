@@ -28,7 +28,7 @@ export const personalInfo = {
 };
 
 export const aboutData = {
-  summary: `I'm a Computer Science & Engineering student at NMAM Institute of Technology with a strong foundation in full-stack web development. I specialize in building web applications with React, Next.js, and Node.js, optimizing databases with MongoDB, and crafting interactive user experiences with Three.js. I thrive at the intersection of robust backend systems and polished frontend design.`,
+  summary: `I am a Computer Science and Engineering student dedicated to building impactful, real-world software. With a strong foundation in software design and a focus on clean user experiences, I excel at solving complex problems and adapting to new technologies quickly. I am motivated to develop reliable, well-structured applications, bridging robust backend functionality with polished, intuitive frontends.`,
   philosophy: `I believe great software emerges at the intersection of clean database architecture, well-structured backend APIs, and responsive user interfaces. I'm passionate about writing clean, efficient, and well-documented code that solves real-world problems.`,
   interests: [
     "Data Structures & Algorithms",

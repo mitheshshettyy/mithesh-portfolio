@@ -82,10 +82,10 @@ Name: ${config.personal.name}
 Role: ${config.personal.role}
 
 Summary:
-I'm a Computer Science & Engineering student at ${config.personal.university} with a strong foundation in full-stack web development. I specialize in building web applications with React, Next.js, and Node.js, database optimization with MongoDB, and creating interactive user experiences with Three.js.
+I am a Computer Science and Engineering student dedicated to building impactful, real-world software. With a strong foundation in software design and a focus on clean user experiences, I excel at solving complex problems and adapting to new technologies quickly. I am motivated to develop reliable, well-structured applications, bridging robust backend functionality with polished, intuitive frontends.
 
 Philosophy:
-I believe great software is born at the intersection of clean database architecture, structured backend APIs, and responsive user interfaces.`;
+I believe great software emerges at the intersection of clean database architecture, well-structured backend APIs, and responsive user interfaces. I'm passionate about writing clean, efficient, and well-documented code that solves real-world problems.`;
   },
   
   get educationData() {
