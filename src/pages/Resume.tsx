@@ -38,7 +38,7 @@ export default function Resume() {
   return (
     <div
       ref={pageRef}
-      className="desktop-container flex flex-col items-center justify-start pt-36 pb-52 md:pt-48 md:pb-64 gap-6"
+      className="desktop-container flex flex-col items-center justify-start pt-16 pb-24 sm:pt-20 sm:pb-32 md:pt-24 md:pb-40 gap-8"
       style={{
         minHeight: 'calc(100vh - 110px)',
         boxSizing: 'border-box',
