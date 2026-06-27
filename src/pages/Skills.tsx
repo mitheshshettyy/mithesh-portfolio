@@ -14,17 +14,17 @@ const categories: { key: CategoryKey; label: string; icon: string }[] = [
 ];
 
 function getLevelColor(level: number): string {
-  if (level >= 90) return 'var(--terminal-green)';
-  if (level >= 80) return 'var(--terminal-cyan)';
-  if (level >= 70) return 'var(--terminal-blue)';
-  return '#64748b'; // Gray
+  if (level >= 90) return '#0dbf78'; // Softer terminal green
+  if (level >= 80) return '#00b4d8'; // Softer terminal cyan
+  if (level >= 70) return '#3b82f6'; // Softer terminal blue
+  return '#475569'; // Softer slate gray
 }
 
 function getLevelGlow(level: number): string {
-  if (level >= 90) return 'rgba(0, 255, 136, 0.4)';
-  if (level >= 80) return 'rgba(0, 212, 255, 0.4)';
-  if (level >= 70) return 'rgba(61, 139, 255, 0.4)';
-  return 'rgba(100, 116, 139, 0.2)';
+  if (level >= 90) return 'rgba(13, 191, 120, 0.15)'; // Softer green glow
+  if (level >= 80) return 'rgba(0, 180, 216, 0.15)';   // Softer cyan glow
+  if (level >= 70) return 'rgba(59, 130, 246, 0.15)';   // Softer blue glow
+  return 'rgba(71, 85, 105, 0.05)';
 }
 
 export default function Skills() {
@@ -40,33 +40,35 @@ export default function Skills() {
   }, []);
 
   return (
-    <div ref={pageRef} className="desktop-container py-16 space-y-12">
-      {/* Header */}
-      <div className="reveal space-y-4">
-        <Breadcrumb path="skills" />
-        <h1 className="text-3xl sm:text-4xl font-extrabold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-          cat <span style={{ color: 'var(--terminal-green)' }}>skills.json</span>
-        </h1>
-        <p className="text-sm leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-          # Technical proficiency across all skill categories
-        </p>
-      </div>
+    <div ref={pageRef} className="desktop-container py-16 md:py-24 flex justify-center min-h-[calc(100vh-56px)]">
+      <div className="w-full max-w-[1100px] flex flex-col gap-12 sm:gap-16">
+        {/* Header */}
+        <div className="reveal space-y-4">
+          <Breadcrumb path="skills" />
+          <h1 className="text-3xl sm:text-4xl font-extrabold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
+            cat <span style={{ color: '#0dbf78' }}>skills.json</span>
+          </h1>
+          <p className="text-sm leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+            # Technical proficiency across all skill categories
+          </p>
+        </div>
 
-      {/* Grid Dashboard */}
-      <div className="reveal grid grid-cols-1 md:grid-cols-2 gap-y-10 gap-x-12 lg:gap-y-12 lg:gap-x-16 items-stretch">
-        {categories.map((cat) => {
-          // Check that the category exists in skillsData to prevent TypeScript errors
-          const skills = skillsData[cat.key] || [];
+        {/* Grid Dashboard */}
+        <div className="reveal grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-16 lg:gap-y-16 lg:gap-x-20 items-stretch">
+          {categories.map((cat) => {
+            // Check that the category exists in skillsData to prevent TypeScript errors
+            const skills = skillsData[cat.key] || [];
 
-          return (
-            <SkillCard
-              key={cat.key}
-              label={cat.label}
-              icon={cat.icon}
-              skills={skills}
-            />
-          );
-        })}
+            return (
+              <SkillCard
+                key={cat.key}
+                label={cat.label}
+                icon={cat.icon}
+                skills={skills}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -110,16 +112,17 @@ function SkillCard({ label, icon, skills }: SkillCardProps) {
   return (
     <div
       ref={cardRef}
-      className="terminal-card p-7 sm:p-9 space-y-6 h-full flex flex-col justify-between"
+      className="p-8 sm:p-10 space-y-8 h-full flex flex-col justify-between rounded-xl border border-[rgba(0,255,136,0.08)] bg-[rgba(8,12,24,0.4)] hover:border-[rgba(0,255,136,0.22)] hover:bg-[rgba(13,20,38,0.55)] hover:shadow-[0_0_25px_rgba(0,255,136,0.04)] hover:-translate-y-1 transition-all duration-300"
+      style={{ backdropFilter: 'blur(12px)' }}
     >
       <div>
         {/* Card Title */}
-        <div className="flex items-center justify-between pb-3 border-b border-gray-800">
+        <div className="flex items-center justify-between pb-4 border-b border-slate-800/60">
           <span
             className="text-sm font-bold flex items-center gap-2"
-            style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-cyan)' }}
+            style={{ fontFamily: 'var(--font-mono)', color: '#00b4d8' }}
           >
-            <span style={{ color: 'var(--terminal-green)' }}>{icon}</span>
+            <span style={{ color: '#0dbf78' }}>{icon}</span>
             {label}
           </span>
           <span className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
@@ -128,7 +131,7 @@ function SkillCard({ label, icon, skills }: SkillCardProps) {
         </div>
 
         {/* Skill Bars List */}
-        <div className="space-y-6 mt-8">
+        <div className="space-y-7 mt-8">
           {skills.map((skill) => (
             <SkillRow
               key={skill.name}
@@ -158,14 +161,14 @@ function SkillRow({ name, level, isVisible }: { name: string; level: number; isV
       </span>
 
       {/* Progress Bar Container */}
-      <div className="relative w-full h-[6px] bg-gray-800/20 rounded-full">
+      <div className="relative w-full h-[5px] bg-slate-950/80 rounded-full">
         {/* Fill: Active block (continuous bar) */}
         <div
           className="absolute top-0 left-0 h-full rounded-full"
           style={{
             width: isVisible ? `${level}%` : '0%',
             backgroundColor: levelColor,
-            boxShadow: `0 0 10px ${getLevelGlow(level)}`,
+            boxShadow: `0 0 6px ${getLevelGlow(level)}`,
             transition: 'width 1.2s cubic-bezier(0.25, 1, 0.5, 1)',
           }}
         />
