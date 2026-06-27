@@ -369,7 +369,6 @@ export default function Experience() {
           </p>
         </div>
 
-        {/* Experience Cards Stack with Timeline connector line */}
         <div className="w-full flex flex-col gap-8 relative pl-12 sm:pl-16 pb-12">
           {displayExperiences.map((exp, idx) => (
             <div key={exp.id || idx} className="relative w-full reveal-card">
@@ -418,6 +417,9 @@ export default function Experience() {
             </div>
           ))}
         </div>
+
+        {/* Breathable vertical gap spacer before footer */}
+        <div className="h-16 sm:h-24 lg:h-32 w-full shrink-0" />
       </div>
     </div>
   );

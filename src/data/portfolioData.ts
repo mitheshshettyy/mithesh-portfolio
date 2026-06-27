@@ -376,6 +376,46 @@ export const experienceData = [
     tech: ["React", "Node.js", "Express.js", "MongoDB", "JWT"],
     logo: "A",
     color: "#00ff88",
+  },
+  {
+    id: "frontend-intern-tempsprint",
+    role: "Frontend Developer Intern",
+    company: "TechSprint Solutions",
+    team: "Core UI Team",
+    type: "Internship",
+    duration: "Jun 2025 – Aug 2025",
+    location: "Bangalore, Karnataka, India",
+    description:
+      "Built and optimized web interfaces for client dashboards. Collaborated with UI/UX designers to translate Figma mockups into responsive React components, and improved initial page loading speeds.",
+    achievements: [
+      "Translated high-fidelity Figma mockups into interactive, responsive React components using Tailwind CSS",
+      "Integrated secure RESTful APIs and managed complex front-end application state with Redux Toolkit",
+      "Enhanced page performance and reduced bundle sizes by implementing code splitting and lazy loading techniques",
+      "Participated in agile ceremonies, daily stand-ups, and peer code reviews to maintain code consistency",
+    ],
+    tech: ["React", "Redux Toolkit", "Tailwind CSS", "Figma", "JavaScript"],
+    logo: "T",
+    color: "#00d4ff",
+  },
+  {
+    id: "backend-intern-cloudscale",
+    role: "Backend Engineering Intern",
+    company: "CloudScale Technologies",
+    team: "API & Services Group",
+    type: "Internship",
+    duration: "Mar 2025 – May 2025",
+    location: "Mumbai, Maharashtra, India",
+    description:
+      "Assisted in designing and implementing backend services and REST APIs using Node.js and Express. Developed robust database schemas, wrote unit tests, and documented API endpoints.",
+    achievements: [
+      "Developed scalable REST API endpoints using Express.js and TypeScript for user authentication and management",
+      "Designed relational database schemas in PostgreSQL and implemented query indexing, reducing search times by ~15%",
+      "Wrote comprehensive unit tests using Jest, achieving and maintaining over 85% overall code coverage",
+      "Documented API endpoints using Swagger/OpenAPI specifications, streamlining integration for front-end developers",
+    ],
+    tech: ["Node.js", "Express.js", "TypeScript", "PostgreSQL", "Jest", "Swagger"],
+    logo: "C",
+    color: "#a855f7",
   }
 ];
 
