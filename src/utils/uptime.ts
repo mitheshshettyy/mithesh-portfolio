@@ -1,6 +1,6 @@
 import config from '../config';
 
-export const PORTFOLIO_START_DATE = config.terminal.installDate;
+const PORTFOLIO_START_DATE = config.terminal.installDate;
 export const PORTFOLIO_START_DISPLAY_DATE = new Date(config.terminal.installDate).toLocaleDateString('en-GB', {
   day: 'numeric',
   month: 'long',
