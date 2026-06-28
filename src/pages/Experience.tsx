@@ -369,54 +369,64 @@ export default function Experience() {
           </p>
         </div>
 
-        <div className="w-full flex flex-col gap-8 relative pl-12 sm:pl-16 pb-12">
-          {displayExperiences.map((exp, idx) => (
-            <div key={exp.id || idx} className="relative w-full reveal-card">
-              {/* Continuous Straight Vertical Timeline Line Segment */}
-              {idx < displayExperiences.length - 1 && (
-                <div
-                  className="absolute -left-[24px] sm:-left-[32px] -translate-x-1/2 top-[36px] sm:top-[44px] -bottom-[68px] sm:-bottom-[76px] w-[1px] pointer-events-none"
-                  style={{
-                    backgroundColor: 'rgba(0, 255, 136, 0.2)',
-                  }}
-                />
-              )}
+        {displayExperiences.length === 0 ? (
+          <div className="w-full flex justify-center py-12">
+            <div className="px-6 py-4 border border-[rgba(0,255,136,0.15)] bg-[rgba(8,12,24,0.45)] rounded-lg text-center backdrop-blur-sm">
+              <p className="font-mono text-sm text-[var(--text-secondary)]">
+                &gt; No professional experience to display yet.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="w-full flex flex-col gap-8 relative pl-12 sm:pl-16 pb-12">
+            {displayExperiences.map((exp, idx) => (
+              <div key={exp.id || idx} className="relative w-full reveal-card">
+                {/* Continuous Straight Vertical Timeline Line Segment */}
+                {idx < displayExperiences.length - 1 && (
+                  <div
+                    className="absolute -left-[24px] sm:-left-[32px] -translate-x-1/2 top-[36px] sm:top-[44px] -bottom-[68px] sm:-bottom-[76px] w-[1px] pointer-events-none"
+                    style={{
+                      backgroundColor: 'rgba(0, 255, 136, 0.2)',
+                    }}
+                  />
+                )}
 
-              {/* Timeline Marker Node */}
-              <div className="absolute -left-[24px] sm:-left-[32px] -translate-x-1/2 top-6 sm:top-8 flex items-center justify-center z-10">
-                <div
-                  className={`w-6 h-6 rounded-full border bg-slate-950 flex items-center justify-center transition-all duration-300 ${idx === 0
-                      ? 'border-[var(--terminal-green)]'
-                      : 'border-slate-800'
-                    }`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke={idx === 0 ? "var(--terminal-green)" : "#475569"}
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="w-3 h-3"
+                {/* Timeline Marker Node */}
+                <div className="absolute -left-[24px] sm:-left-[32px] -translate-x-1/2 top-6 sm:top-8 flex items-center justify-center z-10">
+                  <div
+                    className={`w-6 h-6 rounded-full border bg-slate-950 flex items-center justify-center transition-all duration-300 ${idx === 0
+                        ? 'border-[var(--terminal-green)]'
+                        : 'border-slate-800'
+                      }`}
                   >
-                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                  </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke={idx === 0 ? "var(--terminal-green)" : "#475569"}
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="w-3 h-3"
+                    >
+                      <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Experience Card */}
+                <div className="w-full">
+                  <ExperienceCard
+                    exp={exp}
+                    isActive={idx === 0}
+                    onClick={() => { }}
+                  />
                 </div>
               </div>
-
-              {/* Experience Card */}
-              <div className="w-full">
-                <ExperienceCard
-                  exp={exp}
-                  isActive={idx === 0}
-                  onClick={() => { }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Breathable vertical gap spacer before footer */}
         <div className="h-16 sm:h-24 lg:h-32 w-full shrink-0" />

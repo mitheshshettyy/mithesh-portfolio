@@ -6,6 +6,11 @@ import {
   personalInfo,
   commandDocs,
   socialLinks,
+  aboutData,
+  educationData,
+  skillsData,
+  projectsData,
+  experienceData
 } from '../../data/portfolioData';
 import MobileCommandBar from './MobileCommandBar';
 import WhoAmIBox from './WhoAmIBox';
@@ -82,33 +87,36 @@ Name: ${config.personal.name}
 Role: ${config.personal.role}
 
 Summary:
-I am a Computer Science and Engineering student dedicated to building impactful, real-world software. With a strong foundation in software design and a focus on clean user experiences, I excel at solving complex problems and adapting to new technologies quickly. I am motivated to develop reliable, well-structured applications, bridging robust backend functionality with polished, intuitive frontends.
+${aboutData.summary}
 
 Philosophy:
-I believe great software emerges at the intersection of clean database architecture, well-structured backend APIs, and responsive user interfaces. I'm passionate about writing clean, efficient, and well-documented code that solves real-world problems.`;
+${aboutData.philosophy}`;
   },
   
   get educationData() {
-    return `--- EDUCATION ---
-1. ${config.personal.university.split(',')[0]}
-   Degree:   B.Tech in Computer Science & Engineering
-   Duration: Aug 2023 – Present
-   CGPA:     ${config.personal.cgpa}
-2. Vidyodaya Pre-University College
-   Degree:   Pre-University (PCMC)
-   Duration: Aug 2021 – May 2023
-   Score:    94.5%`;
+    return `--- EDUCATION ---\n` + educationData.map((edu, idx) => 
+      `${idx + 1}. ${edu.institution}
+   Degree:   ${edu.degree} ${edu.field ? `in ${edu.field}` : ''}
+   Duration: ${edu.duration}
+   ${edu.cgpa ? `CGPA:     ${edu.cgpa}` : `Score:    ${edu.score}`}`
+    ).join('\n');
   },
 
-  skillsData: `--- SKILLS ---
-Languages: C++, Java, Python, JavaScript, TypeScript
-Frontend:  React, Next.js, Tailwind CSS, Three.js
-Backend:   Node.js, Express.js, REST APIs
-Databases: MongoDB, MySQL, PostgreSQL
-Developer Ecosystem: Git & GitHub, Postman, VS Code, Vercel, Docker, Linux
-CS Fundamentals:     Data Structures & Algorithms, Operating Systems, DBMS, Computer Networks, Compiler Design`,
+  get skillsData() {
+    const formatSkills = (category: string, arr: {name: string}[]) => 
+      `${category}: `.padEnd(21, ' ') + `${arr.map(s => s.name).join(', ')}`;
+    
+    return `--- SKILLS ---
+${formatSkills('Languages', skillsData.languages)}
+${formatSkills('Frontend', skillsData.frontend)}
+${formatSkills('Backend', skillsData.backend)}
+${formatSkills('Databases', skillsData.databases)}
+${formatSkills('Developer Ecosystem', skillsData.developerEcosystem)}
+CS Fundamentals:     ${skillsData.csFundamentals.map(s => s.name).join(', ')}`;
+  },
 
   get resumeData() {
+    const exps = experienceData.map(exp => `- ${exp.role} at ${exp.company}`).join('\n');
     return `--- RESUME ---
 Name: ${config.personal.name}
 Email: ${config.contact.email}
@@ -120,20 +128,23 @@ Education:
 - Vidyodaya Pre-University College (Pre-University: 94.5%)
 
 Experience:
-- Full Stack Development Intern at ALGOORBIT Innovations (MERN stack)
-- Frontend Developer Intern at TechSprint Solutions (React & Tailwind)
-- Backend Engineering Intern at CloudScale Technologies (Node.js & PostgreSQL)`;
+${exps || '- No professional experience yet.'}`;
   },
 
-  projectsData: `--- PROJECTS ---
-1. Complexify: AI-powered Python code complexity classifier (Python, FastAPI, Scikit-learn) - 12 stars
-2. NextResume: Live preview resume builder (Next.js, React, Node.js, NextAuth.js) - 18 stars
-3. Virtual Garden: 3D interactive medicinal plant platform (Next.js, MongoDB, Three.js) - 25 stars`,
+  get projectsData() {
+    return `--- PROJECTS ---\n` + projectsData.map((proj, idx) => 
+      `${idx + 1}. ${proj.name}: ${proj.tagline} (${proj.tech.slice(0, 4).join(', ')}${proj.tech.length > 4 ? ', etc.' : ''}) - ${proj.stars} stars`
+    ).join('\n');
+  },
 
-  experienceData: `--- EXPERIENCE ---
-- Full Stack Development Intern @ ALGOORBIT Innovations (Nov 2025 - Jan 2026)
-- Frontend Developer Intern @ TechSprint Solutions (Jun 2025 - Aug 2025)
-- Backend Engineering Intern @ CloudScale Technologies (Mar 2025 - May 2025)`,
+  get experienceData() {
+    if (experienceData.length === 0) {
+      return `--- EXPERIENCE ---\nNo professional experience to display yet.`;
+    }
+    return `--- EXPERIENCE ---\n` + experienceData.map(exp => 
+      `- ${exp.role} @ ${exp.company} (${exp.duration})`
+    ).join('\n');
+  },
 
   get contactData() {
     return `--- CONTACT INFO ---

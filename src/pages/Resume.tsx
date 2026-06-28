@@ -50,15 +50,15 @@ export default function Resume() {
         <div className="flex gap-2.5 justify-center w-full sm:w-auto">
           <button
             onClick={() => window.open(personalInfo.resumeUrl, '_blank')}
-            className="flex items-center justify-center gap-1.5 px-4 py-2 rounded text-[11px] font-semibold transition-all duration-200 cursor-pointer w-1/2 sm:w-auto border border-[rgba(0,255,136,0.35)] text-[var(--terminal-green)] bg-[rgba(0,255,136,0.08)] hover:bg-[rgba(0,255,136,0.18)] hover:shadow-[0_0_12px_rgba(0,255,136,0.2)]"
+            className="flex items-center justify-center gap-2 px-6 py-2.5 rounded text-[13px] font-semibold transition-all duration-200 cursor-pointer w-1/2 sm:w-auto border border-[rgba(0,255,136,0.35)] text-[var(--terminal-green)] bg-[rgba(0,255,136,0.08)] hover:bg-[rgba(0,255,136,0.18)] hover:shadow-[0_0_12px_rgba(0,255,136,0.2)]"
           >
-            <span>✓</span> View Full Screen
+            <span className="text-[15px]">✓</span> View Full Screen
           </button>
           <button
             onClick={handleDownload}
-            className="flex items-center justify-center gap-1.5 px-4 py-2 rounded text-[11px] font-semibold transition-all duration-200 cursor-pointer w-1/2 sm:w-auto border border-gray-800 text-[var(--text-secondary)] bg-white/5 hover:bg-white/10 hover:border-gray-600"
+            className="flex items-center justify-center gap-2 px-6 py-2.5 rounded text-[13px] font-semibold transition-all duration-200 cursor-pointer w-1/2 sm:w-auto border border-gray-800 text-[var(--text-secondary)] bg-white/5 hover:bg-white/10 hover:border-gray-600"
           >
-            <span>↓</span> Download PDF
+            <span className="text-[15px]">↓</span> Download PDF
           </button>
         </div>
         

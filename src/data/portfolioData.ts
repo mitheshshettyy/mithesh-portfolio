@@ -12,7 +12,7 @@ export const personalInfo = {
   cgpa: config.personal.cgpa,
   location: config.personal.location,
   email: config.contact.email,
-  phone: "+91 63629 69943",
+  phone: "+91-6362969943",
   github: config.contact.github,
   linkedin: config.contact.linkedin,
   resumeUrl: config.resume.path,
@@ -96,13 +96,14 @@ export const educationData = [
 
 export const skillsData = {
   languages: [
-    { name: "C++", level: 90 },
     { name: "Java", level: 80 },
     { name: "Python", level: 80 },
+    { name: "C/C++", level: 90 },
     { name: "JavaScript", level: 85 },
     { name: "TypeScript", level: 80 },
   ],
   frontend: [
+    { name: "HTML/CSS", level: 85 },
     { name: "React", level: 85 },
     { name: "Next.js", level: 80 },
     { name: "Tailwind CSS", level: 80 },
@@ -112,19 +113,20 @@ export const skillsData = {
     { name: "Node.js", level: 80 },
     { name: "Express.js", level: 80 },
     { name: "REST APIs", level: 85 },
+    { name: "FastAPI", level: 75 },
   ],
   databases: [
-    { name: "MongoDB", level: 90 },
     { name: "MySQL", level: 85 },
-    { name: "PostgreSQL", level: 80 },
+    { name: "MongoDB", level: 90 },
+    { name: "PostgreSQL", level: 75 },
   ],
   developerEcosystem: [
-    { name: "Git & GitHub", level: 90 },
+    { name: "Git", level: 90 },
+    { name: "GitHub", level: 90 },
     { name: "Postman", level: 85 },
-    { name: "VS Code", level: 90 },
-    { name: "Vercel", level: 85 },
     { name: "Docker", level: 80 },
-    { name: "Linux", level: 90 },
+    { name: "Vercel", level: 85 },
+    { name: "VS Code", level: 90 },
   ],
   csFundamentals: [
     { name: "Data Structures", level: 85 },
@@ -376,46 +378,6 @@ export const experienceData = [
     tech: ["React", "Node.js", "Express.js", "MongoDB", "JWT"],
     logo: "A",
     color: "#00ff88",
-  },
-  {
-    id: "frontend-intern-tempsprint",
-    role: "Frontend Developer Intern",
-    company: "TechSprint Solutions",
-    team: "Core UI Team",
-    type: "Internship",
-    duration: "Jun 2025 – Aug 2025",
-    location: "Bangalore, Karnataka, India",
-    description:
-      "Built and optimized web interfaces for client dashboards. Collaborated with UI/UX designers to translate Figma mockups into responsive React components, and improved initial page loading speeds.",
-    achievements: [
-      "Translated high-fidelity Figma mockups into interactive, responsive React components using Tailwind CSS",
-      "Integrated secure RESTful APIs and managed complex front-end application state with Redux Toolkit",
-      "Enhanced page performance and reduced bundle sizes by implementing code splitting and lazy loading techniques",
-      "Participated in agile ceremonies, daily stand-ups, and peer code reviews to maintain code consistency",
-    ],
-    tech: ["React", "Redux Toolkit", "Tailwind CSS", "Figma", "JavaScript"],
-    logo: "T",
-    color: "#00d4ff",
-  },
-  {
-    id: "backend-intern-cloudscale",
-    role: "Backend Engineering Intern",
-    company: "CloudScale Technologies",
-    team: "API & Services Group",
-    type: "Internship",
-    duration: "Mar 2025 – May 2025",
-    location: "Mumbai, Maharashtra, India",
-    description:
-      "Assisted in designing and implementing backend services and REST APIs using Node.js and Express. Developed robust database schemas, wrote unit tests, and documented API endpoints.",
-    achievements: [
-      "Developed scalable REST API endpoints using Express.js and TypeScript for user authentication and management",
-      "Designed relational database schemas in PostgreSQL and implemented query indexing, reducing search times by ~15%",
-      "Wrote comprehensive unit tests using Jest, achieving and maintaining over 85% overall code coverage",
-      "Documented API endpoints using Swagger/OpenAPI specifications, streamlining integration for front-end developers",
-    ],
-    tech: ["Node.js", "Express.js", "TypeScript", "PostgreSQL", "Jest", "Swagger"],
-    logo: "C",
-    color: "#a855f7",
   }
 ];
 
