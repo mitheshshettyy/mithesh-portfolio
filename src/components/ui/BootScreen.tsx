@@ -108,10 +108,10 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
       for (let i = 0; i <= SUBTITLE.length; i++) {
         if (!active) return;
         setSubtitleIndex(i);
-        await sleep(15); // 15ms per char
+        await sleep(30); // 30ms per char for slightly slower, deliberate subtitle
       }
 
-      await sleep(200);
+      await sleep(400); // Noticeable pause after title before logs start
       if (!active) return;
       setLogoDone(true);
 
@@ -122,8 +122,9 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
 
         if (log.type === 'blank') {
           setCompletedLogs(prev => [...prev, { text: '', type: 'blank' }]);
+          await sleep(150); // Pause between major steps
         } else if (log.type === 'success') {
-          await sleep(120); // Small processing pause
+          await sleep(400); // Simulate processing time before success
           if (!active) return;
           setCompletedLogs(prev => [...prev, { text: log.text, type: 'success' }]);
         } else {
@@ -131,7 +132,7 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
           for (let j = 0; j <= log.text.length; j++) {
             if (!active) return;
             setCurrentLogText(log.text.slice(0, j));
-            await sleep(6);
+            await sleep(10); // Natural typing speed
           }
           if (!active) return;
           setCompletedLogs(prev => [...prev, { text: log.text, type: 'info' }]);
@@ -142,10 +143,10 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
       // 4. Progress bar animation to 100%
       if (!active) return;
       setShowProgress(true);
-      for (let p = 0; p <= 100; p += 4) {
+      for (let p = 0; p <= 100; p += 2) {
         if (!active) return;
         setProgress(p);
-        await sleep(20); // Smooth loading animation
+        await sleep(15); // Smooth loading animation
       }
       if (!active) return;
       setProgress(100);
@@ -163,11 +164,11 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
       setWelcomeDone(true);
 
       // 6. Transition
-      await sleep(700); // Wait 500-800ms
+      await sleep(900); // Wait slightly longer so user reads 'Launching Portfolio...'
       if (!active) return;
       setFade(true); // CSS Fadeout starts
 
-      await sleep(800); // Wait for CSS transition
+      await sleep(1000); // Wait for CSS transition
       if (!active) return;
       onComplete(); // Unmount
     };
@@ -218,10 +219,10 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
       {/* Centered Overlay Content Container */}
       <div
         ref={contentRef}
-        className="boot-screen-content z-10 flex flex-col justify-start h-full max-h-screen py-12 overflow-y-auto terminal-scroll"
+        className="boot-screen-content z-10 flex flex-col justify-start h-full max-h-screen py-16 md:py-20 overflow-y-auto terminal-scroll"
       >
         {/* Centered ASCII Logo Container */}
-        <div className="flex flex-col items-center mb-10 shrink-0">
+        <div className="flex flex-col items-center mb-12 shrink-0">
           <pre
             className="terminal-banner-text text-glow-green text-flicker font-bold leading-normal font-mono"
             style={{
@@ -235,10 +236,10 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
 
           {/* centered INITIALIZING Subtitle */}
           <div
-            className="text-glow-green text-sm font-bold font-mono tracking-widest text-center"
+            className="text-glow-cyan text-pulse text-sm md:text-base font-bold font-mono tracking-widest text-center"
             style={{
-              marginTop: '16px',
-              color: 'var(--terminal-green)',
+              marginTop: '24px',
+              color: 'var(--terminal-cyan)',
               minHeight: '1.5em',
             }}
           >
@@ -253,12 +254,12 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
         {/* Logs Output */}
         {logoDone && (
           <div
-            className="flex-1 flex flex-col gap-1 text-sm font-semibold select-none pl-6 md:pl-12"
-            style={{ lineHeight: '1.7' }}
+            className="flex-1 flex flex-col gap-1.5 text-sm md:text-base font-medium select-none pl-4 md:pl-8 lg:pl-16 w-full"
+            style={{ lineHeight: '1.6' }}
           >
             {completedLogs.map((log, idx) => {
               if (log.type === 'blank') {
-                return <div key={idx} className="h-2" />;
+                return <div key={idx} className="h-3" />;
               }
               return (
                 <div
@@ -278,22 +279,23 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
             {currentLogText && (
               <div
                 style={{
-                  color: 'var(--text-secondary)',
+                  color: 'var(--text-primary)',
                   fontFamily: 'var(--font-mono)',
+                  opacity: 0.9,
                 }}
               >
                 {currentLogText}
-                <span className="cursor-blink inline-block w-1.5 h-3.5 bg-slate-400 ml-0.5 align-middle" />
+                <span className="cursor-blink inline-block w-2 h-4 bg-slate-300 ml-1 align-middle" />
               </div>
             )}
 
             {/* Loading/Progress Bar */}
             {showProgress && (
               <div
-                style={{ color: 'var(--terminal-green)', fontFamily: 'var(--font-mono)' }}
-                className="text-glow-green mt-2"
+                style={{ color: 'var(--terminal-cyan)', fontFamily: 'var(--font-mono)' }}
+                className="text-glow-cyan mt-4"
               >
-                Progress: [{'█'.repeat(Math.floor(progress / 2.5))}{'░'.repeat(40 - Math.floor(progress / 2.5))}] {progress}%
+                [SYSTEM PROGRESS]: [{'█'.repeat(Math.floor(progress / 2.5))}{'░'.repeat(40 - Math.floor(progress / 2.5))}] {progress}%
               </div>
             )}
 
@@ -301,16 +303,16 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
             {progress === 100 && (
               <div
                 style={{ color: 'var(--terminal-green)', fontFamily: 'var(--font-mono)' }}
-                className="text-glow-green text-pulse mt-2 font-bold"
+                className="text-glow-green text-pulse mt-3 text-base md:text-lg font-bold"
               >
-                Launching Portfolio...
+                &gt; Launching Portfolio...
               </div>
             )}
 
             {/* Welcome Banner Output */}
             {completedWelcome.length > 0 && (
               <div
-                className="mt-4 flex flex-col gap-1 text-sm font-bold text-glow-green"
+                className="mt-6 flex flex-col gap-1.5 text-sm md:text-base font-bold text-glow-green"
                 style={{ color: 'var(--terminal-green)' }}
               >
                 {completedWelcome.map((line, idx) => (
