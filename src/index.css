@@ -163,11 +163,6 @@ body {
   background-clip: text;
 }
 
-/* ===== Section Fade ===== */
-.section-fade-in {
-  opacity: 0;
-  transform: translateY(30px);
-}
 
 /* ===== Utility ===== */
 .font-mono {
@@ -185,12 +180,6 @@ body {
   pointer-events: none;
 }
 
-/* ===== Page Wrapper ===== */
-.page-wrapper {
-  position: relative;
-  z-index: 2;
-  min-height: 100vh;
-}
 
 /* ===== Desktop Layout Container ===== */
 .desktop-container {
@@ -258,59 +247,11 @@ body {
   animation: pulseGlow 2s ease-in-out infinite;
 }
 
-/* ===== Hover Border Glow ===== */
-.hover-glow {
-  transition: all var(--transition-normal);
-}
 
-.hover-glow:hover {
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.25);
-  border-color: rgba(0, 255, 136, 0.4);
-}
 
-/* ===== Animate Float ===== */
-.float {
-  animation: float 3s ease-in-out infinite;
-}
 
-/* ===== CRT Flicker ===== */
-@keyframes crtFlicker {
-  0% { opacity: 0.97; }
-  50% { opacity: 1; }
-  100% { opacity: 0.98; }
-}
 
-.crt-flicker {
-  animation: crtFlicker 0.15s infinite;
-}
 
-/* ===== Typing Animation ===== */
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-/* ===== Neon Border Pulse ===== */
-@keyframes neonPulse {
-  0%, 100% {
-    border-color: rgba(0, 255, 136, 0.2);
-    box-shadow: 0 0 5px rgba(0, 255, 136, 0.1);
-  }
-  50% {
-    border-color: rgba(0, 255, 136, 0.5);
-    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3), 0 0 40px rgba(0, 255, 136, 0.1);
-  }
-}
-
-.neon-pulse {
-  animation: neonPulse 3s ease-in-out infinite;
-}
-
-/* ===== Text Flicker ===== */
-@keyframes textFlicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
-  20%, 24%, 55% { opacity: 0.4; }
-}
 
 /* ===== Matrix column ===== */
 .matrix-col {
@@ -327,46 +268,7 @@ body {
   border-color: rgba(0, 255, 136, 0.4) !important;
 }
 
-/* ===== Section decorative line ===== */
-.section-line {
-  position: relative;
-}
 
-.section-line::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  width: 40px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--terminal-green), transparent);
-}
-
-/* ===== Card reveal on hover ===== */
-.card-reveal {
-  overflow: hidden;
-  position: relative;
-}
-
-.card-reveal::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(0, 255, 136, 0.04),
-    transparent
-  );
-  transition: left 0.4s ease;
-}
-
-.card-reveal:hover::before {
-  left: 100%;
-}
 
 /* ===== Responsive terminal ===== */
 @media (max-width: 640px) {
@@ -375,18 +277,6 @@ body {
   }
 }
 
-/* ===== Active nav indicator ===== */
-.nav-active-dot {
-  position: relative;
-}
-
-.nav-active-dot::before {
-  content: '●';
-  position: absolute;
-  left: -10px;
-  color: var(--terminal-green);
-  font-size: 6px;
-}
 
 /* ===== Backdrop ===== */
 .glass {
@@ -417,22 +307,6 @@ body {
   background-size: 40px 40px;
 }
 
-/* ===== Custom Tailwind Additions ===== */
-@layer utilities {
-  .text-terminal-green { color: var(--terminal-green); }
-  .text-terminal-cyan { color: var(--terminal-cyan); }
-  .text-terminal-blue { color: var(--terminal-blue); }
-  .text-terminal-purple { color: var(--terminal-purple); }
-  .text-terminal-yellow { color: var(--terminal-yellow); }
-  .text-terminal-red { color: var(--terminal-red); }
-  .text-terminal-orange { color: var(--terminal-orange); }
-  .text-muted-custom { color: var(--text-muted); }
-  .bg-primary { background-color: var(--bg-primary); }
-  .bg-secondary { background-color: var(--bg-secondary); }
-  .bg-tertiary { background-color: var(--bg-tertiary); }
-  .bg-card-custom { background-color: var(--bg-card); }
-  .border-terminal { border-color: var(--border-color); }
-}
 
 /* ===== ASCII Banner Responsiveness ===== */
 .terminal-banner-text {
