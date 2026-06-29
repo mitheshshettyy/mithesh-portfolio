@@ -232,43 +232,56 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Contact Submission</title>
   <style>
-    body { font-family: 'Courier New', monospace; background: #0a0f1a; color: #e2e8f0; margin: 0; padding: 24px; }
-    .card { background: #0d1424; border: 1px solid rgba(0,255,136,0.2); border-radius: 8px; padding: 32px; max-width: 600px; margin: 0 auto; }
-    .header { color: #00ff88; font-size: 13px; letter-spacing: 2px; margin-bottom: 24px; border-bottom: 1px solid rgba(0,255,136,0.15); padding-bottom: 16px; }
-    .field-label { color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .field-value { color: #e2e8f0; font-size: 14px; margin-bottom: 20px; line-height: 1.6; white-space: pre-wrap; }
-    .field-value a { color: #00ff88; text-decoration: none; }
-    .divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 8px 0 20px; }
-    .footer { color: #475569; font-size: 11px; margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); }
-    .badge { display: inline-block; background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.25); color: #00ff88; border-radius: 4px; padding: 2px 8px; font-size: 11px; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #080c18; color: #e2e8f0; margin: 0; padding: 24px 16px; -webkit-font-smoothing: antialiased; }
+    .container { max-width: 600px; margin: 0 auto; }
+    .card { background-color: #0f1729; border: 1px solid rgba(0, 255, 136, 0.15); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+    .header { background-color: #0d1224; border-bottom: 1px solid rgba(0, 255, 136, 0.2); padding: 24px 32px; text-align: center; }
+    .header h1 { color: #00ff88; font-size: 18px; font-weight: 600; letter-spacing: 1.5px; margin: 0; font-family: 'Courier New', monospace; text-transform: uppercase; }
+    .content { padding: 32px; }
+    .field { margin-bottom: 24px; }
+    .field-label { color: #94a3b8; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-weight: 600; }
+    .field-value { color: #f8fafc; font-size: 15px; line-height: 1.5; margin: 0; }
+    .email-link { color: #00d4ff; text-decoration: none; font-weight: 500; }
+    .message-block { background-color: #080c18; border-left: 3px solid #00ff88; padding: 16px; border-radius: 0 4px 4px 0; color: #e2e8f0; font-size: 15px; line-height: 1.6; white-space: pre-wrap; margin: 0; }
+    .timestamp { color: #64748b; font-size: 13px; margin-top: 32px; padding-top: 24px; border-top: 1px solid #1e293b; font-family: 'Courier New', monospace; }
+    .footer { text-align: center; padding: 24px; color: #64748b; font-size: 12px; line-height: 1.6; }
+    .accent { color: #00ff88; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="header">// NEW CONTACT FORM SUBMISSION — PORTFOLIO</div>
-
-    <div class="field-label">$ name</div>
-    <div class="field-value">${escapeHtml(name)}</div>
-    <hr class="divider">
-
-    <div class="field-label">$ email</div>
-    <div class="field-value"><a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></div>
-    <hr class="divider">
-
-    <div class="field-label">$ subject</div>
-    <div class="field-value">${escapeHtml(subject)}</div>
-    <hr class="divider">
-
-    <div class="field-label">$ message</div>
-    <div class="field-value">${escapeHtml(message)}</div>
-    <hr class="divider">
-
-    <div class="field-label">$ submitted_at</div>
-    <div class="field-value">${submittedAt}</div>
-
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <h1>Mithesh R Shetty</h1>
+      </div>
+      <div class="content">
+        <div class="field">
+          <div class="field-label">Name</div>
+          <div class="field-value">${escapeHtml(name)}</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Email</div>
+          <div class="field-value"><a href="mailto:${escapeHtml(email)}" class="email-link">${escapeHtml(email)}</a></div>
+        </div>
+        <div class="field">
+          <div class="field-label">Subject</div>
+          <div class="field-value">${escapeHtml(subject)}</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Message</div>
+          <div class="message-block">${escapeHtml(message)}</div>
+        </div>
+        <div class="timestamp">
+          Submitted At: <span class="accent">${submittedAt}</span>
+        </div>
+      </div>
+    </div>
     <div class="footer">
-      Reply directly to this email to respond to <span class="badge">${escapeHtml(name)}</span>
+      This message was submitted through Mithesh R Shetty's portfolio contact form.<br>
+      Reply directly to this email to respond to ${escapeHtml(name)}.
     </div>
   </div>
 </body>
