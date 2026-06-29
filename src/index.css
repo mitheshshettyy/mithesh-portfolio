@@ -169,6 +169,66 @@ body {
   font-family: var(--font-mono) !important;
 }
 
+/* ===== Neon Glow System ===== */
+
+.text-glow-green, .neon-text-green {
+  color: var(--terminal-green);
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.4), 0 0 20px rgba(0, 255, 136, 0.2), 0 0 30px rgba(0, 255, 136, 0.1);
+}
+
+.text-glow-cyan, .neon-text-cyan {
+  color: var(--terminal-cyan);
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.4), 0 0 20px rgba(0, 212, 255, 0.2), 0 0 30px rgba(0, 212, 255, 0.1);
+}
+
+.neon-text {
+  text-shadow: 0 0 8px currentColor;
+}
+
+.neon-border {
+  border-color: var(--terminal-green);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+}
+
+.terminal-glow {
+  filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.3));
+}
+
+/* ===== Neon Card (Terminal Card) ===== */
+.terminal-card, .neon-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  position: relative;
+  transition: all var(--transition-normal);
+  z-index: 1; /* Establish stacking context for pseudo-elements */
+}
+
+/* Sub-layer for outer aura glow on cards */
+.terminal-card::before, .neon-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  background: transparent;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0), inset 0 0 15px rgba(0, 255, 136, 0);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.terminal-card:hover, .neon-card-hover:hover {
+  border-color: var(--border-color-hover);
+  background-color: var(--bg-card-hover);
+  transform: translateY(-2px);
+}
+
+.terminal-card:hover::before, .neon-card-hover:hover::before {
+  opacity: 1;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.15), inset 0 0 10px rgba(0, 255, 136, 0.05);
+}
+
 /* ===== Three.js Canvas ===== */
 #three-canvas {
   position: fixed !important;
@@ -245,6 +305,26 @@ body {
 /* ===== Pulse Animation ===== */
 .pulse-green {
   animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes textPulse {
+  0%, 100% { opacity: 1; text-shadow: 0 0 10px rgba(0, 255, 136, 0.4), 0 0 20px rgba(0, 255, 136, 0.2); }
+  50% { opacity: 0.85; text-shadow: 0 0 5px rgba(0, 255, 136, 0.2), 0 0 10px rgba(0, 255, 136, 0.1); }
+}
+
+@keyframes textFlicker {
+  0% { opacity: 1; text-shadow: 0 0 10px rgba(0, 255, 136, 0.4); }
+  2% { opacity: 0.8; text-shadow: 0 0 5px rgba(0, 255, 136, 0.2); }
+  4% { opacity: 1; text-shadow: 0 0 15px rgba(0, 255, 136, 0.5); }
+  100% { opacity: 1; text-shadow: 0 0 10px rgba(0, 255, 136, 0.4); }
+}
+
+.text-pulse {
+  animation: textPulse 3s ease-in-out infinite;
+}
+
+.text-flicker {
+  animation: textFlicker 4s infinite;
 }
 
 

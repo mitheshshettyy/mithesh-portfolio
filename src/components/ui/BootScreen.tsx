@@ -223,7 +223,7 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
         {/* Centered ASCII Logo Container */}
         <div className="flex flex-col items-center mb-10 shrink-0">
           <pre
-            className="terminal-banner-text text-glow-green font-bold leading-normal font-mono"
+            className="terminal-banner-text text-glow-green text-flicker font-bold leading-normal font-mono"
             style={{
               fontFamily: 'var(--font-mono)',
               color: 'var(--terminal-green)',
@@ -301,7 +301,7 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
             {progress === 100 && (
               <div
                 style={{ color: 'var(--terminal-green)', fontFamily: 'var(--font-mono)' }}
-                className="text-glow-green mt-2 font-bold"
+                className="text-glow-green text-pulse mt-2 font-bold"
               >
                 Launching Portfolio...
               </div>
