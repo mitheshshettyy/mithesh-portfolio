@@ -41,6 +41,16 @@ export const config = {
     framework: import.meta.env.VITE_NEOFETCH_FRAMEWORK || 'React 19.2.6',
     runtime: import.meta.env.VITE_NEOFETCH_RUNTIME || 'Node.js 22.19.17',
     theme: import.meta.env.VITE_NEOFETCH_THEME || 'NightShell Dark',
+  },
+  website: {
+    title: import.meta.env.VITE_SITE_TITLE || 'Mithesh R Shetty',
+    metaDesc: import.meta.env.VITE_SITE_META_DESC || 'Official portfolio of Mithesh R Shetty showcasing software engineering projects, technical skills, experience, and achievements.',
+    keywords: import.meta.env.VITE_SITE_KEYWORDS || 'Mithesh R Shetty, Portfolio, Software Engineer, Full Stack Developer, React, TypeScript, Node.js, Web Developer',
+    author: import.meta.env.VITE_SITE_AUTHOR || 'Mithesh R Shetty',
+    copyright: import.meta.env.VITE_SITE_COPYRIGHT || '© 2026 Mithesh R Shetty',
+  },
+  backend: {
+    apiUrl: import.meta.env.VITE_API_URL || 'http://localhost:3001',
   }
 };
 
