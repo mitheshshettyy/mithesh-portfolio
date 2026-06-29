@@ -15,8 +15,6 @@ This portfolio is a **terminal-first web application** that provides an immersiv
 
 Visitors interact with the portfolio through a real command-line interface supporting 30+ commands, tab auto-completion, command history, and a virtual filesystem — alongside dedicated visual pages for every section.
 
-**Live demo:** [mitheshshettyy.github.io/mithesh-portfolio](https://mitheshshettyy.github.io/mithesh-portfolio) *(update with your live URL)*
-
 ---
 
 ## Features
