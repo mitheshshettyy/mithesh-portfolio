@@ -189,7 +189,7 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
   if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
     console.error('[CONTACT] SMTP credentials not configured — cannot send email.');
     return res.status(503).json({
-      error: 'Email service is not configured. Please contact me directly at shettymithesh030@gmail.com',
+      error: `Email service is not configured. Please contact me directly at ${process.env.CONTACT_EMAIL || 'my email address'}`,
     });
   }
 
@@ -286,7 +286,7 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
   } catch (err) {
     console.error('[CONTACT] ✗ Failed to send email:', err.message);
     return res.status(500).json({
-      error: 'Failed to send your message. Please try again or email me directly at shettymithesh030@gmail.com',
+      error: `Failed to send your message. Please try again or email me directly at ${process.env.CONTACT_EMAIL || 'my email address'}`,
     });
   }
 });

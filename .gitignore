@@ -1,26 +1,55 @@
-# Dependencies
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# ============================================================
+#  .gitignore — Mithesh Portfolio
+#  Stack: React + Vite + TypeScript + Node.js/Express
+# ============================================================
 
-# Production build
+# ── Dependencies ─────────────────────────────────────────────
+node_modules/
+server/node_modules/
+
+# ── Build Output ─────────────────────────────────────────────
 dist/
 build/
+server/dist/
+.vite/
 
-# Environment files
+# ── Environment Files ────────────────────────────────────────
+# Never commit real .env files — only .env.example is safe to commit
 .env
 .env.local
+.env.*.local
 .env.development.local
 .env.test.local
 .env.production.local
-
-# Server
 server/.env
-server/server_test.log
-server/node_modules/
+server/.env.local
 
-# IDE
+# ── Logs ─────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+server/logs/
+server/*.log
+
+# ── TypeScript ───────────────────────────────────────────────
+*.tsbuildinfo
+
+# ── Testing & Coverage ───────────────────────────────────────
+coverage/
+.nyc_output/
+*.lcov
+
+# ── Cache ────────────────────────────────────────────────────
+.cache/
+.parcel-cache/
+.turbo/
+.eslintcache
+.stylelintcache
+
+# ── IDE & Editor ─────────────────────────────────────────────
 .vscode/
 .idea/
 *.suo
@@ -28,13 +57,29 @@ server/node_modules/
 *.njsproj
 *.sln
 *.sw?
+*.swp
+*.swo
 
-# OS
+# ── OS Junk ──────────────────────────────────────────────────
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
 Thumbs.db
+ehthumbs.db
+Desktop.ini
 
-# Logs
-*.log
+# ── Package Manager ──────────────────────────────────────────
+.pnp
+.pnp.js
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
 
-# TypeScript cache
-*.tsbuildinfo
+# ── Temporary Files ──────────────────────────────────────────
+*.tmp
+*.temp
+*.bak
+*.orig

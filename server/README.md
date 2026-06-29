@@ -40,9 +40,9 @@ Open `server/.env` and fill in:
 ```env
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=shettymithesh030@gmail.com
+SMTP_USER=you@gmail.com
 SMTP_PASS=abcd efgh ijkl mnop
-CONTACT_EMAIL=shettymithesh030@gmail.com
+CONTACT_EMAIL=you@gmail.com
 ```
 
 > The spaces in `SMTP_PASS` are fine — paste the 16-char password exactly as Google shows it.

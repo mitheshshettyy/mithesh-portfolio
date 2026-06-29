@@ -1,242 +1,344 @@
 # Mithesh R Shetty — Terminal Portfolio
 
-> A modern, terminal-inspired developer portfolio showcasing my projects, technical skills, education, and professional journey through an interactive command-line interface.
+> An interactive, terminal-inspired developer portfolio built with React, TypeScript, and Three.js. Navigate through projects, skills, and professional background using a real command-line interface.
+
+[![React](https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=white&labelColor=20232a)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6?logo=typescript&logoColor=white&labelColor=1e293b)](https://www.typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-7-646cff?logo=vite&logoColor=white&labelColor=1a1a2e)](https://vite.dev)
+[![Node.js](https://img.shields.io/badge/Node.js-≥18-339933?logo=nodedotjs&logoColor=white&labelColor=1a2a1a)](https://nodejs.org)
 
 ---
 
-## 📖 Overview
+## Overview
 
-This portfolio is a **terminal-first web application** designed to provide an engaging way to explore my background as a Computer Science undergraduate and Full-Stack Developer.
+This portfolio is a **terminal-first web application** that provides an immersive way to explore my background as a Computer Science undergraduate and Full-Stack Developer.
 
-Inspired by modern developer terminals, the portfolio combines interactive command-line navigation with smooth animations, immersive visuals, and responsive design.
+Visitors interact with the portfolio through a real command-line interface supporting 30+ commands, tab auto-completion, command history, and a virtual filesystem — alongside dedicated visual pages for every section.
 
-Visitors can explore my education, projects, technical skills, internship experience, resume, and contact information using familiar terminal commands.
-
----
-
-## ✨ Features
-
-* 🖥️ **Interactive Terminal Shell**: A fully functional terminal CLI landing page featuring auto-completion, command history, and dynamic suggestions.
-* ⌨️ **30+ Commands & Aliases**: Navigate sections, interact with files, and trigger special commands (e.g., `matrix`, `neofetch`, `theme`).
-* 📁 **Virtual Filesystem**: Explore a simulated directory tree with commands like `ls`, `cd`, `pwd`, `tree`, and view file contents using `cat`.
-* 📅 **GSAP-powered Experience Timeline**: Chronological experience timeline with active status indicator pulses and smooth entrance transitions.
-* 📂 **Project Grid & Detail Modals**: A scannable project grid with high-level cards that expand into detailed, command-line-style inspect modals — each containing 5+ key features, problem statements, and design context extracted from GitHub READMEs.
-* 🌌 **Three.js Particle Field**: Immersive, interactive 3D particle background that responds dynamically to mouse movement.
-* ⚡ **GSAP Page Transitions**: Smooth global page-to-page navigation and content entrance reveals.
-* 🔍 **SEO & Branding**: Predefined search engine metadata, Open Graph tags, and a customized green prompt-style SVG favicon.
-* 📄 **Resume Preview & Download**: Embedded online resume viewer with a direct single-click PDF download.
-* 📚 **Dedicated Sub-pages**: Custom views for About, Education, Skills, Projects, Experience, Contact, and Resume.
-* 📱 **Fully Responsive Layout**: Built mobile-first, rendering cleanly on smartphones, tablets, and wide-screen monitors.
-* 📬 **Functional Contact Form**: End-to-end contact form — submissions are emailed directly via Nodemailer + Gmail SMTP, with real-time success/error feedback and per-field validation.
-* 🌙 **NightShell Theme**: High-contrast, premium dark palette with neon green and electric cyan terminal accents.
+**Live demo:** [mitheshshettyy.github.io/mithesh-portfolio](https://mitheshshettyy.github.io/mithesh-portfolio) *(update with your live URL)*
 
 ---
 
-## 🛠️ Tech Stack
+## Features
+
+| Feature | Description |
+|---|---|
+| **Interactive Terminal** | Fully functional CLI with auto-completion, command history, and 30+ commands |
+| **Virtual Filesystem** | Simulated directory tree navigable with `ls`, `cd`, `pwd`, `tree`, and `cat` |
+| **Three.js Particle Field** | Interactive 3D particle background responding to mouse movement |
+| **GSAP Animations** | Smooth page transitions, entrance reveals, and animated experience timeline |
+| **Functional Contact Form** | End-to-end contact form via Nodemailer + Gmail SMTP with real-time validation |
+| **Resume Preview & Download** | Embedded PDF viewer with single-click download |
+| **Project Grid & Modals** | Filterable project grid with detailed inspect modals |
+| **NightShell Theme** | High-contrast dark palette with neon green (`#00ff88`) and electric cyan (`#00d4ff`) accents |
+| **Fully Responsive** | Mobile-first layout working cleanly from 320px to ultra-wide monitors |
+| **SEO Optimized** | Open Graph metadata, descriptive title tags, and semantic HTML |
+
+---
+
+## Tech Stack
 
 ### Frontend
-
-* React 19
-* TypeScript
-* Vite
-* React Router DOM
-* Tailwind CSS
-* Three.js
-* GSAP
+- **React 19** — UI library
+- **TypeScript 5.9** — strict type-checking throughout
+- **Vite 7** — build tool and dev server
+- **React Router DOM 7** — client-side routing
+- **Tailwind CSS 4** — utility-first styling
+- **Three.js** — 3D particle background
+- **GSAP** — animations and page transitions
+- **Framer Motion** — supplemental motion
 
 ### Backend
-
-* Node.js
-* Express.js
-* Nodemailer (Gmail SMTP)
-* Helmet
-* CORS
-* dotenv
-* Express Rate Limit
-
-### Developer Tools
-
-* Git
-* GitHub
-* VS Code
-* npm
+- **Node.js + Express** — REST API server
+- **Nodemailer** — Gmail SMTP email delivery
+- **Helmet** — secure HTTP headers
+- **express-rate-limit** — abuse prevention on contact endpoint
+- **dotenv** — environment variable management
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
-portfolio/
+mithesh-portfolio/
 ├── src/
 │   ├── components/
-│   ├── pages/
+│   │   ├── layout/         # Navbar, Layout, Footer
+│   │   ├── terminal/       # Terminal, NeofetchBox, WhoAmIBox, MobileCommandBar
+│   │   ├── three/          # ParticleBackground (Three.js)
+│   │   └── ui/             # AnimatedText, BootScreen, PageTransition
+│   ├── pages/              # About, Contact, Education, Experience,
+│   │                       # Home, NotFound, Projects, Resume, Skills
 │   ├── data/
-│   ├── hooks/
+│   │   └── portfolioData.ts  # All portfolio content (projects, skills, timeline)
 │   ├── utils/
-│   └── assets/
+│   │   ├── cn.ts           # clsx + tailwind-merge utility
+│   │   └── uptime.ts       # Portfolio uptime calculation
+│   ├── config.ts           # Centralised env-driven configuration
+│   ├── App.tsx             # Route definitions
+│   ├── main.tsx            # React entry point
+│   └── index.css           # Global styles and design tokens
 │
 ├── public/
-│   ├── images/
-│   │   └── favicon.svg
-│   └── resume/
+│   ├── images/             # favicon.svg and other static images
+│   └── resume/             # Resume PDF (served statically)
 │
 ├── server/
-│   ├── index.js          # Express API + Nodemailer contact endpoint
+│   ├── index.js            # Express API — health, contact, portfolio endpoints
 │   ├── package.json
-│   ├── .env.example      # Environment variable template
-│   └── README.md         # Backend setup & Gmail App Password guide
+│   ├── .env.example        # Environment variable template (safe to commit)
+│   └── README.md           # Backend setup & Gmail App Password guide
 │
+├── .env.example            # Frontend environment variable template
+├── .gitignore
+├── index.html              # HTML entry point
 ├── package.json
-│   └── README.md         # Root project documentation
+├── tsconfig.json
+└── vite.config.ts
 ```
 
 ---
 
-## 🖥️ Terminal Commands
+## Terminal Commands
 
-The terminal commands are categorized into four logical modules:
-
-### 1. Navigation & Visual Pages
+### Navigation & Pages
 | Command | Action |
-| --- | --- |
-| `about` | Navigate to the visual About Me page |
-| `education` | Navigate to the visual Education page |
-| `skills` | Navigate to the visual Skills page |
-| `projects` | Navigate to the visual Projects page |
-| `experience` | Navigate to the visual Experience page |
-| `contact` | Navigate to the visual Contact page |
-| `resume` | Navigate to the visual Resume page |
+|---|---|
+| `about` | Open About Me page |
+| `education` | Open Education page |
+| `skills` | Open Skills page |
+| `projects` | Open Projects page |
+| `experience` | Open Experience page |
+| `contact` | Open Contact page |
+| `resume` | Open Resume page |
 
-### 2. Filesystem & Utilities
+### Filesystem & Utilities
 | Command | Description |
-| --- | --- |
-| `ls` | List directories and files in current path |
-| `cd <dir>` | Change virtual directory (e.g., `cd about`, `cd ..`) |
-| `pwd` | Print virtual working directory path |
-| `tree` | Display virtual directory tree structure |
-| `cat <file>` | Read and print contents of a virtual text file (e.g., `cat about.txt`) |
-| `history` | View list of recently executed commands |
+|---|---|
+| `ls` | List files and directories in current path |
+| `cd <dir>` | Change virtual directory (`cd about`, `cd ..`) |
+| `pwd` | Print virtual working directory |
+| `tree` | Display full virtual directory tree |
+| `cat <file>` | Print contents of a virtual file |
+| `history` | View recent command history |
 
-### 3. System & Identity Info
+### System & Identity
 | Command | Description |
-| --- | --- |
-| `whoami` | Display brief biography / identity card |
-| `neofetch` | Print system specifications, version info, and tech stack |
-| `date` | Show current date |
-| `time` | Show current time and timezone |
-| `uptime` | Show total elapsed uptime of the portfolio site |
-| `clear` / `cls` | Clear the terminal console output |
-| `echo <msg>` | Print text back to the terminal |
+|---|---|
+| `whoami` | Display identity card / brief biography |
+| `neofetch` | Print system specs and tech stack |
+| `date` / `time` | Show current date and time |
+| `uptime` | Show portfolio uptime |
+| `clear` / `cls` | Clear terminal output |
+| `echo <msg>` | Print text to terminal |
 
-### 4. Actions & Custom Features
+### Actions & Custom
 | Command | Description |
-| --- | --- |
-| `social` | List and link all social media profiles |
-| `github` | Open GitHub profile in a new browser tab |
-| `linkedin` | Open LinkedIn profile in a new browser tab |
-| `email` | Display email contact address |
-| `status` | Show job-seeking availability status & role targets |
-| `theme` | Print active UI terminal colors and fonts configuration |
-| `ascii` / `banner`| Display ASCII terminal signature logo |
-| `matrix` | Toggle green binary Matrix waterfall effect |
-| `intro` | Replay the welcome boot message sequence |
-| `exit` | Exits terminal mode and redirects back to the main homepage |
-| `download resume` | Initiate direct download of the PDF resume |
-| `open resume` | Open the resume PDF in a new tab |
+|---|---|
+| `social` | List all social profile links |
+| `github` | Open GitHub profile in new tab |
+| `linkedin` | Open LinkedIn profile in new tab |
+| `email` | Display contact email address |
+| `status` | Show availability status and role targets |
+| `theme` | Print active terminal theme configuration |
+| `ascii` / `banner` | Display ASCII signature logo |
+| `matrix` | Toggle Matrix waterfall effect |
+| `intro` | Replay boot message sequence |
+| `download resume` | Download resume PDF directly |
+| `open resume` | Open resume PDF in a new tab |
+| `exit` | Exit terminal and return to homepage |
+
+### Keyboard Shortcuts
+| Shortcut | Action |
+|---|---|
+| `Ctrl + \`` | Return to terminal from any page |
+| `↑` / `↓` | Browse command history |
+| `Tab` | Auto-complete commands |
+| `Ctrl + C` | Cancel current input |
+| `Ctrl + L` | Clear terminal |
 
 ---
 
-## ⌨️ Keyboard Shortcuts
+## Getting Started
 
-| Shortcut   | Action                 |
-| ---------- | ---------------------- |
-| `Ctrl + `` | Return to terminal     |
-| `↑ / ↓`    | Browse command history |
-| `Tab`      | Auto-complete commands |
-| `Ctrl + C` | Cancel current input   |
-| `Ctrl + L` | Clear terminal         |
+### Prerequisites
+- **Node.js** ≥ 18
+- **npm** ≥ 9
+- A Gmail account with 2-Step Verification for the contact form
 
----
-
-## 🚀 Getting Started
-
-### Clone the Repository
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/mitheshshettyy/<repository-name>.git
-cd <repository-name>
+git clone https://github.com/mitheshshettyy/mithesh-portfolio.git
+cd mithesh-portfolio
 ```
 
-### Install Dependencies
+### 2. Install Dependencies
 
 ```bash
 # Frontend
 npm install
 
 # Backend
-cd server
-npm install
+cd server && npm install && cd ..
 ```
 
-### Configure Email (Contact Form)
+### 3. Configure Environment Variables
 
+**Frontend:**
+```bash
+cp .env.example .env
+```
+The defaults in `.env.example` are pre-filled for local development — no changes needed to run the frontend.
+
+**Backend (required for contact form):**
 ```bash
 cp server/.env.example server/.env
 ```
-
-Then open `server/.env` and add your Gmail App Password:
-
+Then open `server/.env` and fill in your Gmail credentials:
 ```env
-SMTP_USER=your@gmail.com
-SMTP_PASS=xxxx xxxx xxxx xxxx
-CONTACT_EMAIL=your@gmail.com
+SMTP_USER=you@gmail.com
+SMTP_PASS=xxxx xxxx xxxx xxxx   # Gmail App Password
+CONTACT_EMAIL=you@gmail.com
 ```
-
 > See [`server/README.md`](./server/README.md) for the full Gmail App Password setup guide.
 
-### Start Development Servers
+### 4. Start Development Servers
 
 ```bash
 # Terminal 1 — Frontend (port 5173)
 npm run dev
 
 # Terminal 2 — Backend (port 3001)
-cd server
-npm run dev
+cd server && npm run dev
 ```
 
-The Vite dev server automatically proxies `/api/*` requests to the Express backend — no CORS configuration needed in development.
+The Vite dev server automatically proxies `/api/*` requests to the Express backend — no manual CORS configuration needed in development.
 
-### Build for Production
+Open [http://localhost:5173](http://localhost:5173) to view the portfolio.
+
+---
+
+## Build & Deployment
+
+### Production Build
 
 ```bash
 npm run build
 ```
 
----
+Output is written to `dist/`. This is a single-file build (`vite-plugin-singlefile`) — the entire frontend compiles into one self-contained `index.html`.
 
-## 🔌 REST API
+### Type Checking
 
-```text
-GET  /api/health
-GET  /api/portfolio
-GET  /api/projects
-GET  /api/skills
-GET  /api/resume
-GET  /api/resume/download
-POST /api/contact
+```bash
+npm run typecheck
 ```
 
----
+### Deploy the Backend
 
-## 🎨 Design Highlights
+The Express server (`server/`) can be deployed to any Node.js host (Railway, Render, Fly.io, VPS):
 
-* **Interactive CLI Interface**: Realistic command validation with colorful terminal error reporting, tab-completion, and command history persistence.
-* **Premium Theme**: Modern dark mode based on the NightShell console theme, blending deep blues and blacks with bright emerald green (`#00ff88`) and electric cyan (`#00d4ff`) accents.
-* **Animated Skill Scanner**: Skill categories load asynchronously with zsh prompt arrows (`↳`), color-coded proficiency badges (`expert/advanced/proficient`), custom Unicode block meters (`████░░░░`), and staggered GSAP/CSS animations.
-* **Experience Timeline**: Vertical timeline with active ripple pulses and connector lines.
-* **Project Grid & Modals**: Segmented filter tabs, minimal cards with category labels and date metadata, and detailed modal sheets with full problem statements and feature breakdowns.
-* **GSAP Page Transitions**: Canvas-synced page transitions ensuring a fluid, seamless flow between pages.
-* **Responsive Styling**: Tailwind CSS media queries and optimized layout padding ensuring full usability from 320px to ultra-wide desktop monitors.
+1. Set all environment variables from `server/.env.example` in your host's dashboard
+2. Run `npm start` in the `server/` directory
+
+> **Important:** Never commit `server/.env` to version control. It is gitignored. Use your host's secret management to inject credentials.
 
 ---
+
+## REST API Reference
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/health` | Server health check + SMTP status |
+| `GET` | `/api/portfolio` | Portfolio metadata (name, university, links) |
+| `GET` | `/api/projects` | Projects list with optional `?category=` and `?featured=true` filters |
+| `GET` | `/api/skills` | Full skills list by category |
+| `GET` | `/api/resume` | Resume metadata |
+| `GET` | `/api/resume/download` | Resume download info |
+| `POST` | `/api/contact` | Submit contact form → sends email via SMTP |
+
+### POST /api/contact
+
+**Request:**
+```json
+{
+  "name": "Jane Recruiter",
+  "email": "jane@company.com",
+  "subject": "Internship Opportunity",
+  "message": "Hi Mithesh, we'd love to connect..."
+}
+```
+
+**Success (200):**
+```json
+{ "success": true, "message": "Message sent successfully! I'll get back to you within 24 hours." }
+```
+
+**Validation error (400):**
+```json
+{ "error": "Validation failed", "fields": { "message": "Message must be at least 10 characters." } }
+```
+
+**Rate limited (429):** After 10 submissions per 15-minute window per IP.
+
+---
+
+## Security
+
+- **Helmet** — sets secure HTTP response headers
+- **CORS** — restricts API access to configured frontend origins
+- **Rate limiting** — 10 contact submissions per 15 minutes per IP
+- **Input sanitization** — strips control characters, enforces length limits
+- **Spam filter** — basic keyword-pattern detection on name and message
+- **No secrets in source code** — all credentials are environment variables
+- **`.env` files are gitignored** — only `.env.example` templates are committed
+
+> ⚠️ If you fork or clone this repository, generate your own Gmail App Password. Do not reuse credentials from any example or documentation.
+
+---
+
+## Environment Variables
+
+### Frontend (`.env`)
+
+| Variable | Description | Default |
+|---|---|---|
+| `VITE_API_URL` | Backend API base URL | `http://localhost:3001` |
+| `VITE_PERSONAL_NAME` | Full name displayed across the site | `Mithesh R Shetty` |
+| `VITE_CONTACT_EMAIL` | Public contact email | — |
+| `VITE_CONTACT_GITHUB` | GitHub profile URL | — |
+| `VITE_CONTACT_LINKEDIN` | LinkedIn profile URL | — |
+| `VITE_RESUME_PATH` | Public path to resume PDF | `/resume/Mithesh_R_Shetty.pdf` |
+| `VITE_SITE_TITLE` | Browser tab title | `Mithesh R Shetty` |
+
+See `.env.example` for the complete variable list.
+
+### Backend (`server/.env`)
+
+| Variable | Description |
+|---|---|
+| `PORT` | Server port (default: `3001`) |
+| `NODE_ENV` | Runtime environment (`development` / `production`) |
+| `ALLOWED_ORIGINS` | Comma-separated CORS allowed origins |
+| `SMTP_HOST` | SMTP host (`smtp.gmail.com`) |
+| `SMTP_PORT` | SMTP port (`587`) |
+| `SMTP_USER` | Gmail address used to send emails |
+| `SMTP_PASS` | Gmail App Password (16 characters) |
+| `CONTACT_EMAIL` | Recipient address for contact form submissions |
+| `RATE_LIMIT_WINDOW_MS` | Rate limit window in ms (default: `900000`) |
+| `RATE_LIMIT_MAX_REQUESTS` | Max submissions per window (default: `10`) |
+
+See `server/.env.example` for the full template.
+
+---
+
+## License
+
+MIT License — © 2026 Mithesh R Shetty
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software, subject to the standard MIT license terms.
+
+---
+
+*Built with ❤️ by [Mithesh R Shetty](https://github.com/mitheshshettyy)*
