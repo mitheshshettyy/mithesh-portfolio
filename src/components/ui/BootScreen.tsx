@@ -99,19 +99,19 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
       for (let i = 0; i <= ASCII_ART.length; i++) {
         if (!active) return;
         setAsciiIndex(i);
-        await sleep(4); // 4ms per char
+        await sleep(2); // 2ms per char
       }
 
-      await sleep(100);
+      await sleep(50);
 
       // 2. Animate "INITIALIZING..." subtitle
       for (let i = 0; i <= SUBTITLE.length; i++) {
         if (!active) return;
         setSubtitleIndex(i);
-        await sleep(30); // 30ms per char for slightly slower, deliberate subtitle
+        await sleep(15); // 15ms per char
       }
 
-      await sleep(400); // Noticeable pause after title before logs start
+      await sleep(200); // Noticeable pause after title before logs start
       if (!active) return;
       setLogoDone(true);
 
@@ -122,9 +122,9 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
 
         if (log.type === 'blank') {
           setCompletedLogs(prev => [...prev, { text: '', type: 'blank' }]);
-          await sleep(150); // Pause between major steps
+          await sleep(100); // Pause between major steps
         } else if (log.type === 'success') {
-          await sleep(400); // Simulate processing time before success
+          await sleep(250); // Simulate processing time before success
           if (!active) return;
           setCompletedLogs(prev => [...prev, { text: log.text, type: 'success' }]);
         } else {
@@ -132,7 +132,7 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
           for (let j = 0; j <= log.text.length; j++) {
             if (!active) return;
             setCurrentLogText(log.text.slice(0, j));
-            await sleep(10); // Natural typing speed
+            await sleep(5); // Natural typing speed
           }
           if (!active) return;
           setCompletedLogs(prev => [...prev, { text: log.text, type: 'info' }]);
@@ -143,28 +143,28 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
       // 4. Progress bar animation to 100%
       if (!active) return;
       setShowProgress(true);
-      for (let p = 0; p <= 100; p += 2) {
+      for (let p = 0; p <= 100; p += 4) {
         if (!active) return;
         setProgress(p);
-        await sleep(15); // Smooth loading animation
+        await sleep(12); // Smooth loading animation
       }
       if (!active) return;
       setProgress(100);
 
       // Show "Launching Portfolio..." line immediately
-      await sleep(200);
+      await sleep(100);
 
       // 5. Welcome Banner lines
       for (let i = 0; i < WELCOME_LINES.length; i++) {
         if (!active) return;
         setCompletedWelcome(prev => [...prev, WELCOME_LINES[i]]);
-        await sleep(120);
+        await sleep(80);
       }
       if (!active) return;
       setWelcomeDone(true);
 
       // 6. Transition
-      await sleep(900); // Wait slightly longer so user reads 'Launching Portfolio...'
+      await sleep(600); // Wait slightly longer so user reads 'Launching Portfolio...'
       if (!active) return;
       setFade(true); // CSS Fadeout starts
 
@@ -222,9 +222,9 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
         className="boot-screen-content z-10 flex flex-col justify-start h-full max-h-screen py-16 md:py-20 overflow-y-auto terminal-scroll"
       >
         {/* Centered ASCII Logo Container */}
-        <div className="flex flex-col items-center mb-12 shrink-0">
+        <div className="flex flex-col items-center mb-16 shrink-0 w-full">
           <pre
-            className="terminal-banner-text text-glow-green text-flicker font-bold leading-normal font-mono"
+            className="terminal-banner-text text-glow-green text-flicker font-bold leading-[1.1] font-mono text-left mx-auto"
             style={{
               fontFamily: 'var(--font-mono)',
               color: 'var(--terminal-green)',
@@ -238,7 +238,7 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
           <div
             className="text-glow-cyan text-pulse text-sm md:text-base font-bold font-mono tracking-widest text-center"
             style={{
-              marginTop: '24px',
+              marginTop: '40px',
               color: 'var(--terminal-cyan)',
               minHeight: '1.5em',
             }}
@@ -253,84 +253,86 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
 
         {/* Logs Output */}
         {logoDone && (
-          <div
-            className="flex-1 flex flex-col gap-1.5 text-sm md:text-base font-medium select-none pl-4 md:pl-8 lg:pl-16 w-full"
-            style={{ lineHeight: '1.6' }}
-          >
-            {completedLogs.map((log, idx) => {
-              if (log.type === 'blank') {
-                return <div key={idx} className="h-3" />;
-              }
-              return (
-                <div
-                  key={idx}
-                  style={{
-                    color: log.type === 'success' ? 'var(--terminal-green)' : 'var(--text-secondary)',
-                    fontFamily: 'var(--font-mono)',
-                  }}
-                  className={log.type === 'success' ? 'text-glow-green' : ''}
-                >
-                  {log.text}
-                </div>
-              );
-            })}
-
-            {/* Currently Typing Log Line */}
-            {currentLogText && (
-              <div
-                style={{
-                  color: 'var(--text-primary)',
-                  fontFamily: 'var(--font-mono)',
-                  opacity: 0.9,
-                }}
-              >
-                {currentLogText}
-                <span className="cursor-blink inline-block w-2 h-4 bg-slate-300 ml-1 align-middle" />
-              </div>
-            )}
-
-            {/* Loading/Progress Bar */}
-            {showProgress && (
-              <div
-                style={{ color: 'var(--terminal-cyan)', fontFamily: 'var(--font-mono)' }}
-                className="text-glow-cyan mt-4"
-              >
-                [SYSTEM PROGRESS]: [{'█'.repeat(Math.floor(progress / 2.5))}{'░'.repeat(40 - Math.floor(progress / 2.5))}] {progress}%
-              </div>
-            )}
-
-            {/* Launching Portfolio log line */}
-            {progress === 100 && (
-              <div
-                style={{ color: 'var(--terminal-green)', fontFamily: 'var(--font-mono)' }}
-                className="text-glow-green text-pulse mt-3 text-base md:text-lg font-bold"
-              >
-                &gt; Launching Portfolio...
-              </div>
-            )}
-
-            {/* Welcome Banner Output */}
-            {completedWelcome.length > 0 && (
-              <div
-                className="mt-6 flex flex-col gap-1.5 text-sm md:text-base font-bold text-glow-green"
-                style={{ color: 'var(--terminal-green)' }}
-              >
-                {completedWelcome.map((line, idx) => (
-                  <pre
+          <div className="flex-1 flex flex-col items-center w-full">
+            <div
+              className="flex flex-col gap-2.5 text-sm md:text-base font-medium select-none w-full max-w-[650px] px-4 md:px-8"
+              style={{ lineHeight: '1.6' }}
+            >
+              {completedLogs.map((log, idx) => {
+                if (log.type === 'blank') {
+                  return <div key={idx} className="h-4" />;
+                }
+                return (
+                  <div
                     key={idx}
-                    className="whitespace-pre"
-                    style={{ fontFamily: 'var(--font-mono)' }}
+                    style={{
+                      color: log.type === 'success' ? 'var(--terminal-green)' : 'var(--text-secondary)',
+                      fontFamily: 'var(--font-mono)',
+                    }}
+                    className={log.type === 'success' ? 'text-glow-green' : ''}
                   >
-                    {line}
-                  </pre>
-                ))}
-                {!welcomeDone && (
-                  <span className="cursor-blink inline-block w-2 h-4 bg-emerald-400 ml-0.5 align-middle" />
-                )}
-              </div>
-            )}
+                    {log.text}
+                  </div>
+                );
+              })}
 
-            <div ref={logsEndRef} />
+              {/* Currently Typing Log Line */}
+              {currentLogText && (
+                <div
+                  style={{
+                    color: 'var(--text-primary)',
+                    fontFamily: 'var(--font-mono)',
+                    opacity: 0.9,
+                  }}
+                >
+                  {currentLogText}
+                  <span className="cursor-blink inline-block w-2 h-4 bg-slate-300 ml-1 align-middle" />
+                </div>
+              )}
+
+              {/* Loading/Progress Bar */}
+              {showProgress && (
+                <div
+                  style={{ color: 'var(--terminal-cyan)', fontFamily: 'var(--font-mono)' }}
+                  className="text-glow-cyan mt-8"
+                >
+                  [SYSTEM PROGRESS]: [{'█'.repeat(Math.floor(progress / 2.5))}{'░'.repeat(40 - Math.floor(progress / 2.5))}] {progress}%
+                </div>
+              )}
+
+              {/* Launching Portfolio log line */}
+              {progress === 100 && (
+                <div
+                  style={{ color: 'var(--terminal-green)', fontFamily: 'var(--font-mono)' }}
+                  className="text-glow-green text-pulse mt-6 text-base md:text-lg font-bold"
+                >
+                  &gt; Launching Portfolio...
+                </div>
+              )}
+
+              {/* Welcome Banner Output */}
+              {completedWelcome.length > 0 && (
+                <div
+                  className="mt-10 flex flex-col gap-2 text-sm md:text-base font-bold text-glow-green"
+                  style={{ color: 'var(--terminal-green)' }}
+                >
+                  {completedWelcome.map((line, idx) => (
+                    <pre
+                      key={idx}
+                      className="whitespace-pre text-left mx-auto"
+                      style={{ fontFamily: 'var(--font-mono)' }}
+                    >
+                      {line}
+                    </pre>
+                  ))}
+                  {!welcomeDone && (
+                    <span className="cursor-blink inline-block w-2 h-4 bg-emerald-400 ml-0.5 align-middle" />
+                  )}
+                </div>
+              )}
+
+              <div ref={logsEndRef} />
+            </div>
           </div>
         )}
       </div>
