@@ -364,7 +364,7 @@ export const experienceData = [
     team: "EdTech Platform Team",
     type: "Internship",
     duration: "Nov 2025 – Jan 2026",
-    location: "Karkala, Karnataka, India",
+    location: "Remote",
     description:
       "Developed course management and student progress tracking modules for a MERN stack EdTech platform. Implemented JWT-based role access control, resolved N+1 MongoDB query performance issues, and built Express.js RESTful APIs.",
     achievements: [
