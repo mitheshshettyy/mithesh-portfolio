@@ -60,16 +60,15 @@ function sanitize(str) {
 
 // ── Nodemailer Transporter ──
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: parseInt(process.env.SMTP_PORT || '587', 10),
-  secure: false, // STARTTLS
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT),
+  secure: false,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
-  tls: {
-    rejectUnauthorized: true,
-  },
+  logger: true,
+  debug: true,
 });
 
 // Verify transporter on startup (non-fatal)
@@ -155,22 +154,22 @@ app.get('/api/projects', (req, res) => {
 // ── POST /api/contact ── Real email sending via Nodemailer
 app.post('/api/contact', contactLimiter, async (req, res) => {
   // 1. Sanitize
-  const name    = sanitize(req.body.name);
-  const email   = sanitize(req.body.email);
+  const name = sanitize(req.body.name);
+  const email = sanitize(req.body.email);
   const subject = sanitize(req.body.subject);
   const message = sanitize(req.body.message);
 
   // 2. Server-side validation
   const errors = {};
 
-  if (!name)                  errors.name    = 'Name is required.';
-  if (!email)                 errors.email   = 'Email is required.';
-  if (!subject)               errors.subject = 'Subject is required.';
-  if (!message)               errors.message = 'Message is required.';
+  if (!name) errors.name = 'Name is required.';
+  if (!email) errors.email = 'Email is required.';
+  if (!subject) errors.subject = 'Subject is required.';
+  if (!message) errors.message = 'Message is required.';
   if (message && message.length < 10)
-                              errors.message = 'Message must be at least 10 characters.';
+    errors.message = 'Message must be at least 10 characters.';
   if (message && message.length > 5000)
-                              errors.message = 'Message must be under 5000 characters.';
+    errors.message = 'Message must be under 5000 characters.';
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (email && !emailRegex.test(email)) errors.email = 'Invalid email address.';
