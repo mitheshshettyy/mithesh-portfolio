@@ -10,7 +10,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 const path = require('path');
 require('dotenv').config();
 
@@ -58,28 +58,8 @@ function sanitize(str) {
     .substring(0, 5000);
 }
 
-// ── Nodemailer Transporter ──
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-  logger: true,
-  debug: true,
-});
-
-// Verify transporter on startup (non-fatal)
-transporter.verify((error) => {
-  if (error) {
-    console.warn('[SMTP] Transporter verification failed:', error.message);
-    console.warn('[SMTP] Contact form emails will NOT be sent until SMTP is configured.');
-  } else {
-    console.log('[SMTP] Transporter ready ✓');
-  }
-});
+// ── Resend API Client ──
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // ── Routes ──
 
@@ -90,7 +70,7 @@ app.get('/api/health', (req, res) => {
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
     version: '1.0.0',
-    smtp: !!(process.env.SMTP_USER && process.env.SMTP_PASS),
+    emailService: !!process.env.RESEND_API_KEY,
   });
 });
 
@@ -184,9 +164,9 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
     return res.status(400).json({ error: 'Validation failed', fields: errors });
   }
 
-  // 3. Check SMTP is configured
-  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-    console.error('[CONTACT] SMTP credentials not configured — cannot send email.');
+  // 3. Check Resend is configured
+  if (!process.env.RESEND_API_KEY) {
+    console.error('[CONTACT] Resend API key not configured — cannot send email.');
     return res.status(503).json({
       error: `Email service is not configured. Please contact me directly at ${process.env.CONTACT_EMAIL || 'my email address'}`,
     });
@@ -200,9 +180,9 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
   });
 
   const mailOptions = {
-    from: `"Portfolio Contact" <${process.env.SMTP_USER}>`,
+    from: process.env.RESEND_FROM_EMAIL || 'Portfolio <onboarding@resend.dev>',
     to: process.env.CONTACT_EMAIL || 'shettymithesh030@gmail.com',
-    replyTo: email,
+    reply_to: email,
     subject: `New Portfolio Contact - ${subject}`,
     text: [
       '----------------------------------',
@@ -288,15 +268,23 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
   };
 
   try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log(`[CONTACT] ✓ Email sent — MessageId: ${info.messageId} | From: ${name} <${email}>`);
+    const { data, error } = await resend.emails.send(mailOptions);
+    
+    if (error) {
+      console.error('[CONTACT] ✗ Failed to send email via Resend:', error.message);
+      return res.status(500).json({
+        error: `Failed to send your message. Please try again or email me directly at ${process.env.CONTACT_EMAIL || 'my email address'}`,
+      });
+    }
+
+    console.log(`[CONTACT] ✓ Email sent — MessageId: ${data?.id} | From: ${name} <${email}>`);
 
     return res.status(200).json({
       success: true,
       message: "Message sent successfully! I'll get back to you within 24 hours.",
     });
   } catch (err) {
-    console.error('[CONTACT] ✗ Failed to send email:', err.message);
+    console.error('[CONTACT] ✗ Unexpected error sending email:', err.message);
     return res.status(500).json({
       error: `Failed to send your message. Please try again or email me directly at ${process.env.CONTACT_EMAIL || 'my email address'}`,
     });
@@ -377,7 +365,7 @@ app.listen(PORT, () => {
   ║   Portfolio API Server — Running           ║
   ║   Port: ${PORT}                              ║
   ║   Env:  ${(process.env.NODE_ENV || 'development').padEnd(12)}                 ║
-  ║   SMTP: ${(process.env.SMTP_USER ? '✓ configured' : '✗ not set   ').padEnd(12)}             ║
+  ║   Email: ${(process.env.RESEND_API_KEY ? '✓ configured' : '✗ not set   ').padEnd(12)}            ║
   ╚═══════════════════════════════════════════╝
   `);
 });

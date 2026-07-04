@@ -11,41 +11,28 @@ Node.js + Express API server for the portfolio contact form.
 
 ---
 
-## Gmail App Password Setup
+## Resend API Setup
 
-The contact form uses Gmail SMTP via Nodemailer. You **must** use a Gmail App Password — your normal Gmail password will not work.
+The contact form uses Resend to send emails over an HTTP API, which bypasses Render's outbound SMTP block.
 
-### Step 1 — Enable 2-Step Verification
+### Step 1 — Create a Resend Account
 
-1. Go to [myaccount.google.com](https://myaccount.google.com)
-2. Click **Security** in the left sidebar
-3. Under "How you sign in to Google", click **2-Step Verification**
-4. Follow the prompts to enable it
+1. Go to [resend.com](https://resend.com) and sign up.
+2. In your dashboard, go to **API Keys**.
+3. Click **Create API Key**. Give it a name and give it "Sending access".
+4. Copy the API key (it starts with `re_`).
 
-### Step 2 — Generate an App Password
-
-1. Go to [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)
-   *(You must have 2-Step Verification enabled to see this page)*
-2. Under "Select app", choose **Mail**
-3. Under "Select device", choose **Other (custom name)** → type `Portfolio`
-4. Click **Generate**
-5. Copy the **16-character password** shown (e.g. `abcd efgh ijkl mnop`)
-
-> ⚠️ Google shows this password only once. Copy it immediately.
-
-### Step 3 — Add credentials to `.env`
+### Step 2 — Add credentials to `.env`
 
 Open `server/.env` and fill in:
 
 ```env
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=you@gmail.com
-SMTP_PASS=abcd efgh ijkl mnop
+RESEND_API_KEY=re_your_api_key_here
+RESEND_FROM_EMAIL=Portfolio <onboarding@resend.dev>
 CONTACT_EMAIL=you@gmail.com
 ```
 
-> The spaces in `SMTP_PASS` are fine — paste the 16-char password exactly as Google shows it.
+> **Note**: For production, it's recommended to add and verify your custom domain in Resend to send from `contact@yourdomain.com` instead of `onboarding@resend.dev`.
 
 ---
 
@@ -81,10 +68,8 @@ The server starts on **port 3001** by default.
 | `PORT` | Server port | `3001` |
 | `NODE_ENV` | Environment | `development` |
 | `ALLOWED_ORIGINS` | Comma-separated CORS origins | `http://localhost:5173` |
-| `SMTP_HOST` | Gmail SMTP host | `smtp.gmail.com` |
-| `SMTP_PORT` | Gmail SMTP port | `587` |
-| `SMTP_USER` | Your Gmail address | `you@gmail.com` |
-| `SMTP_PASS` | Gmail App Password (16 chars) | `abcd efgh ijkl mnop` |
+| `RESEND_API_KEY` | Your Resend API key | `re_123456789` |
+| `RESEND_FROM_EMAIL` | Sender email address | `Portfolio <onboarding@resend.dev>` |
 | `CONTACT_EMAIL` | Where form submissions are sent | `you@gmail.com` |
 | `RATE_LIMIT_WINDOW_MS` | Rate limit window in ms | `900000` (15 min) |
 | `RATE_LIMIT_MAX_REQUESTS` | Max submissions per window | `5` |
