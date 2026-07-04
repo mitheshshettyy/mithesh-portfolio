@@ -10,11 +10,14 @@ export default function ParticleBackground({ intensity = 1 }: ParticleBackground
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const animFrameRef = useRef<number>(0);
   const mouseRef = useRef({ x: 0, y: 0 });
-  const clockRef = useRef(new THREE.Clock());
+  const timerRef = useRef(new THREE.Timer());
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    const timer = timerRef.current;
+    timer.connect(document);
 
     // ── Scene Setup ──
     const scene = new THREE.Scene();
@@ -185,10 +188,11 @@ export default function ParticleBackground({ intensity = 1 }: ParticleBackground
     // ── Animation Loop ──
     let lineUpdateTimer = 0;
 
-    const animate = () => {
+    const animate = (timestamp = 0) => {
       animFrameRef.current = requestAnimationFrame(animate);
-      const elapsed = clockRef.current.getElapsedTime();
-      const delta = clockRef.current.getDelta();
+      timer.update(timestamp);
+      const elapsed = timer.getElapsed();
+      const delta = timer.getDelta();
 
       // Rotate star field slowly
       stars.rotation.y = elapsed * 0.008;
@@ -231,6 +235,7 @@ export default function ParticleBackground({ intensity = 1 }: ParticleBackground
     animate();
 
     return () => {
+      timer.dispose();
       cancelAnimationFrame(animFrameRef.current);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
