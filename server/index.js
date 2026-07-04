@@ -2,7 +2,7 @@
  * ============================================================
  *  Portfolio Backend — Express.js API Server
  *  Author: Mithesh R Shetty
- *  Stack: Node.js + Express + Nodemailer + Helmet + Rate Limit
+ *  Stack: Node.js + Express + Resend + Helmet + Rate Limit
  * ============================================================
  */
 
@@ -131,7 +131,7 @@ app.get('/api/projects', (req, res) => {
   res.json({ projects: filtered, total: filtered.length });
 });
 
-// ── POST /api/contact ── Real email sending via Nodemailer
+// ── POST /api/contact ── Email via Resend API
 app.post('/api/contact', contactLimiter, async (req, res) => {
   // 1. Sanitize
   const name = sanitize(req.body.name);

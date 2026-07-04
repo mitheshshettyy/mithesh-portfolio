@@ -22,7 +22,7 @@ export const config = {
     email: import.meta.env.VITE_CONTACT_EMAIL || 'shettymithesh030@gmail.com',
     github: import.meta.env.VITE_CONTACT_GITHUB || 'https://github.com/mitheshshettyy',
     linkedin: import.meta.env.VITE_CONTACT_LINKEDIN || 'https://linkedin.com/in/mithesh-shetty030',
-    portfolioUrl: import.meta.env.VITE_CONTACT_PORTFOLIO_URL || 'http://localhost:5173',
+    portfolioUrl: import.meta.env.VITE_CONTACT_PORTFOLIO_URL || '',
   },
   terminal: {
     user: import.meta.env.VITE_TERMINAL_USER || 'mithesh',

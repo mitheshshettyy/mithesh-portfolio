@@ -13,6 +13,10 @@ build/
 server/dist/
 .vite/
 
+# ── Deployment Platforms ─────────────────────────────────────
+.vercel/
+.render/
+
 # ── Environment Files ────────────────────────────────────────
 # Never commit real .env files — only .env.example is safe to commit
 .env
@@ -23,6 +27,8 @@ server/dist/
 .env.production.local
 server/.env
 server/.env.local
+server/.env.production
+server/.env.development
 
 # ── Logs ─────────────────────────────────────────────────────
 *.log
@@ -83,3 +89,13 @@ Desktop.ini
 *.temp
 *.bak
 *.orig
+
+# ── Certificates & Keys ──────────────────────────────────────
+*.pem
+*.key
+*.p12
+*.pfx
+
+# ── Uploads ──────────────────────────────────────────────────
+uploads/
+server/uploads/

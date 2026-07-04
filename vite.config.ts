@@ -28,5 +28,19 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // React core — rarely changes, cache-friendly
+            "vendor-react": ["react", "react-dom", "react-router-dom"],
+            // Three.js — large 3D library, isolate it
+            "vendor-three": ["three"],
+            // GSAP animations
+            "vendor-gsap": ["gsap"],
+          },
+        },
+      },
+    },
   };
 });

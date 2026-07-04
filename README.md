@@ -5,7 +5,10 @@
 [![React](https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=white&labelColor=20232a)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6?logo=typescript&logoColor=white&labelColor=1e293b)](https://www.typescriptlang.org)
 [![Vite](https://img.shields.io/badge/Vite-7-646cff?logo=vite&logoColor=white&labelColor=1a1a2e)](https://vite.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38bdf8?logo=tailwindcss&logoColor=white&labelColor=0f172a)](https://tailwindcss.com)
 [![Node.js](https://img.shields.io/badge/Node.js-≥18-339933?logo=nodedotjs&logoColor=white&labelColor=1a2a1a)](https://nodejs.org)
+[![Express](https://img.shields.io/badge/Express-4-ffffff?logo=express&logoColor=black&labelColor=f0f0f0)](https://expressjs.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 ---
 
@@ -14,6 +17,8 @@
 This portfolio is a **terminal-first web application** that provides an immersive way to explore my background as a Computer Science undergraduate and Full-Stack Developer.
 
 Visitors interact with the portfolio through a real command-line interface supporting 30+ commands, tab auto-completion, command history, and a virtual filesystem — alongside dedicated visual pages for every section.
+
+**Live:** [mithesh.dev](https://mithesh.dev) &nbsp;|&nbsp; **Backend API:** Deployed on [Render](https://render.com)
 
 ---
 
@@ -25,7 +30,7 @@ Visitors interact with the portfolio through a real command-line interface suppo
 | **Virtual Filesystem** | Simulated directory tree navigable with `ls`, `cd`, `pwd`, `tree`, and `cat` |
 | **Three.js Particle Field** | Interactive 3D particle background responding to mouse movement |
 | **GSAP Animations** | Smooth page transitions, entrance reveals, and animated experience timeline |
-| **Functional Contact Form** | End-to-end contact form via Nodemailer + Gmail SMTP with real-time validation |
+| **Functional Contact Form** | End-to-end contact form via Resend API with real-time validation and rate limiting |
 | **Resume Preview & Download** | Embedded PDF viewer with single-click download |
 | **Project Grid & Modals** | Filterable project grid with detailed inspect modals |
 | **NightShell Theme** | High-contrast dark palette with neon green (`#00ff88`) and electric cyan (`#00d4ff`) accents |
@@ -44,13 +49,14 @@ Visitors interact with the portfolio through a real command-line interface suppo
 - **Tailwind CSS 4** — utility-first styling
 - **Three.js** — 3D particle background
 - **GSAP** — animations and page transitions
-- **Framer Motion** — supplemental motion
+- **@vercel/analytics** — page view analytics
+- **@vercel/speed-insights** — core web vitals monitoring
 
 ### Backend
 - **Node.js + Express** — REST API server
-- **Nodemailer** — Gmail SMTP email delivery
-- **Helmet** — secure HTTP headers
-- **express-rate-limit** — abuse prevention on contact endpoint
+- **Resend** — transactional email delivery via HTTP API
+- **Helmet** — secure HTTP response headers
+- **express-rate-limit** — abuse prevention on the contact endpoint
 - **dotenv** — environment variable management
 
 ---
@@ -64,13 +70,12 @@ mithesh-portfolio/
 │   │   ├── layout/         # Navbar, Layout, Footer
 │   │   ├── terminal/       # Terminal, NeofetchBox, WhoAmIBox, MobileCommandBar
 │   │   ├── three/          # ParticleBackground (Three.js)
-│   │   └── ui/             # AnimatedText, BootScreen, PageTransition
+│   │   └── ui/             # BootScreen
 │   ├── pages/              # About, Contact, Education, Experience,
 │   │                       # Home, NotFound, Projects, Resume, Skills
 │   ├── data/
 │   │   └── portfolioData.ts  # All portfolio content (projects, skills, timeline)
 │   ├── utils/
-│   │   ├── cn.ts           # clsx + tailwind-merge utility
 │   │   └── uptime.ts       # Portfolio uptime calculation
 │   ├── config.ts           # Centralised env-driven configuration
 │   ├── App.tsx             # Route definitions
@@ -78,20 +83,21 @@ mithesh-portfolio/
 │   └── index.css           # Global styles and design tokens
 │
 ├── public/
-│   ├── images/             # favicon.svg and other static images
+│   ├── images/             # favicon.svg and profile avatar
 │   └── resume/             # Resume PDF (served statically)
 │
 ├── server/
 │   ├── index.js            # Express API — health, contact, portfolio endpoints
 │   ├── package.json
 │   ├── .env.example        # Environment variable template (safe to commit)
-│   └── README.md           # Backend setup & Gmail App Password guide
+│   └── README.md           # Backend setup & Resend API guide
 │
 ├── .env.example            # Frontend environment variable template
 ├── .gitignore
-├── index.html              # HTML entry point
+├── index.html              # HTML entry point with SEO meta tags
 ├── package.json
 ├── tsconfig.json
+├── vercel.json             # Vercel SPA rewrite rules
 └── vite.config.ts
 ```
 
@@ -162,7 +168,7 @@ mithesh-portfolio/
 ### Prerequisites
 - **Node.js** ≥ 18
 - **npm** ≥ 9
-- A Gmail account with 2-Step Verification for the contact form
+- A [Resend](https://resend.com) account (free tier) for the contact form
 
 ### 1. Clone the Repository
 
@@ -187,19 +193,19 @@ cd server && npm install && cd ..
 ```bash
 cp .env.example .env
 ```
-The defaults in `.env.example` are pre-filled for local development — no changes needed to run the frontend.
+The defaults in `.env.example` are pre-filled for local development — no changes needed to run the frontend locally.
 
 **Backend (required for contact form):**
 ```bash
 cp server/.env.example server/.env
 ```
-Then open `server/.env` and fill in your Gmail credentials:
+Then open `server/.env` and fill in your Resend credentials:
 ```env
-SMTP_USER=you@gmail.com
-SMTP_PASS=xxxx xxxx xxxx xxxx   # Gmail App Password
+RESEND_API_KEY=re_your_api_key_here
+RESEND_FROM_EMAIL=Portfolio <onboarding@resend.dev>
 CONTACT_EMAIL=you@gmail.com
 ```
-> See [`server/README.md`](./server/README.md) for the full Gmail App Password setup guide.
+> See [`server/README.md`](./server/README.md) for the full Resend API setup guide.
 
 ### 4. Start Development Servers
 
@@ -225,7 +231,7 @@ Open [http://localhost:5173](http://localhost:5173) to view the portfolio.
 npm run build
 ```
 
-Output is written to `dist/`. This is a single-file build (`vite-plugin-singlefile`) — the entire frontend compiles into one self-contained `index.html`.
+Output is written to `dist/`. The entire frontend compiles into a static site suitable for Vercel, GitHub Pages, or any static host.
 
 ### Type Checking
 
@@ -233,12 +239,24 @@ Output is written to `dist/`. This is a single-file build (`vite-plugin-singlefi
 npm run typecheck
 ```
 
-### Deploy the Backend
+### Deploy the Frontend — Vercel
 
-The Express server (`server/`) can be deployed to any Node.js host (Railway, Render, Fly.io, VPS):
+The `vercel.json` at the project root configures SPA routing rewrites. To deploy:
 
-1. Set all environment variables from `server/.env.example` in your host's dashboard
-2. Run `npm start` in the `server/` directory
+1. Connect your GitHub repository to [Vercel](https://vercel.com)
+2. Set **Build Command**: `npm run build`
+3. Set **Output Directory**: `dist`
+4. Set **Root Directory**: `.` (project root)
+5. Add all variables from `.env.example` in the Vercel dashboard under **Settings → Environment Variables**
+
+### Deploy the Backend — Render
+
+1. Create a new **Web Service** on [Render](https://render.com)
+2. Point it to the `server/` directory of this repository
+3. Set **Build Command**: `npm install`
+4. Set **Start Command**: `node index.js`
+5. Set all environment variables from `server/.env.example` in the Render dashboard
+6. Set `ALLOWED_ORIGINS` to your production frontend URL
 
 > **Important:** Never commit `server/.env` to version control. It is gitignored. Use your host's secret management to inject credentials.
 
@@ -246,15 +264,17 @@ The Express server (`server/`) can be deployed to any Node.js host (Railway, Ren
 
 ## REST API Reference
 
+Base URL (production): `https://your-backend.onrender.com`
+
 | Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/api/health` | Server health check + SMTP status |
+| `GET` | `/api/health` | Server health check + email service status |
 | `GET` | `/api/portfolio` | Portfolio metadata (name, university, links) |
 | `GET` | `/api/projects` | Projects list with optional `?category=` and `?featured=true` filters |
 | `GET` | `/api/skills` | Full skills list by category |
 | `GET` | `/api/resume` | Resume metadata |
 | `GET` | `/api/resume/download` | Resume download info |
-| `POST` | `/api/contact` | Submit contact form → sends email via SMTP |
+| `POST` | `/api/contact` | Submit contact form → sends email via Resend |
 
 ### POST /api/contact
 
@@ -278,21 +298,21 @@ The Express server (`server/`) can be deployed to any Node.js host (Railway, Ren
 { "error": "Validation failed", "fields": { "message": "Message must be at least 10 characters." } }
 ```
 
-**Rate limited (429):** After 10 submissions per 15-minute window per IP.
+**Rate limited (429):** After 5 submissions per 15-minute window per IP.
 
 ---
 
 ## Security
 
 - **Helmet** — sets secure HTTP response headers
-- **CORS** — restricts API access to configured frontend origins
-- **Rate limiting** — 10 contact submissions per 15 minutes per IP
+- **CORS** — restricts API access to configured frontend origins only
+- **Rate limiting** — 5 contact submissions per 15 minutes per IP
 - **Input sanitization** — strips control characters, enforces length limits
-- **Spam filter** — basic keyword-pattern detection on name and message
+- **Spam filter** — basic keyword-pattern detection on name and message fields
 - **No secrets in source code** — all credentials are environment variables
 - **`.env` files are gitignored** — only `.env.example` templates are committed
 
-> ⚠️ If you fork or clone this repository, generate your own Gmail App Password. Do not reuse credentials from any example or documentation.
+> ⚠️ If you fork or clone this repository, generate your own Resend API key. Do not reuse credentials from any example or documentation.
 
 ---
 
@@ -319,15 +339,33 @@ See `.env.example` for the complete variable list.
 | `PORT` | Server port (default: `3001`) |
 | `NODE_ENV` | Runtime environment (`development` / `production`) |
 | `ALLOWED_ORIGINS` | Comma-separated CORS allowed origins |
-| `SMTP_HOST` | SMTP host (`smtp.gmail.com`) |
-| `SMTP_PORT` | SMTP port (`587`) |
-| `SMTP_USER` | Gmail address used to send emails |
-| `SMTP_PASS` | Gmail App Password (16 characters) |
+| `RESEND_API_KEY` | Your Resend API key (starts with `re_`) |
+| `RESEND_FROM_EMAIL` | Sender address shown on emails |
 | `CONTACT_EMAIL` | Recipient address for contact form submissions |
 | `RATE_LIMIT_WINDOW_MS` | Rate limit window in ms (default: `900000`) |
-| `RATE_LIMIT_MAX_REQUESTS` | Max submissions per window (default: `10`) |
+| `RATE_LIMIT_MAX_REQUESTS` | Max submissions per window (default: `5`) |
 
 See `server/.env.example` for the full template.
+
+---
+
+## Available Scripts
+
+### Frontend (project root)
+
+| Script | Description |
+|---|---|
+| `npm run dev` | Start Vite development server on port 5173 |
+| `npm run build` | Build for production into `dist/` |
+| `npm run preview` | Preview the production build locally |
+| `npm run typecheck` | Run TypeScript type-checker with no emit |
+
+### Backend (`server/`)
+
+| Script | Description |
+|---|---|
+| `npm run dev` | Start server with nodemon (auto-restart) |
+| `npm start` | Start server for production |
 
 ---
 
