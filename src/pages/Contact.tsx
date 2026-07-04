@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
 import { personalInfo, socialLinks } from '../data/portfolioData';
+import config from '../config';
 
 interface FormState {
   name: string;
@@ -78,7 +79,7 @@ export default function Contact() {
     setSubmitState({ status: 'loading', message: '' });
 
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch(`${config.backend.apiUrl}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
