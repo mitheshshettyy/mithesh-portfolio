@@ -28,12 +28,12 @@ function validateForm(form: FormState): FieldErrors {
   const errors: FieldErrors = {};
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!form.name.trim())                      errors.name    = 'Name is required.';
-  if (!form.email.trim())                     errors.email   = 'Email is required.';
-  else if (!emailRegex.test(form.email))      errors.email   = 'Enter a valid email address.';
-  if (!form.subject.trim())                   errors.subject = 'Subject is required.';
-  if (!form.message.trim())                   errors.message = 'Message is required.';
-  else if (form.message.trim().length < 10)   errors.message = 'Message must be at least 10 characters.';
+  if (!form.name.trim()) errors.name = 'Name is required.';
+  if (!form.email.trim()) errors.email = 'Email is required.';
+  else if (!emailRegex.test(form.email)) errors.email = 'Enter a valid email address.';
+  if (!form.subject.trim()) errors.subject = 'Subject is required.';
+  if (!form.message.trim()) errors.message = 'Message is required.';
+  else if (form.message.trim().length < 10) errors.message = 'Message must be at least 10 characters.';
 
   return errors;
 }
@@ -220,13 +220,12 @@ export default function Contact() {
                     style={{
                       fontFamily: 'var(--font-mono)',
                       background: 'rgba(0,0,0,0.3)',
-                      border: `1px solid ${
-                        fieldErrors.message
+                      border: `1px solid ${fieldErrors.message
                           ? 'rgba(255,71,87,0.5)'
                           : focused === 'message'
                             ? 'rgba(0,255,136,0.4)'
                             : 'rgba(255,255,255,0.08)'
-                      }`,
+                        }`,
                       color: 'var(--text-primary)',
                       outline: 'none',
                       boxShadow: focused === 'message' ? '0 0 10px rgba(0,255,136,0.1)' : 'none',
@@ -365,7 +364,7 @@ export default function Contact() {
                 <span>Currently available</span>
               </div>
               <p className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', lineHeight: '1.65' }}>
-                Open to internship and software engineering opportunities, project collaborations, and technical discussions.
+                Open to internship and software engineering opportunities and project collaborations.
               </p>
             </div>
           </div>
@@ -428,13 +427,12 @@ function FormField({
         style={{
           fontFamily: 'var(--font-mono)',
           background: 'rgba(0,0,0,0.3)',
-          border: `1px solid ${
-            error
+          border: `1px solid ${error
               ? 'rgba(255,71,87,0.5)'
               : focused
                 ? 'rgba(0,255,136,0.4)'
                 : 'rgba(255,255,255,0.08)'
-          }`,
+            }`,
           color: 'var(--text-primary)',
           outline: 'none',
           boxShadow: focused ? '0 0 10px rgba(0,255,136,0.1)' : 'none',
