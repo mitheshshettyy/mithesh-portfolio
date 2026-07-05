@@ -173,7 +173,7 @@ export default function ParticleBackground({ intensity = 1 }: ParticleBackground
         y: -(e.clientY / window.innerHeight - 0.5) * 2,
       };
     };
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     // ── Resize Handler ──
     const handleResize = () => {
@@ -183,7 +183,7 @@ export default function ParticleBackground({ intensity = 1 }: ParticleBackground
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
 
     // ── Animation Loop ──
     let lineUpdateTimer = 0;
