@@ -161,6 +161,7 @@ export default function Contact() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <FormField
                     id="contact-name"
+                    name="name"
                     label="name *"
                     type="text"
                     value={form.name}
@@ -174,6 +175,7 @@ export default function Contact() {
                   />
                   <FormField
                     id="contact-email"
+                    name="email"
                     label="email *"
                     type="email"
                     value={form.email}
@@ -190,6 +192,7 @@ export default function Contact() {
                 {/* Subject */}
                 <FormField
                   id="contact-subject"
+                  name="subject"
                   label="subject *"
                   type="text"
                   value={form.subject}
@@ -209,6 +212,7 @@ export default function Contact() {
                   </label>
                   <textarea
                     id="contact-message"
+                    name="message"
                     rows={4}
                     value={form.message}
                     onChange={(e) => handleChange('message', e.target.value)}
@@ -395,9 +399,10 @@ function Spinner() {
 }
 
 function FormField({
-  id, label, type, value, onChange, placeholder, focused, onFocus, onBlur, error, disabled,
+  id, name, label, type, value, onChange, placeholder, focused, onFocus, onBlur, error, disabled,
 }: {
   id: string;
+  name?: string;
   label: string;
   type: string;
   value: string;
@@ -416,6 +421,7 @@ function FormField({
       </label>
       <input
         id={id}
+        name={name || id}
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}

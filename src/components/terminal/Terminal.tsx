@@ -907,6 +907,8 @@ export default function Terminal() {
             </span>
             <div className="relative flex-1">
               <input
+                id="terminal-input"
+                name="terminal-input"
                 ref={inputRef}
                 type="text"
                 value={input}
