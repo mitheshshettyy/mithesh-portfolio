@@ -16,7 +16,7 @@ export const config = {
     cgpa: import.meta.env.VITE_PERSONAL_CGPA || '8.78 / 10.0',
     graduationYear: parseInt(import.meta.env.VITE_PERSONAL_GRAD_YEAR || '2027', 10),
     location: import.meta.env.VITE_PERSONAL_LOCATION || 'Udupi, Karnataka, India',
-    status: import.meta.env.VITE_PERSONAL_STATUS || '🟢 Available for internships & software engineering roles',
+    status: import.meta.env.VITE_PERSONAL_STATUS || 'Available for internships & software engineering roles',
   },
   contact: {
     email: import.meta.env.VITE_CONTACT_EMAIL || 'shettymithesh030@gmail.com',
