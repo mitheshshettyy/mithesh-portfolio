@@ -16,7 +16,6 @@ export default function Education() {
 
   return (
     <div ref={pageRef} className="desktop-container py-[24px] px-[24px] flex flex-col gap-[18px]">
-      {/* Header */}
       <div className="reveal flex flex-col gap-[8px]">
         <Breadcrumb path="education" />
         <h1 className="text-3xl sm:text-4xl font-extrabold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
@@ -27,7 +26,6 @@ export default function Education() {
         </p>
       </div>
 
-      {/* Academic History (Timeline) - Full Width */}
       <div className="reveal flex flex-col gap-[12px]">
         <h2 className="text-xl font-bold border-b border-gray-800 pb-2 text-terminal-green" style={{ fontFamily: 'var(--font-mono)' }}>
           :: Academic History
@@ -35,7 +33,6 @@ export default function Education() {
         <div className="relative pl-8 border-l border-gray-800 flex flex-col gap-[18px]">
           {educationData.map((edu) => (
             <div key={edu.id} className="relative flex flex-col gap-[8px]">
-              {/* Timeline marker */}
               <div
                 className="absolute -left-[38px] top-1.5 w-4.5 h-4.5 rounded-full border-2 bg-primary flex items-center justify-center"
                 style={{
@@ -48,7 +45,6 @@ export default function Education() {
                 )}
               </div>
 
-              {/* Card Container */}
               <div className="terminal-card p-[18px] flex flex-col gap-[12px]">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-[16px]">
                   <div className="flex flex-col gap-[4px]">
@@ -71,7 +67,6 @@ export default function Education() {
                     </div>
                   </div>
 
-                  {/* CGPA Badge */}
                   <div
                     className="p-[12px] rounded-lg text-center shrink-0 min-w-[130px] flex flex-col justify-center items-center"
                     style={{
@@ -105,7 +100,6 @@ export default function Education() {
         </div>
       </div>
 
-      {/* SECTION: COURSEWORK (Full Width Bottom) */}
       <div className="reveal flex flex-col gap-[12px]">
         <h2 className="text-xl font-bold border-b border-gray-800 pb-2 text-terminal-green" style={{ fontFamily: 'var(--font-mono)' }}>
           :: Relevant Coursework

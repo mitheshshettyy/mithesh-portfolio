@@ -6,7 +6,7 @@ import { experienceData } from '../data/portfolioData';
 // Register GSAP ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-// ── Technical pill badges component ──
+
 interface TechBadgeProps {
   tech: string;
 }
@@ -38,7 +38,7 @@ export function TechBadge({ tech }: TechBadgeProps) {
   );
 }
 
-// ── Git Timeline Node component ──
+
 interface TimelineNodeProps {
   isActive: boolean;
   logo: string;
@@ -47,7 +47,6 @@ interface TimelineNodeProps {
 export function TimelineNode({ isActive, logo }: TimelineNodeProps) {
   return (
     <div className="relative flex items-center justify-center shrink-0">
-      {/* Outer ring / initials container */}
       <div
         className={`w-6 h-6 rounded-full border bg-slate-950 flex items-center justify-center transition-all duration-250 z-10 select-none font-mono text-[10px] font-bold ${isActive
             ? 'border-terminal-green scale-110 shadow-[0_0_10px_rgba(0,255,136,0.4)]'
@@ -61,7 +60,7 @@ export function TimelineNode({ isActive, logo }: TimelineNodeProps) {
         {logo}
       </div>
 
-      {/* Ripple pulse ring for active node */}
+
       {isActive && (
         <div className="absolute w-[34px] h-[34px] rounded-full border border-emerald-400 opacity-20 animate-ping pointer-events-none" />
       )}
@@ -69,7 +68,7 @@ export function TimelineNode({ isActive, logo }: TimelineNodeProps) {
   );
 }
 
-// ── Git Vertical Connector component ──
+
 interface TimelineConnectorProps {
   isFirst: boolean;
   isLast: boolean;
@@ -98,7 +97,7 @@ export function TimelineConnector({ isFirst, isLast }: TimelineConnectorProps) {
   );
 }
 
-// ── Card Header component ──
+
 interface ExperienceHeaderProps {
   type: string;
   role: string;
@@ -116,7 +115,6 @@ export function ExperienceHeader({
 }: ExperienceHeaderProps) {
   return (
     <div className="flex flex-col sm:flex-row justify-between items-start gap-2 w-full relative">
-      {/* Role and Company Info */}
       <div className="flex flex-col text-left">
         <span
           className="text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase font-mono"
@@ -148,7 +146,6 @@ export function ExperienceHeader({
         </h3>
       </div>
 
-      {/* Duration and Location */}
       <div className="flex flex-col sm:items-end text-left sm:text-right font-mono shrink-0 gap-1 mt-1 sm:mt-[2px]">
         <span style={{ color: 'var(--text-secondary)' }} className="font-semibold text-[11px] sm:text-[12px] md:text-[13px]">
           {duration}
@@ -161,7 +158,7 @@ export function ExperienceHeader({
   );
 }
 
-// ── Card Details / Achievements component ──
+
 interface ExperienceDetailsProps {
   description: string;
   achievements: string[];
@@ -170,7 +167,6 @@ interface ExperienceDetailsProps {
 export function ExperienceDetails({ description, achievements }: ExperienceDetailsProps) {
   return (
     <div className="flex flex-col gap-4 text-left w-full">
-      {/* Short Summary */}
       <p
         className="font-mono text-[12px] sm:text-[13px] md:text-[14px] max-w-[680px]"
         style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}
@@ -178,7 +174,6 @@ export function ExperienceDetails({ description, achievements }: ExperienceDetai
         {description}
       </p>
 
-      {/* Contribution Bullet Points */}
       <ul className="flex flex-col gap-2 pl-1 select-text">
         {achievements.map((item, idx) => (
           <li key={idx} className="grid grid-cols-[14px_1fr] gap-2.5 items-start">
@@ -201,7 +196,7 @@ export function ExperienceDetails({ description, achievements }: ExperienceDetai
   );
 }
 
-// ── Experience Card component ──
+
 interface ExperienceCardProps {
   exp: typeof experienceData[0];
   isActive: boolean;
@@ -211,7 +206,7 @@ interface ExperienceCardProps {
 export function ExperienceCard({ exp, isActive, onClick }: ExperienceCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Parallax and lift handler
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const card = cardRef.current;
@@ -267,7 +262,6 @@ export function ExperienceCard({ exp, isActive, onClick }: ExperienceCardProps) 
       }}
     >
       <div className="flex flex-col gap-4 w-full">
-        {/* Badge & Info Header */}
         <ExperienceHeader
           type={exp.type}
           role={exp.role}
@@ -276,16 +270,15 @@ export function ExperienceCard({ exp, isActive, onClick }: ExperienceCardProps) 
           location={exp.location}
         />
 
-        {/* Short Summary & Bullet Points */}
+
         <ExperienceDetails
           description={exp.description}
           achievements={exp.achievements}
         />
 
-        {/* Divider */}
+
         <div className="h-[1px] w-full bg-slate-800 opacity-[0.25] mt-4 mb-3" />
 
-        {/* Tech Stack Badge Pills */}
         <div className="flex flex-wrap gap-2 w-full">
           {exp.tech.map((t) => (
             <TechBadge key={t} tech={t} />
@@ -296,27 +289,24 @@ export function ExperienceCard({ exp, isActive, onClick }: ExperienceCardProps) 
   );
 }
 
-// ── Main Experience Section component ──
+
 export default function Experience() {
   const pageRef = useRef<HTMLDivElement>(null);
 
   const displayExperiences = experienceData;
 
-  // GSAP Viewport reveal animations
+
   useEffect(() => {
-    // 1. Terminal title commands fade down
     gsap.fromTo('.reveal-title',
       { opacity: 0, y: -20 },
       { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.1 }
     );
 
-    // 2. Subtitle log categories fade in
     gsap.fromTo('.reveal-subtitle',
       { opacity: 0, y: -10 },
       { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: 0.2 }
     );
 
-    // 3. Card fade-up on entry (Scroll-Triggered)
     const cards = gsap.utils.toArray('.reveal-card');
     cards.forEach((card: any) => {
       gsap.fromTo(card,
@@ -342,9 +332,7 @@ export default function Experience() {
       className="desktop-container pt-16 pb-40 sm:pb-52 lg:pb-64 flex flex-col items-center justify-start min-h-[calc(100vh-56px)]"
     >
       <div className="w-full max-w-[800px] flex flex-col items-center gap-6">
-        {/* Page Header aligned perfectly with the main content grid */}
         <div className="w-full text-center flex flex-col items-center">
-          {/* Terminal git log style subtitle command */}
           <div
             className="reveal-title flex items-center gap-1.5 font-mono select-none mb-1 text-[11px] sm:text-[12px]"
             style={{ color: 'var(--text-muted)' }}
@@ -353,7 +341,6 @@ export default function Experience() {
             <span>git log --oneline experience/</span>
           </div>
 
-          {/* Page Title */}
           <h1
             className="reveal-title font-bold text-xl sm:text-2xl md:text-[28px] tracking-tight leading-tight mt-1 mb-1"
             style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}
@@ -361,7 +348,6 @@ export default function Experience() {
             Experience
           </h1>
 
-          {/* Log categories subtitle */}
           <p
             className="reveal-subtitle text-[11px] sm:text-[12px] font-mono tracking-wider text-slate-400 mt-1 mb-6"
           >
@@ -381,7 +367,6 @@ export default function Experience() {
           <div className="w-full flex flex-col gap-8 relative pl-12 sm:pl-16 pb-12">
             {displayExperiences.map((exp, idx) => (
               <div key={exp.id || idx} className="relative w-full reveal-card">
-                {/* Continuous Straight Vertical Timeline Line Segment */}
                 {idx < displayExperiences.length - 1 && (
                   <div
                     className="absolute -left-[24px] sm:-left-[32px] -translate-x-1/2 top-[36px] sm:top-[44px] -bottom-[68px] sm:-bottom-[76px] w-[1px] pointer-events-none"
@@ -391,7 +376,7 @@ export default function Experience() {
                   />
                 )}
 
-                {/* Timeline Marker Node */}
+
                 <div className="absolute -left-[24px] sm:-left-[32px] -translate-x-1/2 top-6 sm:top-8 flex items-center justify-center z-10">
                   <div
                     className={`w-6 h-6 rounded-full border bg-slate-950 flex items-center justify-center transition-all duration-300 ${idx === 0
@@ -415,7 +400,6 @@ export default function Experience() {
                   </div>
                 </div>
 
-                {/* Experience Card */}
                 <div className="w-full">
                   <ExperienceCard
                     exp={exp}
@@ -428,7 +412,7 @@ export default function Experience() {
           </div>
         )}
 
-        {/* Breathable vertical gap spacer before footer */}
+
         <div className="h-16 sm:h-24 lg:h-32 w-full shrink-0" />
       </div>
     </div>

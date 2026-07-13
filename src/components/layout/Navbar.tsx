@@ -23,7 +23,6 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Time display
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -34,7 +33,6 @@ export default function Navbar() {
     return () => clearInterval(interval);
   }, []);
 
-  // Scroll effect
   useEffect(() => {
     let ticking = false;
     const handleScroll = () => {
@@ -50,7 +48,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // GSAP entrance
   useEffect(() => {
     if (navRef.current) {
       gsap.fromTo(navRef.current,
@@ -60,7 +57,6 @@ export default function Navbar() {
     }
   }, []);
 
-  // Mobile menu animation
   useEffect(() => {
     if (mobileMenuRef.current) {
       if (mobileOpen) {
@@ -100,7 +96,6 @@ export default function Navbar() {
         <div className="desktop-container">
           <div className="flex items-center justify-between h-14">
 
-            {/* Logo / Prompt */}
             <button
               onClick={() => handleNavClick('/')}
               className="flex items-center gap-2 group"
@@ -117,7 +112,6 @@ export default function Navbar() {
               />
             </button>
 
-            {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-4">
               {navItems.map((item) => (
                 <button
@@ -167,7 +161,6 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Right side — time + shortcut hint */}
             <div className="hidden md:flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <span
@@ -192,7 +185,6 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Mobile hamburger */}
             <button
               className="lg:hidden flex flex-col gap-1.5 p-2"
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -223,7 +215,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {mobileOpen && (
           <div
             ref={mobileMenuRef}
@@ -275,7 +266,6 @@ export default function Navbar() {
         )}
       </nav>
 
-      {/* Spacer */}
       <div className="h-14" />
     </>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { projectsData, personalInfo } from '../data/portfolioData';
 
@@ -13,22 +13,33 @@ export default function Projects() {
   const pageRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  // ── Page entrance: useLayoutEffect runs synchronously after DOM commit ──
+  useLayoutEffect(() => {
     if (!pageRef.current) return;
-    const els = pageRef.current.querySelectorAll('.reveal');
-    gsap.fromTo(els,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.55, stagger: 0.07, ease: 'power3.out', delay: 0.1 }
-    );
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        '.reveal',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.55, stagger: 0.07, ease: 'power3.out', delay: 0.1 }
+      );
+    }, pageRef);          // scope selector to pageRef so it never hits null nodes
+    return () => ctx.revert();
   }, []);
 
+  // ── Card grid: rAF ensures React has committed filtered cards before GSAP queries them ──
   useEffect(() => {
     if (!gridRef.current) return;
-    const cards = gridRef.current.querySelectorAll('.project-card');
-    gsap.fromTo(cards,
-      { opacity: 0, y: 18, scale: 0.97 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.38, stagger: 0.055, ease: 'power2.out' }
-    );
+    const frame = requestAnimationFrame(() => {
+      if (!gridRef.current) return;
+      const cards = gridRef.current.querySelectorAll('.project-card');
+      if (!cards.length) return;
+      gsap.fromTo(
+        cards,
+        { opacity: 0, y: 18, scale: 0.97 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.38, stagger: 0.055, ease: 'power2.out' }
+      );
+    });
+    return () => cancelAnimationFrame(frame);
   }, [activeFilter]);
 
   const filtered = activeFilter === 'All'
@@ -240,42 +251,87 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: (p: Projec
 }
 
 // ── Project Modal ─────────────────────────────────────────────────────────────
+//
+// ROOT CAUSE FIX:
+//   The original component returned null when !project || !isVisible, which
+//   unmounted the DOM nodes.  The useEffect that called gsap.fromTo() ran
+//   *after* the render, so on the very first open (project: null → Project)
+//   React rendered null first, useEffect fired, and both refs were still null
+//   → "GSAP target null not found".
+//
+//   Fix: the backdrop + panel are now ALWAYS in the DOM.
+//   Visibility is controlled via CSS (opacity / pointer-events / aria-hidden).
+//   GSAP therefore always has a valid DOM node to animate.
+//
 interface ProjectModalProps {
   project: Project | null;
   onClose: () => void;
 }
 
 function ProjectModal({ project, onClose }: ProjectModalProps) {
-  const [isVisible, setIsVisible] = useState(false);
-  const backdropRef = useRef<HTMLDivElement>(null);
-  const modalRef    = useRef<HTMLDivElement>(null);
-  const closeRef    = useRef<HTMLButtonElement>(null);
+  // true  = modal is open (or animating open)
+  // false = modal is fully closed (hidden via CSS)
+  const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    if (project) {
-      setIsVisible(true);
-      gsap.fromTo(backdropRef.current, { opacity: 0 }, { opacity: 1, duration: 0.22, ease: 'power2.out' });
-      gsap.fromTo(modalRef.current, { scale: 0.96, y: 14, opacity: 0 }, { scale: 1, y: 0, opacity: 1, duration: 0.22, ease: 'power2.out' });
-    }
+  const backdropRef = useRef<HTMLDivElement>(null);
+  const panelRef    = useRef<HTMLDivElement>(null);
+  const closeRef    = useRef<HTMLButtonElement>(null);
+  // Prevents double-firing of the close animation on rapid Escape/click
+  const closingRef  = useRef(false);
+
+  // ── Open animation — useLayoutEffect runs synchronously after DOM paint ──
+  useLayoutEffect(() => {
+    if (!project) return;             // project went null (close path) — skip
+
+    closingRef.current = false;
+    setIsOpen(true);
+
+    // Refs are always non-null here because the elements are always rendered.
+    const ctx = gsap.context(() => {
+      gsap.fromTo(backdropRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.22, ease: 'power2.out' }
+      );
+      gsap.fromTo(panelRef.current,
+        { scale: 0.96, y: 14, opacity: 0 },
+        { scale: 1, y: 0, opacity: 1, duration: 0.22, ease: 'power2.out' }
+      );
+    });
+
+    return () => ctx.revert();
   }, [project]);
 
+  // ── Close animation ───────────────────────────────────────────────────────
   const handleClose = () => {
-    gsap.to(backdropRef.current, { opacity: 0, duration: 0.18, ease: 'power2.in' });
-    gsap.to(modalRef.current, {
-      scale: 0.96, y: 14, opacity: 0, duration: 0.18, ease: 'power2.in',
-      onComplete: () => { setIsVisible(false); onClose(); }
+    if (closingRef.current) return;                         // guard double-close
+    if (!backdropRef.current || !panelRef.current) return;
+
+    closingRef.current = true;
+
+    const ctx = gsap.context(() => {
+      gsap.to(backdropRef.current, { opacity: 0, duration: 0.18, ease: 'power2.in' });
+      gsap.to(panelRef.current, {
+        scale: 0.96, y: 14, opacity: 0, duration: 0.18, ease: 'power2.in',
+        onComplete: () => {
+          ctx.revert();
+          closingRef.current = false;
+          setIsOpen(false);
+          onClose();
+        },
+      });
     });
   };
 
+  // ── Keyboard trap + scroll lock ───────────────────────────────────────────
   useEffect(() => {
-    if (!isVisible || !project) return;
+    if (!isOpen || !project) return;
     document.body.style.overflow = 'hidden';
     const timer = setTimeout(() => closeRef.current?.focus(), 80);
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') { handleClose(); return; }
-      if (e.key === 'Tab' && modalRef.current) {
-        const focusable = modalRef.current.querySelectorAll<HTMLElement>('a[href], button, [tabindex="0"]');
+      if (e.key === 'Tab' && panelRef.current) {
+        const focusable = panelRef.current.querySelectorAll<HTMLElement>('a[href], button, [tabindex="0"]');
         if (!focusable.length) return;
         const first = focusable[0], last = focusable[focusable.length - 1];
         if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
@@ -284,24 +340,35 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
     };
 
     window.addEventListener('keydown', onKeyDown);
-    return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKeyDown); clearTimeout(timer); };
-  }, [isVisible, project]);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKeyDown);
+      clearTimeout(timer);
+    };
+  }, [isOpen, project]);
 
-  if (!project || !isVisible) return null;
-  const demoUrl = project.liveDemo || project.demo;
+  const demoUrl = project ? (project.liveDemo || project.demo) : null;
 
+  // ── Always rendered; CSS hides it when closed ─────────────────────────────
   return (
     <div
       ref={backdropRef}
       onClick={(e) => { if (e.target === backdropRef.current) handleClose(); }}
       className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
-      style={{ background: 'rgba(4,6,16,0.82)', backdropFilter: 'blur(10px)' }}
+      style={{
+        background: 'rgba(4,6,16,0.82)',
+        backdropFilter: 'blur(10px)',
+        // When closed: invisible and non-interactive, but still in the DOM
+        opacity: isOpen ? undefined : 0,
+        pointerEvents: isOpen ? 'auto' : 'none',
+      }}
       role="dialog"
       aria-modal="true"
+      aria-hidden={!isOpen}
       aria-labelledby="modal-title"
     >
       <div
-        ref={modalRef}
+        ref={panelRef}
         className="relative w-full max-w-[700px] rounded-xl border flex flex-col overflow-hidden"
         style={{
           background: '#0b1120',
@@ -327,157 +394,159 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
             <div className="w-3 h-3 rounded-full" style={{ background: '#28c840' }} />
           </div>
           <span className="text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-            project :: <span style={{ color: 'var(--terminal-green)' }}>{project.id}</span>
+            project :: <span style={{ color: 'var(--terminal-green)' }}>{project?.id ?? ''}</span>
           </span>
           <div className="w-16" />
         </div>
 
-        {/* ── Scrollable body ── */}
+        {/* ── Scrollable body — project content only rendered when a project is set ── */}
         <div className="overflow-y-auto flex flex-col gap-5 px-6 pt-8 pb-8 md:px-8 md:pt-10 md:pb-10 text-sm" style={{ scrollbarWidth: 'thin' }}>
-
-          {/* Title block */}
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <h2
-                id="modal-title"
-                className="text-2xl font-bold"
-                style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}
-              >
-                {project.name}
-              </h2>
-              <div className="flex items-center gap-2 flex-wrap">
-                <span
-                  className="text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider"
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    background: 'rgba(0,255,136,0.07)',
-                    border: '1px solid rgba(0,255,136,0.2)',
-                    color: 'var(--terminal-green)',
-                  }}
-                >
-                  {project.status || 'Completed'}
-                </span>
-                <span className="text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                  {project.date}
-                </span>
-              </div>
-            </div>
-            <p className="text-xs font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)', opacity: 0.8 }}>
-              {project.tagline}
-            </p>
-          </div>
-
-          <Divider compact />
-
-          {/* // description */}
-          <Section heading="// description">
-            <p className="text-[13px] leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', lineHeight: 1.7 }}>
-              {project.shortDescription}
-            </p>
-          </Section>
-
-          {/* // problem_solved */}
-          {project.problemSolved && (
-            <Section heading="// problem_solved">
-              <p className="text-[13px] leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', lineHeight: 1.7 }}>
-                {project.problemSolved}
-              </p>
-            </Section>
-          )}
-
-          {/* // key_features */}
-          {project.features?.length > 0 && (
-            <Section heading="// key_features">
-              <ul className="flex flex-col gap-2">
-                {project.features.map((f, i) => (
-                  <li key={i} className="flex items-start gap-2.5">
-                    <span className="shrink-0 mt-[3px] text-[8px]" style={{ color: 'var(--terminal-green)' }}>■</span>
-                    <span className="text-[13px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', lineHeight: 1.65 }}>{f}</span>
-                  </li>
-                ))}
-              </ul>
-            </Section>
-          )}
-
-          {/* // tech_stack */}
-          {project.tech?.length > 0 && (
-            <Section heading="// tech_stack">
-              <div className="flex flex-wrap gap-2">
-                {project.tech.map((t) => (
-                  <span key={t} className="tech-tag" style={{ fontSize: '0.68rem' }}>{t}</span>
-                ))}
-              </div>
-            </Section>
-          )}
-
-          {/* // links */}
-          {(project.github || demoUrl) && (
-            <Section heading="// links">
-              <div className="flex flex-wrap gap-3">
-                {project.github && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2.5 px-5 py-2.5 rounded-lg text-[12px] font-semibold transition-all duration-200"
-                    style={{
-                      fontFamily: 'var(--font-mono)',
-                      background: 'rgba(255,255,255,0.05)',
-                      border: '1px solid rgba(255,255,255,0.12)',
-                      color: 'var(--text-primary)',
-                    }}
-                    onMouseEnter={(e) => {
-                      const el = e.currentTarget as HTMLElement;
-                      el.style.background = 'rgba(255,255,255,0.1)';
-                      el.style.borderColor = 'rgba(255,255,255,0.2)';
-                    }}
-                    onMouseLeave={(e) => {
-                      const el = e.currentTarget as HTMLElement;
-                      el.style.background = 'rgba(255,255,255,0.05)';
-                      el.style.borderColor = 'rgba(255,255,255,0.12)';
-                    }}
+          {project && (
+            <>
+              {/* Title block */}
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h2
+                    id="modal-title"
+                    className="text-2xl font-bold"
+                    style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}
                   >
-                    <svg className="w-[15px] h-[15px] shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                    </svg>
-                    View on GitHub
-                  </a>
-                )}
-                {demoUrl && (
-                  <a
-                    href={demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2.5 px-5 py-2.5 rounded-lg text-[12px] font-semibold transition-all duration-200"
-                    style={{
-                      fontFamily: 'var(--font-mono)',
-                      background: 'rgba(0,255,136,0.08)',
-                      border: '1px solid rgba(0,255,136,0.25)',
-                      color: 'var(--terminal-green)',
-                    }}
-                    onMouseEnter={(e) => {
-                      const el = e.currentTarget as HTMLElement;
-                      el.style.background = 'rgba(0,255,136,0.14)';
-                      el.style.boxShadow = '0 0 14px rgba(0,255,136,0.18)';
-                    }}
-                    onMouseLeave={(e) => {
-                      const el = e.currentTarget as HTMLElement;
-                      el.style.background = 'rgba(0,255,136,0.08)';
-                      el.style.boxShadow = 'none';
-                    }}
-                  >
-                    <svg className="w-[15px] h-[15px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="2" y1="12" x2="22" y2="12" />
-                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                    </svg>
-                    Live Demo
-                  </a>
-                )}
+                    {project.name}
+                  </h2>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span
+                      className="text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider"
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        background: 'rgba(0,255,136,0.07)',
+                        border: '1px solid rgba(0,255,136,0.2)',
+                        color: 'var(--terminal-green)',
+                      }}
+                    >
+                      {project.status || 'Completed'}
+                    </span>
+                    <span className="text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                      {project.date}
+                    </span>
+                  </div>
+                </div>
+                <p className="text-xs font-semibold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)', opacity: 0.8 }}>
+                  {project.tagline}
+                </p>
               </div>
-            </Section>
-          )}
 
+              <Divider compact />
+
+              {/* // description */}
+              <Section heading="// description">
+                <p className="text-[13px] leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', lineHeight: 1.7 }}>
+                  {project.shortDescription}
+                </p>
+              </Section>
+
+              {/* // problem_solved */}
+              {project.problemSolved && (
+                <Section heading="// problem_solved">
+                  <p className="text-[13px] leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', lineHeight: 1.7 }}>
+                    {project.problemSolved}
+                  </p>
+                </Section>
+              )}
+
+              {/* // key_features */}
+              {project.features?.length > 0 && (
+                <Section heading="// key_features">
+                  <ul className="flex flex-col gap-2">
+                    {project.features.map((f, i) => (
+                      <li key={i} className="flex items-start gap-2.5">
+                        <span className="shrink-0 mt-[3px] text-[8px]" style={{ color: 'var(--terminal-green)' }}>■</span>
+                        <span className="text-[13px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', lineHeight: 1.65 }}>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Section>
+              )}
+
+              {/* // tech_stack */}
+              {project.tech?.length > 0 && (
+                <Section heading="// tech_stack">
+                  <div className="flex flex-wrap gap-2">
+                    {project.tech.map((t) => (
+                      <span key={t} className="tech-tag" style={{ fontSize: '0.68rem' }}>{t}</span>
+                    ))}
+                  </div>
+                </Section>
+              )}
+
+              {/* // links */}
+              {(project.github || demoUrl) && (
+                <Section heading="// links">
+                  <div className="flex flex-wrap gap-3">
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2.5 px-5 py-2.5 rounded-lg text-[12px] font-semibold transition-all duration-200"
+                        style={{
+                          fontFamily: 'var(--font-mono)',
+                          background: 'rgba(255,255,255,0.05)',
+                          border: '1px solid rgba(255,255,255,0.12)',
+                          color: 'var(--text-primary)',
+                        }}
+                        onMouseEnter={(e) => {
+                          const el = e.currentTarget as HTMLElement;
+                          el.style.background = 'rgba(255,255,255,0.1)';
+                          el.style.borderColor = 'rgba(255,255,255,0.2)';
+                        }}
+                        onMouseLeave={(e) => {
+                          const el = e.currentTarget as HTMLElement;
+                          el.style.background = 'rgba(255,255,255,0.05)';
+                          el.style.borderColor = 'rgba(255,255,255,0.12)';
+                        }}
+                      >
+                        <svg className="w-[15px] h-[15px] shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                        View on GitHub
+                      </a>
+                    )}
+                    {demoUrl && (
+                      <a
+                        href={demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2.5 px-5 py-2.5 rounded-lg text-[12px] font-semibold transition-all duration-200"
+                        style={{
+                          fontFamily: 'var(--font-mono)',
+                          background: 'rgba(0,255,136,0.08)',
+                          border: '1px solid rgba(0,255,136,0.25)',
+                          color: 'var(--terminal-green)',
+                        }}
+                        onMouseEnter={(e) => {
+                          const el = e.currentTarget as HTMLElement;
+                          el.style.background = 'rgba(0,255,136,0.14)';
+                          el.style.boxShadow = '0 0 14px rgba(0,255,136,0.18)';
+                        }}
+                        onMouseLeave={(e) => {
+                          const el = e.currentTarget as HTMLElement;
+                          el.style.background = 'rgba(0,255,136,0.08)';
+                          el.style.boxShadow = 'none';
+                        }}
+                      >
+                        <svg className="w-[15px] h-[15px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <circle cx="12" cy="12" r="10" />
+                          <line x1="2" y1="12" x2="22" y2="12" />
+                          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                        </svg>
+                        Live Demo
+                      </a>
+                    )}
+                  </div>
+                </Section>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

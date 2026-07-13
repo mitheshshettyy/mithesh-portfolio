@@ -16,7 +16,6 @@ export default function About() {
 
   return (
     <div ref={pageRef} className="desktop-container py-[20px] px-[24px] flex flex-col gap-[18px]">
-      {/* Page Header */}
       <div className="reveal flex flex-col gap-[8px]">
         <TerminalBreadcrumb path="about" />
         <h1
@@ -30,9 +29,7 @@ export default function About() {
         </p>
       </div>
 
-      {/* Two-Column Grid */}
       <div className="reveal grid grid-cols-1 lg:grid-cols-12 gap-x-[18px] gap-y-[18px] items-start">
-        {/* Left Column: Bio & Stats (7 cols) */}
         <div className="lg:col-span-7 flex flex-col gap-[18px]">
           <div className="terminal-card py-[16px] px-[18px] flex flex-col gap-[16px]">
             <div
@@ -42,7 +39,6 @@ export default function About() {
               <span>▸</span> profile_summary
             </div>
 
-            {/* Profile Info Row */}
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-[16px]">
               <div
                 className="w-24 h-24 rounded-2xl shrink-0 overflow-hidden"
@@ -78,7 +74,6 @@ export default function About() {
               </div>
             </div>
 
-            {/* Bio paragraphs */}
             <div className="flex flex-col gap-[12px]" style={{ fontFamily: 'var(--font-mono)' }}>
               <p className="text-sm leading-relaxed text-secondary-custom" style={{ color: 'var(--text-secondary)' }}>
                 {aboutData.summary}
@@ -89,7 +84,6 @@ export default function About() {
             </div>
           </div>
 
-          {/* Stats Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-[16px]">
             {aboutData.stats.map((stat) => (
               <StatCard key={stat.label} stat={stat} />
@@ -97,9 +91,7 @@ export default function About() {
           </div>
         </div>
 
-        {/* Right Column: Facts, Status, Social (5 cols) */}
         <div className="lg:col-span-5 flex flex-col gap-[18px]">
-          {/* Quick Facts */}
           <div className="terminal-card py-[16px] px-[18px] flex flex-col gap-[12px]">
             <div
               className="text-xs font-semibold"
@@ -121,7 +113,6 @@ export default function About() {
             </div>
           </div>
 
-          {/* Current Status */}
           <div
             className="terminal-card py-[16px] px-[18px] flex flex-col gap-[12px]"
             style={{
@@ -146,7 +137,6 @@ export default function About() {
             </div>
           </div>
 
-          {/* Social Links */}
           <div className="terminal-card py-[16px] px-[18px] flex flex-col gap-[12px]">
             <div
               className="text-xs font-semibold"
@@ -162,9 +152,7 @@ export default function About() {
         </div>
       </div>
 
-      {/* Row Below: Interests & Fun Facts */}
       <div className="reveal grid grid-cols-1 md:grid-cols-2 gap-x-[18px] gap-y-[18px] items-stretch">
-        {/* Interests */}
         <div className="terminal-card py-[16px] px-[18px] flex flex-col gap-[16px] h-full">
           <div
             className="text-xs font-semibold"
@@ -184,7 +172,6 @@ export default function About() {
           </div>
         </div>
 
-        {/* Fun Facts */}
         <div className="terminal-card py-[16px] px-[18px] flex flex-col gap-[16px] h-full">
           <div
             className="text-xs font-semibold"

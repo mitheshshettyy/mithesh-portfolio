@@ -42,7 +42,6 @@ export default function Skills() {
   return (
     <div ref={pageRef} className="desktop-container py-16 md:py-24 flex justify-center min-h-[calc(100vh-56px)]">
       <div className="w-full max-w-[1100px] flex flex-col gap-12 sm:gap-16">
-        {/* Header */}
         <div className="reveal space-y-4">
           <Breadcrumb path="skills" />
           <h1 className="text-3xl sm:text-4xl font-extrabold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
@@ -53,7 +52,6 @@ export default function Skills() {
           </p>
         </div>
 
-        {/* Grid Dashboard */}
         <div className="reveal grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-16 lg:gap-y-16 lg:gap-x-20 items-stretch">
           {categories.map((cat) => {
             // Check that the category exists in skillsData to prevent TypeScript errors
@@ -116,7 +114,6 @@ function SkillCard({ label, icon, skills }: SkillCardProps) {
       style={{ backdropFilter: 'blur(12px)' }}
     >
       <div>
-        {/* Card Title */}
         <div className="flex items-center justify-between pb-4 border-b border-slate-800/60">
           <span
             className="text-sm font-bold flex items-center gap-2"
@@ -130,7 +127,6 @@ function SkillCard({ label, icon, skills }: SkillCardProps) {
           </span>
         </div>
 
-        {/* Skill Bars List */}
         <div className="space-y-7 mt-8">
           {skills.map((skill) => (
             <SkillRow
@@ -151,7 +147,6 @@ function SkillRow({ name, level, isVisible }: { name: string; level: number; isV
 
   return (
     <div className="grid grid-cols-[110px_1fr_40px] sm:grid-cols-[150px_1fr_45px] gap-5 sm:gap-7 items-center min-h-[24px]">
-      {/* Skill Name */}
       <span
         className="text-xs font-semibold truncate"
         style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}
@@ -160,9 +155,7 @@ function SkillRow({ name, level, isVisible }: { name: string; level: number; isV
         {name}
       </span>
 
-      {/* Progress Bar Container */}
       <div className="relative w-full h-[5px] bg-slate-950/80 rounded-full">
-        {/* Fill: Active block (continuous bar) */}
         <div
           className="absolute top-0 left-0 h-full rounded-full"
           style={{
@@ -174,7 +167,6 @@ function SkillRow({ name, level, isVisible }: { name: string; level: number; isV
         />
       </div>
 
-      {/* Percentage */}
       <span
         className="text-xs font-medium text-right tabular-nums"
         style={{ fontFamily: 'var(--font-mono)', color: levelColor }}

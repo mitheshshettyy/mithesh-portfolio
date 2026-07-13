@@ -1,11 +1,3 @@
-/**
- * ============================================================
- *  Portfolio Backend — Express.js API Server
- *  Author: Mithesh R Shetty
- *  Stack: Node.js + Express + Resend + Helmet + Rate Limit
- * ============================================================
- */
-
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -17,7 +9,6 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// ── Security Middleware ──
 app.use(helmet());
 
 app.use(cors({
@@ -30,17 +21,17 @@ app.use(cors({
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
-// ── Request Logging ──
+
 app.use((req, res, next) => {
   const timestamp = new Date().toISOString();
   console.log(`[${timestamp}] ${req.method} ${req.path}`);
   next();
 });
 
-// ── Rate Limiting for Contact Endpoint ──
+
 const contactLimiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000', 10), // 15 min
-  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '5', 10),        // 5 submissions per window
+  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '5', 10),
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -49,7 +40,7 @@ const contactLimiter = rateLimit({
   skip: (req) => process.env.NODE_ENV === 'development' && req.ip === '::1', // skip in local dev
 });
 
-// ── Input Sanitizer ──
+
 function sanitize(str) {
   if (typeof str !== 'string') return '';
   return str
@@ -58,12 +49,8 @@ function sanitize(str) {
     .substring(0, 5000);
 }
 
-// ── Resend API Client ──
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// ── Routes ──
-
-// Health check
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
@@ -74,7 +61,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Portfolio data endpoint
+
 app.get('/api/portfolio', (req, res) => {
   res.json({
     name: process.env.PERSONAL_NAME || 'Mithesh R Shetty',
@@ -90,7 +77,7 @@ app.get('/api/portfolio', (req, res) => {
   });
 });
 
-// Projects endpoint
+
 app.get('/api/projects', (req, res) => {
   const { category, featured } = req.query;
 
@@ -131,15 +118,12 @@ app.get('/api/projects', (req, res) => {
   res.json({ projects: filtered, total: filtered.length });
 });
 
-// ── POST /api/contact ── Email via Resend API
 app.post('/api/contact', contactLimiter, async (req, res) => {
-  // 1. Sanitize
   const name = sanitize(req.body.name);
   const email = sanitize(req.body.email);
   const subject = sanitize(req.body.subject);
   const message = sanitize(req.body.message);
 
-  // 2. Server-side validation
   const errors = {};
 
   if (!name) errors.name = 'Name is required.';
@@ -164,7 +148,7 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
     return res.status(400).json({ error: 'Validation failed', fields: errors });
   }
 
-  // 3. Check Resend is configured
+
   if (!process.env.RESEND_API_KEY) {
     console.error('[CONTACT] Resend API key not configured — cannot send email.');
     return res.status(503).json({
@@ -172,7 +156,6 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
     });
   }
 
-  // 4. Build and send email
   const submittedAt = new Date().toLocaleString('en-IN', {
     timeZone: 'Asia/Kolkata',
     dateStyle: 'full',
@@ -269,7 +252,7 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
 
   try {
     const { data, error } = await resend.emails.send(mailOptions);
-    
+
     if (error) {
       console.error('[CONTACT] ✗ Failed to send email via Resend:', error.message);
       return res.status(500).json({
@@ -291,7 +274,7 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
   }
 });
 
-// Resume endpoints
+
 app.get('/api/resume/download', (req, res) => {
   const resumePath = process.env.RESUME_FILE_PATH || path.join(__dirname, '..', 'public', 'resume', 'Mithesh_R_Shetty.pdf');
   try {
@@ -330,7 +313,7 @@ app.get('/api/skills', (req, res) => {
   });
 });
 
-// ── 404 Handler ──
+
 app.use((req, res) => {
   res.status(404).json({
     error: 'Not Found',
@@ -339,7 +322,7 @@ app.use((req, res) => {
   });
 });
 
-// ── Error Handler ──
+
 app.use((err, req, res, _next) => {
   console.error('[ERROR]', err.message);
   res.status(500).json({
@@ -348,7 +331,7 @@ app.use((err, req, res, _next) => {
   });
 });
 
-// ── HTML Escape Helper ──
+
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -358,7 +341,7 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
-// ── Start Server ──
+
 app.listen(PORT, () => {
   console.log(`
   ╔═══════════════════════════════════════════╗

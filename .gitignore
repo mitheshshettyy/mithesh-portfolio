@@ -1,8 +1,3 @@
-# ============================================================
-#  .gitignore — Mithesh Portfolio
-#  Stack: React + Vite + TypeScript + Node.js/Express
-# ============================================================
-
 # ── Dependencies ─────────────────────────────────────────────
 node_modules/
 server/node_modules/
@@ -18,7 +13,6 @@ server/dist/
 .render/
 
 # ── Environment Files ────────────────────────────────────────
-# Never commit real .env files — only .env.example is safe to commit
 .env
 .env.local
 .env.*.local

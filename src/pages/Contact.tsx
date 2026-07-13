@@ -57,7 +57,6 @@ export default function Contact() {
 
   const handleChange = (field: keyof FormState, value: string) => {
     setForm(prev => ({ ...prev, [field]: value }));
-    // Clear field error on change
     if (fieldErrors[field]) {
       setFieldErrors(prev => ({ ...prev, [field]: undefined }));
     }
@@ -67,7 +66,6 @@ export default function Contact() {
     e.preventDefault();
     if (submitting) return;
 
-    // Client-side validation
     const errors = validateForm(form);
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
@@ -99,7 +97,6 @@ export default function Contact() {
         });
         setForm({ name: '', email: '', subject: '', message: '' });
       } else if (res.status === 400 && data.fields) {
-        // Server returned per-field validation errors
         setFieldErrors(data.fields);
         setSubmitState({ status: 'error', message: 'Please fix the errors below.' });
       } else if (res.status === 429) {
@@ -128,7 +125,6 @@ export default function Contact() {
   return (
     <div ref={pageRef} className="desktop-container py-10 flex justify-center">
       <div className="w-full max-w-[1200px] flex flex-col gap-10">
-        {/* Header */}
         <div className="reveal">
           <Breadcrumb path="contact" />
           <h1 className="text-3xl sm:text-4xl font-bold mt-4 mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
@@ -141,10 +137,8 @@ export default function Contact() {
         </div>
 
         <div className="grid lg:grid-cols-5 gap-8 items-start">
-          {/* Contact Form - Left Column */}
           <div className="lg:col-span-3">
             <div className="reveal terminal-card p-6">
-              {/* Terminal header */}
               <div className="flex items-center gap-3 mb-6 pb-4" style={{ borderBottom: '1px solid rgba(0,255,136,0.1)' }}>
                 <div className="flex gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#ff5f57' }} />
@@ -157,7 +151,6 @@ export default function Contact() {
               </div>
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
-                {/* Name + Email row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <FormField
                     id="contact-name"
@@ -189,7 +182,6 @@ export default function Contact() {
                   />
                 </div>
 
-                {/* Subject */}
                 <FormField
                   id="contact-subject"
                   name="subject"
@@ -205,7 +197,6 @@ export default function Contact() {
                   disabled={isLoading}
                 />
 
-                {/* Message */}
                 <div className="flex flex-col gap-2">
                   <label htmlFor="contact-message" className="block text-xs mb-0.5" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
                     <span style={{ color: 'var(--terminal-green)' }}>$</span> message *
@@ -243,7 +234,6 @@ export default function Contact() {
                   </div>
                 </div>
 
-                {/* Submit button */}
                 <div className="pt-1">
                   <button
                     id="contact-submit"
@@ -280,7 +270,6 @@ export default function Contact() {
                   </button>
                 </div>
 
-                {/* Status Messages */}
                 {submitState.status === 'success' && (
                   <div
                     className="p-3 rounded text-xs"
@@ -311,9 +300,7 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Stacked Info Cards - Right Column */}
           <div className="lg:col-span-2 flex flex-col gap-4 w-full">
-            {/* reach_me card */}
             <div className="reveal terminal-card p-6 w-full">
               <div className="text-xs mb-4 tracking-wider font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
                 // reach_me
@@ -340,7 +327,6 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* response_time card */}
             <div className="reveal terminal-card p-6 w-full">
               <div className="text-xs mb-4 tracking-wider font-bold" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
                 // response_time
@@ -361,7 +347,6 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* currently available card */}
             <div className="reveal terminal-card p-6 w-full">
               <div className="text-xs mb-4 tracking-wider font-bold flex items-center gap-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--terminal-green)' }}>
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
@@ -377,8 +362,6 @@ export default function Contact() {
     </div>
   );
 }
-
-// ── Sub-components ──
 
 function Spinner() {
   return (
