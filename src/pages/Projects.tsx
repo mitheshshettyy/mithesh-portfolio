@@ -7,6 +7,16 @@ const filters: FilterCategory[] = ['All', 'Frontend', 'Full-Stack', 'AI/ML'];
 
 type Project = typeof projectsData[0];
 
+function parseProjectDate(date: string | undefined | null): number {
+  if (!date) return -Infinity;
+  const parsed = new Date(`01 ${date}`);
+  return isNaN(parsed.getTime()) ? -Infinity : parsed.getTime();
+}
+
+const sortedProjects = [...projectsData].sort(
+  (a, b) => parseProjectDate(b.date) - parseProjectDate(a.date),
+);
+
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState<FilterCategory>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -43,8 +53,8 @@ export default function Projects() {
   }, [activeFilter]);
 
   const filtered = activeFilter === 'All'
-    ? projectsData
-    : projectsData.filter(p => p.category === activeFilter);
+    ? sortedProjects
+    : sortedProjects.filter(p => p.category === activeFilter);
 
   return (
     <div ref={pageRef} className="desktop-container py-10 flex flex-col gap-8">

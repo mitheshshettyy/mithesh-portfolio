@@ -148,6 +148,41 @@ export const skillsData = {
 
 export const projectsData = [
   {
+    id: "my-coffee-co",
+    name: "My Coffee Co.",
+    tagline: "Premium, performance-tuned coffee e-commerce frontend",
+    shortDescription:
+      "A premium, mobile-first e-commerce frontend optimized for consistent 60 FPS scrolling through render isolation and Core Web Vitals tuning.",
+    description:
+      "My Coffee Co. is a premium, mobile-first e-commerce frontend designed to make coffee shopping fast, tactile, and frictionless. Through responsive layout restructuring, elimination of main-thread render bottlenecks, and GPU-composited layers, the app delivers consistent 60 FPS scroll performance across all mobile devices — from iPhone SE to Galaxy S22 Ultra.",
+    category: "Frontend",
+    tech: ["React", "Vite", "Tailwind CSS", "TypeScript", "Framer Motion", "Vercel"],
+    features: [
+      "Split-context render isolation — cart state is separated from product cards to eliminate unnecessary re-renders",
+      "Swipeable horizontal scroll-snapping carousels that reduce page height by over 70%",
+      "Animated cart drawer with Framer Motion transitions and a free-shipping progress tracker",
+      "Core Web Vitals tuning via React.lazy/Suspense for dynamic below-the-fold loading",
+      "LCP preloading and WebP asset optimization to minimize initial payload size",
+      "Glassmorphic sticky header and persistent mobile bottom navigation bar",
+    ],
+    problemSolved:
+      "Mobile e-commerce sites commonly suffer from large payloads, layout shifts, and catalog-wide re-renders when items are added to the cart — all leading to scroll lag. My Coffee Co. isolates reactive state from static components and optimizes asset delivery to maintain a stable 60 FPS experience.",
+    approach:
+      "A split-context architecture ensures catalog components do not subscribe directly to cart state updates. The critical rendering path is optimized with lazy-loaded below-the-fold sections and high-priority preloading (fetchPriority) for above-the-fold hero images, reducing the initial HTML payload to just 0.58 KB.",
+    architecture:
+      "A client-side frontend built with React 19, Vite 7, and Tailwind CSS v4, deployed on Vercel. State management uses isolated contexts that separate read-only cart values from item dispatchers to prevent catalog-wide DOM updates.",
+    challenges:
+      "Preventing catalog re-renders on cart updates while maintaining smooth mobile scroll physics. Resolved through custom context isolation and hardware-accelerated GPU-composited layers for the horizontal touch carousels.",
+    futureImprovements:
+      "Stripe/UPI checkout integration, persistent cart sync via an Express backend, and user account dashboards.",
+    github: "https://github.com/mitheshshettyy/my-coffee-co",
+    liveDemo: "https://my-coffee-co.vercel.app/",
+    status: "Completed",
+    date: "May 2026",
+    stars: 8,
+    featured: true,
+  },
+  {
     id: "complexify",
     name: "Complexify",
     tagline: "AI-powered Python code complexity classifier",
@@ -217,72 +252,38 @@ export const projectsData = [
     featured: true,
   },
   {
-    id: "virtual-garden",
-    name: "Virtual Garden",
-    tagline: "3D interactive medicinal plant platform",
+    id: "orbitlearn",
+    name: "OrbitLearn",
+    tagline: "Secure, role-based Learning Management System",
     shortDescription:
-      "A platform for browsing and submitting medicinal plant entries, with a gallery, submission form, and contact page — anchored by an immersive Three.js 3D landing scene.",
+      "A secure, role-based LMS with a React + Vite frontend and an Express backend API that persists course progress in MongoDB.",
     description:
-      "An immersive, interactive web platform showcasing a digital library of medicinal plants. The application pairs a structured botanical database with a beautifully rendered 3D landing page scene, letting users explore plant models in a virtual greenhouse environment.",
-    category: "Frontend",
-    tech: ["Next.js", "React", "Tailwind CSS", "MongoDB", "Three.js", "TypeScript"],
+      "OrbitLearn is a secure Learning Management System (LMS) built to streamline course delivery, user management, and performance tracking. Featuring a dark-mode Cosmic design language with glassmorphism and smooth micro-animations, it provides dedicated portals for students, instructors, and administrators.",
+    category: "Full-Stack",
+    tech: ["React", "Node.js", "Express.js", "MongoDB", "Vite", "JWT"],
     features: [
-      "Plant Gallery for browsing medicinal plants with their uses and images",
-      "Dynamic user submission form for adding new plants to the library",
-      "Contact page for user collaboration and feedback",
-      "Immersive Three.js 3D background featuring an animated Earth scene",
-      "Modern UI with glassmorphism effects and custom CSS gradients",
+      "Secure authentication with JWT tokens and bcryptjs password hashing",
+      "Role-Based Access Control (RBAC) with separate dashboards for Students, Instructors, and Admins",
+      "Course studio supporting multi-chapter editing and interactive quiz creation",
+      "Dynamic chapter completion tracking and course progress indicators",
+      "Multer-powered file uploads for custom course thumbnails and certificates",
+      "Cosmic dark-mode UI with glassmorphism and responsive flex/grid layouts",
     ],
     problemSolved:
-      "Online botanical databases are typically static, text-heavy, and visually unengaging. Virtual Garden bridges the gap between scientific information and modern interactive experiences by layering dynamic 3D elements onto educational content.",
+      "Many online learning platforms are cluttered, visually dated, and difficult to manage across roles. OrbitLearn addresses this by separating concerns into distinct role-based dashboards, secured with JWT and backed by dynamic frontend routing.",
     approach:
-      "The landing page embeds a Three.js canvas that loads optimized GLTF/GLB plant models with custom lighting, OrbitControls, and hover-triggered annotations. Database operations use Next.js API routes connected to a MongoDB Atlas cluster.",
+      "Engineered as a decoupled full-stack SPA. The React frontend uses context providers for authentication and app state, while the Node.js/Express backend exposes secure REST APIs mapped to MongoDB via Mongoose ODM schemas.",
     architecture:
-      "The client renders a WebGL canvas via Three.js and React Three Fiber. Click handlers on 3D elements surface detailed information cards. Plant data and user submissions are routed through Next.js serverless API functions to MongoDB.",
+      "A client-server application composed of a React 19 SPA and a Node.js/Express 5 API server. MongoDB handles persistence, while JWT middleware intercepts and verifies requests before they reach protected routes.",
     challenges:
-      "High VRAM usage and slow load times for 3D assets on mobile devices. Resolved by optimizing GLTF meshes, applying DRACO texture compression, and implementing a lazy-loading skeleton to avoid blocking the initial page render.",
+      "Keeping student progress counters and quiz submissions in sync without causing sluggish re-renders. Resolved by implementing a dedicated React context layer with optimistic client-side updates applied before API persistence.",
     futureImprovements:
-      "Real-time weather and daylight simulation affecting the 3D scene, a database expanded to 100+ species, and WebXR (virtual reality) support.",
-    github: "https://github.com/mitheshshettyy/Virtual-Garden",
+      "Automated completion certificates sent by email, real-time student–instructor messaging, and AWS S3 integration for media storage.",
+    github: "https://github.com/mitheshshettyy/OrbitLearn",
     demo: null,
     status: "Completed",
-    date: "Sep 2025",
-    stars: 25,
-    featured: true,
-  },
-  {
-    id: "my-coffee-co",
-    name: "My Coffee Co.",
-    tagline: "Premium, performance-tuned coffee e-commerce frontend",
-    shortDescription:
-      "A premium, mobile-first e-commerce frontend optimized for consistent 60 FPS scrolling through render isolation and Core Web Vitals tuning.",
-    description:
-      "My Coffee Co. is a premium, mobile-first e-commerce frontend designed to make coffee shopping fast, tactile, and frictionless. Through responsive layout restructuring, elimination of main-thread render bottlenecks, and GPU-composited layers, the app delivers consistent 60 FPS scroll performance across all mobile devices — from iPhone SE to Galaxy S22 Ultra.",
-    category: "Frontend",
-    tech: ["React", "Vite", "Tailwind CSS", "TypeScript", "Framer Motion", "Vercel"],
-    features: [
-      "Split-context render isolation — cart state is separated from product cards to eliminate unnecessary re-renders",
-      "Swipeable horizontal scroll-snapping carousels that reduce page height by over 70%",
-      "Animated cart drawer with Framer Motion transitions and a free-shipping progress tracker",
-      "Core Web Vitals tuning via React.lazy/Suspense for dynamic below-the-fold loading",
-      "LCP preloading and WebP asset optimization to minimize initial payload size",
-      "Glassmorphic sticky header and persistent mobile bottom navigation bar",
-    ],
-    problemSolved:
-      "Mobile e-commerce sites commonly suffer from large payloads, layout shifts, and catalog-wide re-renders when items are added to the cart — all leading to scroll lag. My Coffee Co. isolates reactive state from static components and optimizes asset delivery to maintain a stable 60 FPS experience.",
-    approach:
-      "A split-context architecture ensures catalog components do not subscribe directly to cart state updates. The critical rendering path is optimized with lazy-loaded below-the-fold sections and high-priority preloading (fetchPriority) for above-the-fold hero images, reducing the initial HTML payload to just 0.58 KB.",
-    architecture:
-      "A client-side frontend built with React 19, Vite 7, and Tailwind CSS v4, deployed on Vercel. State management uses isolated contexts that separate read-only cart values from item dispatchers to prevent catalog-wide DOM updates.",
-    challenges:
-      "Preventing catalog re-renders on cart updates while maintaining smooth mobile scroll physics. Resolved through custom context isolation and hardware-accelerated GPU-composited layers for the horizontal touch carousels.",
-    futureImprovements:
-      "Stripe/UPI checkout integration, persistent cart sync via an Express backend, and user account dashboards.",
-    github: "https://github.com/mitheshshettyy/my-coffee-co",
-    liveDemo: "https://my-coffee-co.vercel.app/",
-    status: "Completed",
-    date: "May 2026",
-    stars: 8,
+    date: "Nov 2025",
+    stars: 6,
     featured: true,
   },
   {
@@ -320,38 +321,37 @@ export const projectsData = [
     featured: true,
   },
   {
-    id: "orbitlearn",
-    name: "OrbitLearn",
-    tagline: "Secure, role-based Learning Management System",
+    id: "virtual-garden",
+    name: "Virtual Garden",
+    tagline: "3D interactive medicinal plant platform",
     shortDescription:
-      "A secure, role-based LMS with a React + Vite frontend and an Express backend API that persists course progress in MongoDB.",
+      "A platform for browsing and submitting medicinal plant entries, with a gallery, submission form, and contact page — anchored by an immersive Three.js 3D landing scene.",
     description:
-      "OrbitLearn is a secure Learning Management System (LMS) built to streamline course delivery, user management, and performance tracking. Featuring a dark-mode Cosmic design language with glassmorphism and smooth micro-animations, it provides dedicated portals for students, instructors, and administrators.",
-    category: "Full-Stack",
-    tech: ["React", "Node.js", "Express.js", "MongoDB", "Vite", "JWT"],
+      "An immersive, interactive web platform showcasing a digital library of medicinal plants. The application pairs a structured botanical database with a beautifully rendered 3D landing page scene, letting users explore plant models in a virtual greenhouse environment.",
+    category: "Frontend",
+    tech: ["Next.js", "React", "Tailwind CSS", "MongoDB", "Three.js", "TypeScript"],
     features: [
-      "Secure authentication with JWT tokens and bcryptjs password hashing",
-      "Role-Based Access Control (RBAC) with separate dashboards for Students, Instructors, and Admins",
-      "Course studio supporting multi-chapter editing and interactive quiz creation",
-      "Dynamic chapter completion tracking and course progress indicators",
-      "Multer-powered file uploads for custom course thumbnails and certificates",
-      "Cosmic dark-mode UI with glassmorphism and responsive flex/grid layouts",
+      "Plant Gallery for browsing medicinal plants with their uses and images",
+      "Dynamic user submission form for adding new plants to the library",
+      "Contact page for user collaboration and feedback",
+      "Immersive Three.js 3D background featuring an animated Earth scene",
+      "Modern UI with glassmorphism effects and custom CSS gradients",
     ],
     problemSolved:
-      "Many online learning platforms are cluttered, visually dated, and difficult to manage across roles. OrbitLearn addresses this by separating concerns into distinct role-based dashboards, secured with JWT and backed by dynamic frontend routing.",
+      "Online botanical databases are typically static, text-heavy, and visually unengaging. Virtual Garden bridges the gap between scientific information and modern interactive experiences by layering dynamic 3D elements onto educational content.",
     approach:
-      "Engineered as a decoupled full-stack SPA. The React frontend uses context providers for authentication and app state, while the Node.js/Express backend exposes secure REST APIs mapped to MongoDB via Mongoose ODM schemas.",
+      "The landing page embeds a Three.js canvas that loads optimized GLTF/GLB plant models with custom lighting, OrbitControls, and hover-triggered annotations. Database operations use Next.js API routes connected to a MongoDB Atlas cluster.",
     architecture:
-      "A client-server application composed of a React 19 SPA and a Node.js/Express 5 API server. MongoDB handles persistence, while JWT middleware intercepts and verifies requests before they reach protected routes.",
+      "The client renders a WebGL canvas via Three.js and React Three Fiber. Click handlers on 3D elements surface detailed information cards. Plant data and user submissions are routed through Next.js serverless API functions to MongoDB.",
     challenges:
-      "Keeping student progress counters and quiz submissions in sync without causing sluggish re-renders. Resolved by implementing a dedicated React context layer with optimistic client-side updates applied before API persistence.",
+      "High VRAM usage and slow load times for 3D assets on mobile devices. Resolved by optimizing GLTF meshes, applying DRACO texture compression, and implementing a lazy-loading skeleton to avoid blocking the initial page render.",
     futureImprovements:
-      "Automated completion certificates sent by email, real-time student–instructor messaging, and AWS S3 integration for media storage.",
-    github: "https://github.com/mitheshshettyy/OrbitLearn",
+      "Real-time weather and daylight simulation affecting the 3D scene, a database expanded to 100+ species, and WebXR (virtual reality) support.",
+    github: "https://github.com/mitheshshettyy/Virtual-Garden",
     demo: null,
     status: "Completed",
-    date: "Nov 2025",
-    stars: 6,
+    date: "Sep 2025",
+    stars: 25,
     featured: true,
   },
 ];
