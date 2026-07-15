@@ -2,9 +2,9 @@ export const config = {
   resume: {
     path: import.meta.env.VITE_RESUME_PATH || '/resume/Mithesh_R_Shetty.pdf',
     filename: import.meta.env.VITE_RESUME_FILENAME || 'Mithesh_R_Shetty.pdf',
-    downloadName: import.meta.env.VITE_RESUME_DOWNLOAD_NAME || 'Mithesh_R_Shetty_Resume.pdf',
-    lastUpdated: import.meta.env.VITE_RESUME_LAST_UPDATED || '2026-06-15',
-    version: import.meta.env.VITE_RESUME_VERSION || 'v1',
+    downloadName: import.meta.env.VITE_RESUME_DOWNLOAD_NAME || 'Mithesh_R_Shetty.pdf',
+    lastUpdated: import.meta.env.VITE_RESUME_LAST_UPDATED || '2026-07-15',
+    version: import.meta.env.VITE_RESUME_VERSION || 'v2',
   },
   personal: {
     name: import.meta.env.VITE_PERSONAL_NAME || 'Mithesh R Shetty',

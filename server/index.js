@@ -281,8 +281,8 @@ app.get('/api/resume/download', (req, res) => {
     res.json({
       filename: path.basename(resumePath),
       url: process.env.RESUME_PUBLIC_URL || '/resume/Mithesh_R_Shetty.pdf',
-      lastUpdated: '2026-06-15',
-      size: '108KB',
+      lastUpdated: '2026-07-15',
+      size: '105KB',
     });
   } catch {
     res.status(404).json({ error: 'Resume file not found' });
@@ -294,8 +294,8 @@ app.get('/api/resume', (req, res) => {
   res.json({
     name: process.env.PERSONAL_NAME || 'Mithesh R Shetty',
     filename: path.basename(resumePath),
-    version: '2026.1',
-    lastUpdated: '2026-06-15',
+    version: '2026.2',
+    lastUpdated: '2026-07-15',
     pages: 1,
     format: 'PDF',
     atsOptimized: true,
