@@ -37,7 +37,7 @@ export const aboutData = {
   stats: [
     { label: "Projects Built", value: "10+", color: "green" },
     { label: "CGPA", value: "8.78", color: "cyan" },
-    { label: "LeetCode Problems", value: "300+", color: "purple" },
+    { label: "LeetCode Problems", value: "350+", color: "purple" },
     { label: "Internships", value: "1", color: "blue" },
   ],
   funFacts: [
