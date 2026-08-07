@@ -1,380 +1,278 @@
-# Mithesh R Shetty — Terminal Portfolio
+# Mithesh R Shetty — Developer Portfolio
 
-> An interactive, terminal-inspired developer portfolio built with React, TypeScript, and Three.js. Navigate through projects, skills, and professional background using a real command-line interface.
+[![React 19](https://img.shields.io/badge/React-19.2.6-61dafb?style=flat-square\&logo=react\&logoColor=white)](https://react.dev)
+[![TypeScript 5.9](https://img.shields.io/badge/TypeScript-5.9.3-3178c6?style=flat-square\&logo=typescript\&logoColor=white)](https://www.typescriptlang.org)
+[![Vite 7](https://img.shields.io/badge/Vite-7.3.2-646cff?style=flat-square\&logo=vite\&logoColor=white)](https://vite.dev)
+[![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4.1.17-38bdf8?style=flat-square\&logo=tailwindcss\&logoColor=white)](https://tailwindcss.com)
+[![Three.js](https://img.shields.io/badge/Three.js-0.184-black?style=flat-square\&logo=three.js\&logoColor=white)](https://threejs.org)
+[![Node.js 22](https://img.shields.io/badge/Node.js-22.19-339933?style=flat-square\&logo=nodedotjs\&logoColor=white)](https://nodejs.org)
+[![Express 4](https://img.shields.io/badge/Express-4.18-000000?style=flat-square\&logo=express\&logoColor=white)](https://expressjs.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](./LICENSE)
 
-[![React](https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=white&labelColor=20232a)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6?logo=typescript&logoColor=white&labelColor=1e293b)](https://www.typescriptlang.org)
-[![Vite](https://img.shields.io/badge/Vite-7-646cff?logo=vite&logoColor=white&labelColor=1a1a2e)](https://vite.dev)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38bdf8?logo=tailwindcss&logoColor=white&labelColor=0f172a)](https://tailwindcss.com)
-[![Node.js](https://img.shields.io/badge/Node.js-≥18-339933?logo=nodedotjs&logoColor=white&labelColor=1a2a1a)](https://nodejs.org)
-[![Express](https://img.shields.io/badge/Express-4-ffffff?logo=express&logoColor=black&labelColor=f0f0f0)](https://expressjs.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+A modern, production-grade personal portfolio and interactive terminal application. Built with **React 19**, **TypeScript**, **Three.js**, **GSAP**, and an **Express API server**, combining a classic Linux/Zsh CLI experience with a visual web interface.
 
 ---
 
 ## Overview
 
-This portfolio is a **terminal-first web application** that provides an immersive way to explore my background as a Computer Science undergraduate and Full-Stack Developer.
+This repository contains the source code for a software engineering portfolio. The application offers a dual-mode browsing experience:
 
-Visitors interact with the portfolio through a real command-line interface supporting 30+ commands, tab auto-completion, command history, and a virtual filesystem — alongside dedicated visual pages for every section.
+1. **Interactive CLI Terminal**: A feature-complete Zsh-inspired shell with a virtual filesystem, tab auto-completion, command history, neofetch diagnostics, and custom execution utilities.
+2. **Visual Web Interface**: Responsive layout featuring smooth GSAP motion transitions, custom Three.js particle dynamics, project showcases, skills matrices, and an integrated resume viewer.
 
-**Live:** [mithesh.dev](https://mithesh.dev) &nbsp;|&nbsp; **Backend API:** Deployed on [Render](https://render.com)
+The frontend is powered by **Vite** and styled with **Tailwind CSS v4**, while a **Node.js + Express** backend server manages secure contact form submissions via **Resend API**, enforced with rate-limiting, Helmet security headers, CORS origin controls, and automated spam filtering.
 
 ---
 
-## Features
+## Key Features
 
-| Feature | Description |
-|---|---|
-| **Interactive Terminal** | Fully functional CLI with auto-completion, command history, and 30+ commands |
-| **Virtual Filesystem** | Simulated directory tree navigable with `ls`, `cd`, `pwd`, `tree`, and `cat` |
-| **Three.js Particle Field** | Interactive 3D particle background responding to mouse movement |
-| **GSAP Animations** | Smooth page transitions, entrance reveals, and animated experience timeline |
-| **Functional Contact Form** | End-to-end contact form via Resend API with real-time validation and rate limiting |
-| **Resume Preview & Download** | Embedded PDF viewer with single-click download |
-| **Project Grid & Modals** | Filterable project grid with detailed inspect modals |
-| **NightShell Theme** | High-contrast dark palette with neon green (`#00ff88`) and electric cyan (`#00d4ff`) accents |
-| **Fully Responsive** | Mobile-first layout working cleanly from 320px to ultra-wide monitors |
-| **SEO Optimized** | Open Graph metadata, descriptive title tags, and semantic HTML |
+### Interactive Terminal Interface
+
+* **Zsh Engine Emulation**: Tab auto-completion for commands and virtual directory paths, arrow key command history navigation (`Up`/`Down`), and clear output streaming.
+* **Simulated Virtual Filesystem**: In-memory Unix-style filesystem allowing visitors to navigate (`cd`), inspect directories (`ls`, `tree`), read documents (`cat`), and check path location (`pwd`).
+* **Built-in Terminal Commands**: Over 30 custom commands including `neofetch`, `whoami`, `projects`, `skills`, `experience`, `education`, `contact`, `resume`, `uptime`, `date`, `theme`, `curl`, `sudo`, and `gui`.
+* **Mobile Shell Access**: Includes a mobile quick-command bar optimized for touch interaction without needing a soft keyboard.
+
+### Visual & Interactive UI Components
+
+* **Three.js Interactive Canvas**: A background particle field that responds dynamically to cursor movements and window dimensions.
+* **GSAP Motion & Animations**: Entrance reveals, page route transitions, timeline animations, and a retro system boot sequence screen (`BootScreen`).
+* **Projects Showcase**: Filterable project gallery (Full-Stack, AI/ML, Frontend) with detailed modal views, live demo links, repository URLs, and search capabilities.
+* **Resume Viewer**: Direct in-app PDF preview with custom toolbar controls and single-click download functionality.
+
+### Secure Backend & Infrastructure
+
+* **Transactional Email Dispatch**: Express endpoint (`POST /api/contact`) integrating the **Resend API** with custom HTML email templating.
+* **API Security & Spam Prevention**: IP rate limiting via `express-rate-limit` (5 requests per 15 minutes), strict input sanitization, spam keyword detection, CORS protection, and secure HTTP headers via `helmet`.
+* **Health & Metadata Endpoints**: `GET /api/health` and `GET /api/portfolio` providing runtime uptime tracking and developer metadata.
+* **Performance & Telemetry**: Integrated `@vercel/analytics` and `@vercel/speed-insights` for monitoring performance metrics.
 
 ---
 
 ## Tech Stack
 
-### Frontend
-- **React 19** — UI library
-- **TypeScript 5.9** — strict type-checking throughout
-- **Vite 7** — build tool and dev server
-- **React Router DOM 7** — client-side routing
-- **Tailwind CSS 4** — utility-first styling
-- **Three.js** — 3D particle background
-- **GSAP** — animations and page transitions
-- **@vercel/analytics** — page view analytics
-- **@vercel/speed-insights** — core web vitals monitoring
+### Frontend Core
 
-### Backend
-- **Node.js + Express** — REST API server
-- **Resend** — transactional email delivery via HTTP API
-- **Helmet** — secure HTTP response headers
-- **express-rate-limit** — abuse prevention on the contact endpoint
-- **dotenv** — environment variable management
+* **Library**: React 19.2
+* **Language**: TypeScript 5.9 (Strict Type Checking)
+* **Build System**: Vite 7.3
+* **Routing**: React Router DOM 7.18
+* **Styling**: Tailwind CSS 4.1, Custom CSS (`NightShell Dark` theme tokens)
+* **Graphics & FX**: Three.js 0.184, GSAP 3.15, React Icons 5.6
+* **Analytics**: `@vercel/analytics`, `@vercel/speed-insights`
+
+### Backend Core
+
+* **Runtime**: Node.js >= 18 (Tested on v22)
+* **Framework**: Express 4.18
+* **Email Service**: Resend SDK
+* **Security & Middleware**: Helmet, CORS, Express Rate Limit, Dotenv
 
 ---
 
 ## Project Structure
 
 ```text
-mithesh-portfolio/
-├── src/
+portfolio-website/
+├── public/                      # Static assets (favicons, profile avatar, resume PDF)
+│   └── resume/                  # Embedded resume PDF asset
+│
+├── server/                      # Backend API server (Node.js + Express)
+│   ├── index.js                 # Express app entry, routes, rate limiting & email handler
+│   ├── package.json             # Server dependencies (Express, Resend, Helmet, Rate Limit)
+│   ├── .env.example             # Environment configuration template for backend
+│   └── README.md                # API & Resend email integration guide
+│
+├── src/                         # Frontend source code
 │   ├── components/
-│   │   ├── layout/         # Navbar, Layout, Footer
-│   │   ├── terminal/       # Terminal, NeofetchBox, WhoAmIBox, MobileCommandBar
-│   │   ├── three/          # ParticleBackground (Three.js)
-│   │   └── ui/             # BootScreen
-│   ├── pages/              # About, Contact, Education, Experience,
-│   │                       # Home, NotFound, Projects, Resume, Skills
+│   │   ├── layout/              # Layout wrapper, Navbar, and Footer components
+│   │   ├── terminal/            # Terminal UI, NeofetchBox, WhoAmIBox, MobileCommandBar
+│   │   ├── three/               # Three.js interactive particle background canvas
+│   │   └── ui/                  # System boot screen simulation component
+│   │
 │   ├── data/
-│   │   └── portfolioData.ts  # All portfolio content (projects, skills, timeline)
-│   ├── utils/
-│   │   └── uptime.ts       # Portfolio uptime calculation
-│   ├── config.ts           # Centralised env-driven configuration
-│   ├── App.tsx             # Route definitions
-│   ├── main.tsx            # React entry point
-│   └── index.css           # Global styles and design tokens
+│   │   └── portfolioData.ts     # Centralized portfolio data (projects, experience, skills)
+│   │
+│   ├── pages/                   # Page view routes (Home, About, Education, Skills,
+│   │                           # Projects, Experience, Contact, Resume, NotFound)
+│   │
+│   ├── utils/                   # Uptime and date calculation utilities
+│   ├── config.ts                # Environment-driven app configuration adapter
+│   ├── App.tsx                  # Client routing definitions
+│   ├── main.tsx                 # Application mounting entrypoint
+│   └── index.css                # Design system rules, Tailwind imports & terminal styles
 │
-├── public/
-│   ├── images/             # favicon.svg and profile avatar
-│   └── resume/             # Resume PDF (served statically)
-│
-├── server/
-│   ├── index.js            # Express API — health, contact, portfolio endpoints
-│   ├── package.json
-│   ├── .env.example        # Environment variable template (safe to commit)
-│   └── README.md           # Backend setup & Resend API guide
-│
-├── .env.example            # Frontend environment variable template
-├── .gitignore
-├── index.html              # HTML entry point with SEO meta tags
-├── package.json
-├── tsconfig.json
-├── vercel.json             # Vercel SPA rewrite rules
-└── vite.config.ts
+├── .env.example                 # Frontend environment variable configuration template
+├── index.html                   # HTML entry point with Open Graph metadata
+├── package.json                 # Frontend package configuration & scripts
+├── tsconfig.json                # TypeScript compiler configuration
+├── vercel.json                  # Vercel deployment rewrite rules for SPA routing
+└── vite.config.ts               # Vite plugins and dev server setup
 ```
 
 ---
 
-## Terminal Commands
-
-### Navigation & Pages
-| Command | Action |
-|---|---|
-| `about` | Open About Me page |
-| `education` | Open Education page |
-| `skills` | Open Skills page |
-| `projects` | Open Projects page |
-| `experience` | Open Experience page |
-| `contact` | Open Contact page |
-| `resume` | Open Resume page |
-
-### Filesystem & Utilities
-| Command | Description |
-|---|---|
-| `ls` | List files and directories in current path |
-| `cd <dir>` | Change virtual directory (`cd about`, `cd ..`) |
-| `pwd` | Print virtual working directory |
-| `tree` | Display full virtual directory tree |
-| `cat <file>` | Print contents of a virtual file |
-| `history` | View recent command history |
-
-### System & Identity
-| Command | Description |
-|---|---|
-| `whoami` | Display identity card / brief biography |
-| `neofetch` | Print system specs and tech stack |
-| `date` / `time` | Show current date and time |
-| `uptime` | Show portfolio uptime |
-| `clear` / `cls` | Clear terminal output |
-| `echo <msg>` | Print text to terminal |
-
-### Actions & Custom
-| Command | Description |
-|---|---|
-| `social` | List all social profile links |
-| `github` | Open GitHub profile in new tab |
-| `linkedin` | Open LinkedIn profile in new tab |
-| `email` | Display contact email address |
-| `status` | Show availability status and role targets |
-| `theme` | Print active terminal theme configuration |
-| `ascii` / `banner` | Display ASCII signature logo |
-| `matrix` | Toggle Matrix waterfall effect |
-| `intro` | Replay boot message sequence |
-| `download resume` | Download resume PDF directly |
-| `open resume` | Open resume PDF in a new tab |
-| `exit` | Exit terminal and return to homepage |
-
-### Keyboard Shortcuts
-| Shortcut | Action |
-|---|---|
-| `Ctrl + \`` | Return to terminal from any page |
-| `↑` / `↓` | Browse command history |
-| `Tab` | Auto-complete commands |
-| `Ctrl + C` | Cancel current input |
-| `Ctrl + L` | Clear terminal |
-
----
-
-## Getting Started
+## Setup and Installation
 
 ### Prerequisites
-- **Node.js** ≥ 18
-- **npm** ≥ 9
-- A [Resend](https://resend.com) account (free tier) for the contact form
+
+* **Node.js**: `v18.0.0` or higher (v22 recommended)
+* **npm**: `v9.0.0` or higher
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/mitheshshettyy/mithesh-portfolio.git
-cd mithesh-portfolio
+git clone https://github.com/your-username/portfolio-website.git
+cd portfolio-website
 ```
 
 ### 2. Install Dependencies
 
-```bash
-# Frontend
-npm install
+Install root (frontend) dependencies:
 
-# Backend
-cd server && npm install && cd ..
+```bash
+npm install
 ```
 
-### 3. Configure Environment Variables
+Install server (backend) dependencies:
 
-**Frontend:**
+```bash
+cd server
+npm install
+cd ..
+```
+
+### 3. Environment Configuration
+
+#### Frontend (`.env`)
+
+Create a `.env` file in the root directory by copying `.env.example`:
+
 ```bash
 cp .env.example .env
 ```
-The defaults in `.env.example` are pre-filled for local development — no changes needed to run the frontend locally.
 
-**Backend (required for contact form):**
-```bash
-cp server/.env.example server/.env
-```
-Then open `server/.env` and fill in your Resend credentials:
+Configure your local backend endpoint:
+
 ```env
-RESEND_API_KEY=re_your_api_key_here
-RESEND_FROM_EMAIL=Portfolio <onboarding@resend.dev>
-CONTACT_EMAIL=you@gmail.com
+VITE_API_URL=http://localhost:3001
+VITE_PERSONAL_NAME="Your Name"
+VITE_CONTACT_EMAIL="your.email@example.com"
 ```
-> See [`server/README.md`](./server/README.md) for the full Resend API setup guide.
 
-### 4. Start Development Servers
+#### Backend (`server/.env`)
+
+Create a `.env` file in the `server/` directory by copying `server/.env.example`:
 
 ```bash
-# Terminal 1 — Frontend (port 5173)
+cd server
+cp .env.example .env
+```
+
+Fill in your server configuration and Resend API credentials:
+
+```env
+PORT=3001
+NODE_ENV=development
+ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
+RESEND_API_KEY=your_resend_api_key_here
+CONTACT_EMAIL=your.email@example.com
+```
+
+### 4. Run Development Servers
+
+Start the backend API server:
+
+```bash
+cd server
 npm run dev
-
-# Terminal 2 — Backend (port 3001)
-cd server && npm run dev
 ```
 
-The Vite dev server automatically proxies `/api/*` requests to the Express backend — no manual CORS configuration needed in development.
-
-Open [http://localhost:5173](http://localhost:5173) to view the portfolio.
-
----
-
-## Build & Deployment
-
-### Production Build
+In a second terminal window, start the Vite frontend development server:
 
 ```bash
-npm run build
+npm run dev
 ```
 
-Output is written to `dist/`. The entire frontend compiles into a static site suitable for Vercel, GitHub Pages, or any static host.
+The application will be accessible at:
 
-### Type Checking
-
-```bash
-npm run typecheck
-```
-
-### Deploy the Frontend — Vercel
-
-The `vercel.json` at the project root configures SPA routing rewrites. To deploy:
-
-1. Connect your GitHub repository to [Vercel](https://vercel.com)
-2. Set **Build Command**: `npm run build`
-3. Set **Output Directory**: `dist`
-4. Set **Root Directory**: `.` (project root)
-5. Add all variables from `.env.example` in the Vercel dashboard under **Settings → Environment Variables**
-
-### Deploy the Backend — Render
-
-1. Create a new **Web Service** on [Render](https://render.com)
-2. Point it to the `server/` directory of this repository
-3. Set **Build Command**: `npm install`
-4. Set **Start Command**: `node index.js`
-5. Set all environment variables from `server/.env.example` in the Render dashboard
-6. Set `ALLOWED_ORIGINS` to your production frontend URL
-
-> **Important:** Never commit `server/.env` to version control. It is gitignored. Use your host's secret management to inject credentials.
-
----
-
-## REST API Reference
-
-Base URL (production): `https://your-backend.onrender.com`
-
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/health` | Server health check + email service status |
-| `GET` | `/api/portfolio` | Portfolio metadata (name, university, links) |
-| `GET` | `/api/projects` | Projects list with optional `?category=` and `?featured=true` filters |
-| `GET` | `/api/skills` | Full skills list by category |
-| `GET` | `/api/resume` | Resume metadata |
-| `GET` | `/api/resume/download` | Resume download info |
-| `POST` | `/api/contact` | Submit contact form → sends email via Resend |
-
-### POST /api/contact
-
-**Request:**
-```json
-{
-  "name": "Jane Recruiter",
-  "email": "jane@company.com",
-  "subject": "Internship Opportunity",
-  "message": "Hi Mithesh, we'd love to connect..."
-}
-```
-
-**Success (200):**
-```json
-{ "success": true, "message": "Message sent successfully! I'll get back to you within 24 hours." }
-```
-
-**Validation error (400):**
-```json
-{ "error": "Validation failed", "fields": { "message": "Message must be at least 10 characters." } }
-```
-
-**Rate limited (429):** After 5 submissions per 15-minute window per IP.
-
----
-
-## Security
-
-- **Helmet** — sets secure HTTP response headers
-- **CORS** — restricts API access to configured frontend origins only
-- **Rate limiting** — 5 contact submissions per 15 minutes per IP
-- **Input sanitization** — strips control characters, enforces length limits
-- **Spam filter** — basic keyword-pattern detection on name and message fields
-- **No secrets in source code** — all credentials are environment variables
-- **`.env` files are gitignored** — only `.env.example` templates are committed
-
-> ⚠️ If you fork or clone this repository, generate your own Resend API key. Do not reuse credentials from any example or documentation.
+* **Frontend**: `http://localhost:5173`
+* **Backend API**: `http://localhost:3001/api/health`
 
 ---
 
 ## Environment Variables
 
-### Frontend (`.env`)
+### Frontend Variables (`.env`)
 
-| Variable | Description | Default |
-|---|---|---|
-| `VITE_API_URL` | Backend API base URL | `http://localhost:3001` |
-| `VITE_PERSONAL_NAME` | Full name displayed across the site | `Mithesh R Shetty` |
-| `VITE_CONTACT_EMAIL` | Public contact email | — |
-| `VITE_CONTACT_GITHUB` | GitHub profile URL | — |
-| `VITE_CONTACT_LINKEDIN` | LinkedIn profile URL | — |
-| `VITE_RESUME_PATH` | Public path to resume PDF | `/resume/Mithesh_R_Shetty.pdf` |
-| `VITE_SITE_TITLE` | Browser tab title | `Mithesh R Shetty` |
+| Variable                   | Description                     | Default / Example                       |
+| :------------------------- | :------------------------------ | :-------------------------------------- |
+| `VITE_API_URL`             | Base URL of backend Express API | `http://localhost:3001`                 |
+| `VITE_PERSONAL_NAME`       | Full name displayed across UI   | `Your Name`                             |
+| `VITE_PERSONAL_ROLE`       | Professional role title         | `Full-Stack Developer & CS Student`     |
+| `VITE_PERSONAL_DEGREE`     | Academic qualification          | `B.Tech Computer Science & Engineering` |
+| `VITE_PERSONAL_UNIVERSITY` | University name                 | `Your University`                       |
+| `VITE_PERSONAL_CGPA`       | Academic score                  | `8.78 / 10.0`                           |
+| `VITE_CONTACT_EMAIL`       | Contact email address           | `your.email@example.com`                |
+| `VITE_CONTACT_GITHUB`      | GitHub profile URL              | `https://github.com/your-username`      |
+| `VITE_CONTACT_LINKEDIN`    | LinkedIn profile URL            | `https://linkedin.com/in/your-profile`  |
+| `VITE_RESUME_PATH`         | Path to PDF resume asset        | `/resume/Your_Name.pdf`                 |
 
-See `.env.example` for the complete variable list.
+### Backend Variables (`server/.env`)
 
-### Backend (`server/.env`)
-
-| Variable | Description |
-|---|---|
-| `PORT` | Server port (default: `3001`) |
-| `NODE_ENV` | Runtime environment (`development` / `production`) |
-| `ALLOWED_ORIGINS` | Comma-separated CORS allowed origins |
-| `RESEND_API_KEY` | Your Resend API key (starts with `re_`) |
-| `RESEND_FROM_EMAIL` | Sender address shown on emails |
-| `CONTACT_EMAIL` | Recipient address for contact form submissions |
-| `RATE_LIMIT_WINDOW_MS` | Rate limit window in ms (default: `900000`) |
-| `RATE_LIMIT_MAX_REQUESTS` | Max submissions per window (default: `5`) |
-
-See `server/.env.example` for the full template.
+| Variable                  | Description                                     | Default / Example                   |
+| :------------------------ | :---------------------------------------------- | :---------------------------------- |
+| `PORT`                    | API server port number                          | `3001`                              |
+| `NODE_ENV`                | Environment mode (`development` / `production`) | `development`                       |
+| `ALLOWED_ORIGINS`         | Comma-separated CORS allowed origin URLs        | `http://localhost:5173`             |
+| `RESEND_API_KEY`          | Transactional email API key from Resend         | `re_123456789...`                   |
+| `RESEND_FROM_EMAIL`       | Verified sender email address                   | `Portfolio <onboarding@resend.dev>` |
+| `CONTACT_EMAIL`           | Recipient email address for form submissions    | `your.email@example.com`            |
+| `RATE_LIMIT_WINDOW_MS`    | Rate limit time window in milliseconds          | `900000` (15 mins)                  |
+| `RATE_LIMIT_MAX_REQUESTS` | Max contact requests allowed per IP window      | `5`                                 |
 
 ---
 
 ## Available Scripts
 
-### Frontend (project root)
+### Frontend Scripts (Root Directory)
 
-| Script | Description |
-|---|---|
-| `npm run dev` | Start Vite development server on port 5173 |
-| `npm run build` | Build for production into `dist/` |
-| `npm run preview` | Preview the production build locally |
-| `npm run typecheck` | Run TypeScript type-checker with no emit |
+* `npm run dev`: Launches Vite development server with Hot Module Replacement (HMR).
+* `npm run build`: Type-checks with `tsc` and bundles the production build into `dist/`.
+* `npm run preview`: Statically serves the local `dist/` directory for build verification.
+* `npm run typecheck`: Executes strict TypeScript compilation check without emitting assets.
+* `npm run lint`: Performs codebase linting and type assertion verification.
 
-### Backend (`server/`)
+### Backend Scripts (`server/` Directory)
 
-| Script | Description |
-|---|---|
-| `npm run dev` | Start server with nodemon (auto-restart) |
-| `npm start` | Start server for production |
+* `npm run dev`: Starts Express server with `nodemon` for auto-reloading during development.
+* `npm start`: Runs the Node.js production server (`node index.js`).
+* `npm test`: Executes test suites via `jest`.
+
+---
+
+## Deployment
+
+### Frontend (Vercel)
+
+The repository includes a `vercel.json` configuration file handling single-page application routing rewrites.
+
+1. Connect the repository to [Vercel](https://vercel.com).
+2. Set the **Framework Preset** to **Vite**.
+3. Add the required environment variables (`VITE_API_URL`, etc.).
+4. Deploy.
+
+### Backend API (Render / Railway / Serverless)
+
+The backend Express application can be deployed independently to Node.js hosts such as Render, Railway, or Fly.io:
+
+1. Create a Web Service pointing to the `server/` directory.
+2. Set the Build Command to `npm install` and Start Command to `node index.js`.
+3. Configure environment variables (`RESEND_API_KEY`, `ALLOWED_ORIGINS`, `CONTACT_EMAIL`).
+4. Update the frontend `VITE_API_URL` variable to point to the live backend domain.
 
 ---
 
 ## License
 
-MIT License — © 2026 Mithesh R Shetty
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software, subject to the standard MIT license terms.
-
----
-
-*Built with ❤️ by [Mithesh R Shetty](https://github.com/mitheshshettyy)*
+This project is open-source and licensed under the [MIT License](./LICENSE).
