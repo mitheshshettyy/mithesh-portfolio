@@ -671,18 +671,18 @@ export default function Terminal() {
     }
 
     const bootLines: { type: TerminalLine['type']; content: string; delay: number }[] = [
-      { type: 'section', content: ASCII_BANNER, delay: 100 },
-      { type: 'info', content: `  ${personalInfo.title}`, delay: 800 },
-      { type: 'output', content: `  ${personalInfo.university} | ${personalInfo.year} | Graduating ${personalInfo.graduationYear}`, delay: 1000 },
-      { type: 'blank', content: '', delay: 1200 },
-      { type: 'success', content: `  ● ${personalInfo.status}`, delay: 1400 },
-      { type: 'blank', content: '', delay: 1600 },
-      { type: 'output', content: `  Shell: ${config.terminal.shell} ${config.terminal.version}  |  Theme: ${config.terminal.theme}  |  Location: ${personalInfo.location}`, delay: 1700 },
-      { type: 'output', content: `  Last login: ${new Date().toLocaleString()}`, delay: 1900 },
-      { type: 'blank', content: '', delay: 2100 },
-      { type: 'info', content: `  Type 'help' to see available commands.`, delay: 2200 },
-      { type: 'output', content: `  Type 'ls' to list sections  |  Type 'whoami' for my profile`, delay: 2400 },
-      { type: 'blank', content: '', delay: 2600 },
+      { type: 'section', content: ASCII_BANNER, delay: 20 },
+      { type: 'info', content: `  ${personalInfo.title}`, delay: 50 },
+      { type: 'output', content: `  ${personalInfo.university} | ${personalInfo.year} | Graduating ${personalInfo.graduationYear}`, delay: 80 },
+      { type: 'blank', content: '', delay: 100 },
+      { type: 'success', content: `  ● ${personalInfo.status}`, delay: 120 },
+      { type: 'blank', content: '', delay: 140 },
+      { type: 'output', content: `  Shell: ${config.terminal.shell} ${config.terminal.version}  |  Theme: ${config.terminal.theme}  |  Location: ${personalInfo.location}`, delay: 160 },
+      { type: 'output', content: `  Last login: ${new Date().toLocaleString()}`, delay: 180 },
+      { type: 'blank', content: '', delay: 200 },
+      { type: 'info', content: `  Type 'help' to see available commands.`, delay: 220 },
+      { type: 'output', content: `  Type 'ls' to list sections  |  Type 'whoami' for my profile`, delay: 240 },
+      { type: 'blank', content: '', delay: 260 },
     ];
 
     const timers: number[] = [];
@@ -697,7 +697,7 @@ export default function Terminal() {
     const doneTimer = window.setTimeout(() => {
       setBootDone(true);
       inputRef.current?.focus();
-    }, 2800);
+    }, 280);
     timers.push(doneTimer);
 
     return () => {

@@ -382,7 +382,7 @@ body {
   overflow: hidden;
   opacity: 1;
   visibility: visible;
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.4s;
 }
 
 .boot-screen-overlay.fade-out {

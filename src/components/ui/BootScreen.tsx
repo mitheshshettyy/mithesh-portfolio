@@ -92,21 +92,22 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
     });
 
     const runBoot = async () => {
-      for (let i = 0; i <= ASCII_ART.length; i++) {
+      for (let i = 0; i <= ASCII_ART.length; i += 4) {
         if (!active) return;
-        setAsciiIndex(i);
-        await sleep(2);
+        setAsciiIndex(Math.min(i, ASCII_ART.length));
+        await sleep(8);
       }
+      setAsciiIndex(ASCII_ART.length);
 
-      await sleep(50);
+      await sleep(60);
 
       for (let i = 0; i <= SUBTITLE.length; i++) {
         if (!active) return;
         setSubtitleIndex(i);
-        await sleep(15);
+        await sleep(10);
       }
 
-      await sleep(200);
+      await sleep(100);
       if (!active) return;
       setLogoDone(true);
 
@@ -116,13 +117,12 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
 
         if (log.type === 'blank') {
           setCompletedLogs(prev => [...prev, { text: '', type: 'blank' }]);
-          await sleep(100);
+          await sleep(30);
         } else if (log.type === 'success') {
-          await sleep(250);
+          await sleep(75);
           if (!active) return;
           setCompletedLogs(prev => [...prev, { text: log.text, type: 'success' }]);
         } else {
-
           for (let j = 0; j <= log.text.length; j++) {
             if (!active) return;
             setCurrentLogText(log.text.slice(0, j));
@@ -139,27 +139,26 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
       for (let p = 0; p <= 100; p += 4) {
         if (!active) return;
         setProgress(p);
-        await sleep(12);
+        await sleep(10);
       }
       if (!active) return;
       setProgress(100);
 
-
-      await sleep(100);
+      await sleep(60);
 
       for (let i = 0; i < WELCOME_LINES.length; i++) {
         if (!active) return;
         setCompletedWelcome(prev => [...prev, WELCOME_LINES[i]]);
-        await sleep(80);
+        await sleep(40);
       }
       if (!active) return;
       setWelcomeDone(true);
 
-      await sleep(600);
+      await sleep(200);
       if (!active) return;
       setFade(true);
 
-      await sleep(1000);
+      await sleep(450);
       if (!active) return;
       onComplete();
     };
@@ -174,7 +173,7 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
 
   // Auto-scroll inside logs container
   useEffect(() => {
-    logsEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    logsEndRef.current?.scrollIntoView({ behavior: 'auto' });
   }, [completedLogs, currentLogText, showProgress, progress, completedWelcome]);
 
   return (
