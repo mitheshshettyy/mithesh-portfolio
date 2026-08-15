@@ -50,6 +50,8 @@ export default function About() {
                 <img
                   src="/images/profile-avatar.jpg"
                   alt={personalInfo.name}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     const el = e.currentTarget as HTMLImageElement;

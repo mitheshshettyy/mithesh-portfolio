@@ -95,7 +95,7 @@ export const educationData = [
     institution: "St. Cecily's High School",
     degree: "Secondary Education",
     field: "Class 10",
-    duration: "Mar 2020 – May 2021",
+    duration: "Mar 2019 – May 2021",
     status: "Completed",
     score: "96.64%",
     location: "Udupi, Karnataka, India",
