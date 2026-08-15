@@ -126,6 +126,7 @@ LinkedIn: ${config.contact.linkedin.replace('https://', '')}
 Education:
 - ${config.personal.university.split(',')[0]} (B.Tech CSE, CGPA: ${config.personal.cgpa.replace(/\s+/g, '')})
 - Vidyodaya Pre-University College (Pre-University: 94.5%)
+- St. Cecily's High School (Secondary Education: 96.64%)
 
 Experience:
 ${exps || '- No professional experience yet.'}`;
