@@ -116,7 +116,7 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Page Content */}
       <main
-        className="page-content flex-1 pb-6"
+        className="page-content flex-1"
         style={{ position: 'relative', zIndex: 2 }}
       >
         {children}

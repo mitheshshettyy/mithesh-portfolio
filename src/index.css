@@ -148,54 +148,13 @@ body {
   color: var(--terminal-green);
 }
 
-/* ===== Gradient Text ===== */
-.gradient-text-green {
-  background: linear-gradient(135deg, var(--terminal-green), var(--terminal-cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.gradient-text-blue {
-  background: linear-gradient(135deg, var(--terminal-cyan), var(--terminal-blue));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-
 /* ===== Utility ===== */
 .font-mono {
   font-family: var(--font-mono) !important;
 }
 
-/* ===== Neon Glow System ===== */
-
-.text-glow-green, .neon-text-green {
-  color: var(--terminal-green);
-  text-shadow: 0 0 10px rgba(0, 255, 136, 0.4), 0 0 20px rgba(0, 255, 136, 0.2), 0 0 30px rgba(0, 255, 136, 0.1);
-}
-
-.text-glow-cyan, .neon-text-cyan {
-  color: var(--terminal-cyan);
-  text-shadow: 0 0 10px rgba(0, 212, 255, 0.4), 0 0 20px rgba(0, 212, 255, 0.2), 0 0 30px rgba(0, 212, 255, 0.1);
-}
-
-.neon-text {
-  text-shadow: 0 0 8px currentColor;
-}
-
-.neon-border {
-  border-color: var(--terminal-green);
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
-}
-
-.terminal-glow {
-  filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.3));
-}
-
 /* ===== Neon Card (Terminal Card) ===== */
-.terminal-card, .neon-card {
+.terminal-card {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -205,7 +164,7 @@ body {
 }
 
 /* Sub-layer for outer aura glow on cards */
-.terminal-card::before, .neon-card::before {
+.terminal-card::before {
   content: "";
   position: absolute;
   inset: -1px;
@@ -218,13 +177,13 @@ body {
   transition: opacity var(--transition-normal), box-shadow var(--transition-normal);
 }
 
-.terminal-card:hover, .neon-card-hover:hover {
+.terminal-card:hover {
   border-color: var(--border-color-hover);
   background-color: var(--bg-card-hover);
   transform: translateY(-2px);
 }
 
-.terminal-card:hover::before, .neon-card-hover:hover::before {
+.terminal-card:hover::before {
   opacity: 1;
   box-shadow: 0 0 20px rgba(0, 255, 136, 0.15), inset 0 0 10px rgba(0, 255, 136, 0.05);
 }
@@ -302,30 +261,7 @@ body {
   }
 }
 
-/* ===== Pulse Animation ===== */
-.pulse-green {
-  animation: pulseGlow 2s ease-in-out infinite;
-}
 
-@keyframes textPulse {
-  0%, 100% { opacity: 1; text-shadow: 0 0 10px rgba(0, 255, 136, 0.4), 0 0 20px rgba(0, 255, 136, 0.2); }
-  50% { opacity: 0.85; text-shadow: 0 0 5px rgba(0, 255, 136, 0.2), 0 0 10px rgba(0, 255, 136, 0.1); }
-}
-
-@keyframes textFlicker {
-  0% { opacity: 1; text-shadow: 0 0 10px rgba(0, 255, 136, 0.4); }
-  2% { opacity: 0.8; text-shadow: 0 0 5px rgba(0, 255, 136, 0.2); }
-  4% { opacity: 1; text-shadow: 0 0 15px rgba(0, 255, 136, 0.5); }
-  100% { opacity: 1; text-shadow: 0 0 10px rgba(0, 255, 136, 0.4); }
-}
-
-.text-pulse {
-  animation: textPulse 3s ease-in-out infinite;
-}
-
-.text-flicker {
-  animation: textFlicker 4s infinite;
-}
 
 
 
@@ -342,11 +278,7 @@ body {
   animation: matrixRain linear infinite;
 }
 
-/* ===== Glow on focus ===== */
-.input-glow:focus {
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.2), 0 0 15px rgba(0, 255, 136, 0.1);
-  border-color: rgba(0, 255, 136, 0.4) !important;
-}
+
 
 
 
@@ -379,13 +311,7 @@ body {
   border-radius: 2px;
 }
 
-/* ===== Grid Pattern ===== */
-.grid-pattern {
-  background-image: 
-    linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
+
 
 
 /* ===== ASCII Banner Responsiveness ===== */
@@ -472,82 +398,5 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-}
-
-/* ===== Project Card Redesign Custom Hover ===== */
-.project-card-custom {
-  cursor: pointer;
-  transition: transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              border-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              box-shadow 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              background-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.project-card-custom:hover {
-  transform: translateY(-4px);
-  border-color: rgba(0, 212, 255, 0.4) !important;
-  box-shadow: 0 0 25px rgba(0, 212, 255, 0.15) !important;
-  background-color: var(--bg-card-hover) !important;
-}
-
-.project-card-custom:hover .project-card-title {
-  color: #ffffff !important;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-}
-
-.project-card-custom:hover .project-card-tech {
-  background: rgba(0, 255, 136, 0.12) !important;
-  border-color: rgba(0, 255, 136, 0.4) !important;
-  color: var(--terminal-green) !important;
-}
-
-/* ===== Premium Terminal-Style Action Buttons ===== */
-.btn-terminal-premium,
-.btn-github-premium {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background-color: #0b1220; /* Dark navy matching surface color */
-  border: 1px solid rgba(0, 255, 136, 0.2); /* Low opacity green accent border */
-  color: var(--text-primary);
-  border-radius: 6px;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              border-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              box-shadow 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              background-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.btn-terminal-premium svg,
-.btn-github-premium svg {
-  color: var(--text-primary);
-  transition: color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* Hover state */
-.btn-terminal-premium:hover,
-.btn-github-premium:hover {
-  background-color: var(--bg-card-hover) !important;
-  border-color: var(--terminal-green) !important;
-  color: var(--terminal-green) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.25);
-}
-
-.btn-terminal-premium:hover svg,
-.btn-github-premium:hover svg {
-  color: var(--terminal-green) !important;
-}
-
-/* Active state */
-.btn-terminal-premium:active,
-.btn-github-premium:active {
-  transform: scale(0.96) translateY(0);
-  box-shadow: 0 0 5px rgba(0, 255, 136, 0.1) !important;
 }
 
