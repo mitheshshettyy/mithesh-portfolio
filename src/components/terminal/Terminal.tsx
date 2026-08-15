@@ -135,7 +135,7 @@ ${exps || '- No professional experience yet.'}`;
     return `--- PROJECTS ---\n` + projectsData.map((proj, idx) => {
       const normalizedTech = proj.tech.map(t => t.replace(/\s+v?\d+(\.\d+)*$/i, '').trim());
       const techList = normalizedTech.slice(0, 4).join(', ') + (normalizedTech.length > 4 ? ', etc.' : '');
-      return `${idx + 1}. ${proj.name}: ${proj.tagline} (${techList}) — ${proj.stars} stars`;
+      return `${idx + 1}. ${proj.name}: ${proj.tagline} (${techList})`;
     }).join('\n');
   },
 
@@ -445,7 +445,7 @@ function useCommandProcessor(
                     {idx + 1}. {proj.name}:
                   </span>
                   <span className="flex-1 break-words text-[var(--text-secondary)]">
-                    {proj.tagline} ({techList}) — {proj.stars} stars
+                    {proj.tagline} ({techList})
                   </span>
                 </div>
               )

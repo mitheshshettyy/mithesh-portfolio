@@ -190,7 +190,7 @@ export const projectsData = [
     description:
       "My Coffee Co. is a premium, mobile-first e-commerce frontend designed to make coffee shopping fast, tactile, and frictionless. Through responsive layout restructuring, elimination of main-thread render bottlenecks, and GPU-composited layers, the app delivers consistent 60 FPS scroll performance across all mobile devices — from iPhone SE to Galaxy S22 Ultra.",
     category: "Frontend",
-    tech: ["React", "Vite", "Tailwind CSS", "TypeScript", "Framer Motion", "Vercel"],
+    tech: ["React", "Vite", "Tailwind CSS", "TypeScript", "Framer Motion"],
     features: [
       "Split-context render isolation — cart state is separated from product cards to eliminate unnecessary re-renders",
       "Swipeable horizontal scroll-snapping carousels that reduce page height by over 70%",

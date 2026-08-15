@@ -61,7 +61,7 @@ export default function Projects() {
     : sortedProjects.filter(p => p.category === activeFilter);
 
   return (
-    <div ref={pageRef} className="desktop-container pt-8 sm:pt-10 pb-28 sm:pb-36 md:pb-40 flex flex-col gap-8">
+    <div ref={pageRef} className="desktop-container pt-8 sm:pt-10 pb-8 sm:pb-10 flex flex-col gap-8">
       {/* ── Header ── */}
       <div className="reveal flex flex-col gap-2">
         <div className="flex items-center gap-1 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
