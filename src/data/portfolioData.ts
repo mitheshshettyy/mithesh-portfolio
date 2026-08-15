@@ -388,6 +388,29 @@ export const projectsData = [
     stars: 25,
     featured: true,
   },
+  {
+    id: "code-it",
+    name: "CODE.it",
+    tagline: "Web Development Essentials",
+    shortDescription:
+      "My first web development project — a responsive single-page educational website covering frontend and backend web development fundamentals.",
+    description:
+      "CODE.it is a responsive single-page educational website covering core frontend and backend web development concepts. It was built as my first web development project to practice responsive layouts, reusable sections, styling, and JavaScript interactivity.",
+    category: "Frontend",
+    tech: ["HTML", "CSS", "JavaScript", "Bootstrap"],
+    features: [
+      "Responsive single-page educational layout",
+      "Dark/light theme with browser preference persistence",
+      "Interactive YouTube tutorial modal",
+      "Beginner-friendly web development reference content",
+    ],
+    github: "https://github.com/mitheshshettyy/Web-Development-Blog",
+    liveDemo: "https://mitheshshettyy.github.io/Web-Development-Blog/",
+    demo: "https://mitheshshettyy.github.io/Web-Development-Blog/",
+    status: "Completed",
+    date: "Mar 2024",
+    featured: false,
+  },
 ];
 
 export const experienceData = [
