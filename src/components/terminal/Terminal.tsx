@@ -132,9 +132,11 @@ ${exps || '- No professional experience yet.'}`;
   },
 
   get projectsData() {
-    return `--- PROJECTS ---\n` + projectsData.map((proj, idx) => 
-      `${idx + 1}. ${proj.name}: ${proj.tagline} (${proj.tech.slice(0, 4).join(', ')}${proj.tech.length > 4 ? ', etc.' : ''}) - ${proj.stars} stars`
-    ).join('\n');
+    return `--- PROJECTS ---\n` + projectsData.map((proj, idx) => {
+      const normalizedTech = proj.tech.map(t => t.replace(/\s+v?\d+(\.\d+)*$/i, '').trim());
+      const techList = normalizedTech.slice(0, 4).join(', ') + (normalizedTech.length > 4 ? ', etc.' : '');
+      return `${idx + 1}. ${proj.name}: ${proj.tagline} (${techList}) — ${proj.stars} stars`;
+    }).join('\n');
   },
 
   get experienceData() {
@@ -427,6 +429,33 @@ function useCommandProcessor(
         const currentFolder = VIRTUAL_FS[currentDir];
         const fileKey = currentFolder.files[filename.toLowerCase()];
         
+        if (fileKey === 'projectsData') {
+          const outputLines: TerminalLine[] = [
+            line('output', '  --- PROJECTS ---'),
+          ];
+          projectsData.forEach((proj, idx) => {
+            const normalizedTech = proj.tech.map(t => t.replace(/\s+v?\d+(\.\d+)*$/i, '').trim());
+            const techList = normalizedTech.slice(0, 4).join(', ') + (normalizedTech.length > 4 ? ', etc.' : '');
+            
+            outputLines.push(
+              line(
+                'output',
+                <div key={proj.id} className="flex items-start pl-2 font-mono text-[0.82rem] leading-[1.55] text-[var(--text-secondary)] w-full">
+                  <span className="shrink-0 text-[var(--text-secondary)] mr-1.5 whitespace-nowrap select-none">
+                    {idx + 1}. {proj.name}:
+                  </span>
+                  <span className="flex-1 break-words text-[var(--text-secondary)]">
+                    {proj.tagline} ({techList}) — {proj.stars} stars
+                  </span>
+                </div>
+              )
+            );
+          });
+          outputLines.push(blank());
+          outputLines.push(line('success', `  [Tip] Type 'projects' to navigate to the visual page.`));
+          return outputLines;
+        }
+
         if (fileKey) {
           const content = FILE_CONTENTS[fileKey];
           const linesOutput = content.split('\n').map(l => line('output', `  ${l}`));

@@ -35,7 +35,7 @@ export const aboutData = {
     "Open Source & Continuous Learning",
   ],
   stats: [
-    { label: "Projects Built", value: "10+", color: "green" },
+    { label: "Projects Built", value: "8+", color: "green" },
     { label: "CGPA", value: "8.78", color: "cyan" },
     { label: "LeetCode Problems", value: "350+", color: "purple" },
     { label: "Internships", value: "1", color: "blue" },
@@ -117,6 +117,7 @@ export const skillsData = {
     { name: "MySQL", level: 85 },
     { name: "MongoDB", level: 90 },
     { name: "PostgreSQL", level: 75 },
+    { name: "Prisma ORM", level: 80 },
   ],
   developerEcosystem: [
     { name: "Git", level: 90 },
@@ -147,6 +148,39 @@ export const skillsData = {
 };
 
 export const projectsData = [
+  {
+    id: "school-erp",
+    name: "School ERP",
+    tagline: "Production-ready full-stack institutional ERP with automated grading, fee processing, and role-based portals",
+    shortDescription:
+      "A full-stack institutional ERP with role-based dashboards, automated MCQ and subjective grading, Razorpay fee processing, and on-demand document issuance.",
+    description:
+      "A production-ready full-stack institutional management platform that centralizes academic tracking, administration, and communication across dedicated portals for Admins, Teachers, Students, Parents, and Staff.",
+    category: "Full-Stack",
+    tech: ["React", "Node.js", "Express.js", "PostgreSQL", "Prisma ORM", "Tailwind CSS", "TanStack Query", "JWT"],
+    features: [
+      "Role-Based Portals: Dedicated dashboards and workflows for Admins, Teachers, Students, Parents, and Staff",
+      "Automated Assessment & Grading: Automated evaluation for MCQs and subjective questions using text similarity algorithms",
+      "Fee Processing & Document Issuance: Razorpay fee collection with on-demand generation of receipts, report cards, and certificates",
+    ],
+    problemSolved:
+      "Replaces fragmented paper-based school operations and delayed fee reconciliation with a unified web platform featuring automated assessment evaluation, instant document generation, and role-based security.",
+    approach:
+      "Engineered a decoupled client-server architecture with React on the frontend and Express.js on the backend. PostgreSQL and Prisma ORM ensure transactional consistency for financial and academic records.",
+    architecture:
+      "A client-server RESTful application featuring a React SPA connected to a modular Express.js API, backed by PostgreSQL via Prisma ORM with JWT authentication and role-based route middleware.",
+    challenges:
+      "Ensuring accurate automated subjective grading and zero-latency authorization across multi-role endpoints. Resolved with text similarity models and cached role permission middleware.",
+    futureImprovements:
+      "Mobile client with React Native and hardware attendance machine integration.",
+    github: "https://github.com/anilkumar8070/School_ERP-main",
+    liveDemo: "https://school-erp-main-three.vercel.app",
+    demo: "https://school-erp-main-three.vercel.app",
+    status: "Completed",
+    date: "Aug 2026",
+    stars: 16,
+    featured: true,
+  },
   {
     id: "my-coffee-co",
     name: "My Coffee Co.",
@@ -328,7 +362,7 @@ export const projectsData = [
       "A platform for browsing and submitting medicinal plant entries, with a gallery, submission form, and contact page — anchored by an immersive Three.js 3D landing scene.",
     description:
       "An immersive, interactive web platform showcasing a digital library of medicinal plants. The application pairs a structured botanical database with a beautifully rendered 3D landing page scene, letting users explore plant models in a virtual greenhouse environment.",
-    category: "Frontend",
+    category: "Full-Stack",
     tech: ["Next.js", "React", "Tailwind CSS", "MongoDB", "Three.js", "TypeScript"],
     features: [
       "Plant Gallery for browsing medicinal plants with their uses and images",

@@ -7,6 +7,10 @@ const filters: FilterCategory[] = ['All', 'Frontend', 'Full-Stack', 'AI/ML'];
 
 type Project = typeof projectsData[0];
 
+export function normalizeTechName(tech: string): string {
+  return tech.replace(/\s+v?\d+(\.\d+)*$/i, '').trim();
+}
+
 function parseProjectDate(date: string | undefined | null): number {
   if (!date) return -Infinity;
   const parsed = new Date(`01 ${date}`);
@@ -57,7 +61,7 @@ export default function Projects() {
     : sortedProjects.filter(p => p.category === activeFilter);
 
   return (
-    <div ref={pageRef} className="desktop-container py-10 flex flex-col gap-8">
+    <div ref={pageRef} className="desktop-container pt-8 sm:pt-10 pb-28 sm:pb-36 md:pb-40 flex flex-col gap-8">
       {/* ── Header ── */}
       <div className="reveal flex flex-col gap-2">
         <div className="flex items-center gap-1 text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
@@ -202,7 +206,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: (p: Projec
         {/* Row 5: tech chips */}
         <div className="flex flex-wrap gap-1.5 mt-auto pt-1">
           {project.tech.slice(0, 5).map((t) => (
-            <span key={t} className="tech-tag" style={{ fontSize: '0.6rem', padding: '2px 7px' }}>{t}</span>
+            <span key={t} className="tech-tag" style={{ fontSize: '0.6rem', padding: '2px 7px' }}>{normalizeTechName(t)}</span>
           ))}
           {project.tech.length > 5 && (
             <span className="tech-tag opacity-50" style={{ fontSize: '0.6rem', padding: '2px 7px' }}>
@@ -450,7 +454,7 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
               {/* // description */}
               <Section heading="// description">
                 <p className="text-[13px] leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', lineHeight: 1.7 }}>
-                  {project.shortDescription}
+                  {project.description || project.shortDescription}
                 </p>
               </Section>
 
@@ -477,12 +481,21 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
                 </Section>
               )}
 
+              {/* // architecture */}
+              {project.architecture && (
+                <Section heading="// architecture">
+                  <p className="text-[13px] leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', lineHeight: 1.7 }}>
+                    {project.architecture}
+                  </p>
+                </Section>
+              )}
+
               {/* // tech_stack */}
               {project.tech?.length > 0 && (
                 <Section heading="// tech_stack">
                   <div className="flex flex-wrap gap-2">
                     {project.tech.map((t) => (
-                      <span key={t} className="tech-tag" style={{ fontSize: '0.68rem' }}>{t}</span>
+                      <span key={t} className="tech-tag" style={{ fontSize: '0.68rem' }}>{normalizeTechName(t)}</span>
                     ))}
                   </div>
                 </Section>
