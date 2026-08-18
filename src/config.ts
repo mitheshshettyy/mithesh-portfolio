@@ -3,7 +3,7 @@ export const config = {
     path: import.meta.env.VITE_RESUME_PATH || '/resume/Mithesh_R_Shetty.pdf',
     filename: import.meta.env.VITE_RESUME_FILENAME || 'Mithesh_R_Shetty.pdf',
     downloadName: import.meta.env.VITE_RESUME_DOWNLOAD_NAME || 'Mithesh_R_Shetty.pdf',
-    lastUpdated: import.meta.env.VITE_RESUME_LAST_UPDATED || '2026-07-15',
+    lastUpdated: import.meta.env.VITE_RESUME_LAST_UPDATED || '2026-08-18',
     version: import.meta.env.VITE_RESUME_VERSION || 'v2',
   },
   personal: {
