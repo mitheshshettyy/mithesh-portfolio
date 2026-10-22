@@ -14,6 +14,7 @@ export const personalInfo = {
   email: config.contact.email,
   github: config.contact.github,
   linkedin: config.contact.linkedin,
+  leetcode: config.contact.leetcode,
   resumeUrl: config.resume.path,
   prompt: `${config.terminal.user}@${config.terminal.host}`,
   shell: config.terminal.shell,
@@ -470,6 +471,7 @@ export const commandDocs: Record<string, string> = {
   social: "Display social media links",
   github: "Open GitHub profile",
   linkedin: "Open LinkedIn profile",
+  leetcode: "Open LeetCode profile",
   email: "Display email address",
   status: "Show availability status",
   theme: "Display current terminal theme info",
@@ -489,5 +491,6 @@ export const commandDocs: Record<string, string> = {
 export const socialLinks = {
   github: { url: config.contact.github, label: "GitHub", handle: `@${config.contact.github.split('/').pop()}` },
   linkedin: { url: config.contact.linkedin, label: "LinkedIn", handle: `in/${config.contact.linkedin.split('/in/').pop()}` },
+  leetcode: { url: config.contact.leetcode, label: "LeetCode", handle: `@${config.contact.leetcode.replace(/\/+$/, '').split('/').pop()}` },
   email: { url: `mailto:${config.contact.email}`, label: "Email", handle: config.contact.email },
 };
