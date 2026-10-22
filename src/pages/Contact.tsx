@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
+import { TbBrandLeetcode } from 'react-icons/tb';
 import { personalInfo, socialLinks } from '../data/portfolioData';
 import config from '../config';
 
@@ -317,6 +318,12 @@ export default function Contact() {
                   label="LinkedIn"
                   value={socialLinks.linkedin.handle}
                   href={personalInfo.linkedin}
+                />
+                <ContactItem
+                  icon={<TbBrandLeetcode size={16} strokeWidth={1.8} />}
+                  label="LeetCode"
+                  value={socialLinks.leetcode.handle}
+                  href={personalInfo.leetcode}
                 />
                 <ContactItem
                   icon={<FiMail size={16} strokeWidth={1.8} />}

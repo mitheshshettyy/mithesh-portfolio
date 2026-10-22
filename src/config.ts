@@ -22,6 +22,7 @@ export const config = {
     email: import.meta.env.VITE_CONTACT_EMAIL || 'shettymithesh030@gmail.com',
     github: import.meta.env.VITE_CONTACT_GITHUB || 'https://github.com/mitheshshettyy',
     linkedin: import.meta.env.VITE_CONTACT_LINKEDIN || 'https://linkedin.com/in/mithesh-shetty030',
+    leetcode: import.meta.env.VITE_CONTACT_LEETCODE || 'https://leetcode.com/MitheshShettyy/',
     portfolioUrl: import.meta.env.VITE_CONTACT_PORTFOLIO_URL || '',
   },
   terminal: {
