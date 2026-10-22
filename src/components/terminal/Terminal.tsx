@@ -122,6 +122,7 @@ Name: ${config.personal.name}
 Email: ${config.contact.email}
 GitHub: ${config.contact.github.replace('https://', '')}
 LinkedIn: ${config.contact.linkedin.replace('https://', '')}
+LeetCode: ${config.contact.leetcode.replace('https://', '')}
 
 Education:
 - ${config.personal.university.split(',')[0]} (B.Tech CSE, CGPA: ${config.personal.cgpa.replace(/\s+/g, '')})
@@ -154,6 +155,7 @@ ${exps || '- No professional experience yet.'}`;
 Email: ${config.contact.email}
 GitHub: ${config.contact.github}
 LinkedIn: ${config.contact.linkedin}
+LeetCode: ${config.contact.leetcode}
 Location: ${config.personal.location}`;
   }
 };
@@ -167,7 +169,7 @@ function renderSyntaxHighlightedCommand(command: string) {
   const isCommandValid = [
     'help', 'about', 'education', 'skills', 'projects', 'experience', 'contact', 'resume', 
     'whoami', 'pwd', 'ls', 'cd', 'tree', 'clear', 'cls', 'date', 'time', 'history', 'echo', 'cat', 
-    'neofetch', 'github', 'linkedin', 'email', 'theme', 'open', 'download', 'social', 'status', 
+    'neofetch', 'github', 'linkedin', 'leetcode', 'email', 'theme', 'open', 'download', 'social', 'status', 
     'ascii', 'banner', 'uptime', 'intro', 'matrix', 'exit'
   ].includes(cmd.toLowerCase());
 
@@ -245,6 +247,7 @@ function useCommandProcessor(
           line('info', '  SOCIAL & ACTIONS'),
           line('output', '  github          → Open GitHub profile'),
           line('output', '  linkedin        → Open LinkedIn profile'),
+          line('output', '  leetcode        → Open LeetCode profile'),
           line('output', '  email           → View email address'),
           line('output', '  social          → Display all social links'),
           line('output', '  download resume → Download resume PDF directly'),
@@ -487,6 +490,7 @@ function useCommandProcessor(
           line('section', '  ── SOCIAL LINKS ───────────────────────────────────────'),
           line('success', `  GitHub    → ${socialLinks.github.url}`),
           line('info', `  LinkedIn  → ${socialLinks.linkedin.url}`),
+          line('info', `  LeetCode  → ${socialLinks.leetcode.url}`),
           line('output', `  Email     → ${socialLinks.email.handle}`),
           blank(),
         ];
@@ -503,6 +507,13 @@ function useCommandProcessor(
         return [
           line('success', `  Opening LinkedIn: ${socialLinks.linkedin.url}`),
           line('info', `  Handle: ${socialLinks.linkedin.handle}`),
+        ];
+
+      case 'leetcode':
+        window.open(socialLinks.leetcode.url, '_blank');
+        return [
+          line('success', `  Opening LeetCode: ${socialLinks.leetcode.url}`),
+          line('info', `  Handle: ${socialLinks.leetcode.handle}`),
         ];
 
       case 'email':

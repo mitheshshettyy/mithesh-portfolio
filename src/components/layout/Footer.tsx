@@ -30,7 +30,7 @@ export default function Footer() {
           </div>
 
           {/* Right */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-wrap justify-center sm:justify-end">
             <a
               href={personalInfo.github}
               target="_blank"
@@ -52,6 +52,17 @@ export default function Footer() {
               onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)'; }}
             >
               LinkedIn
+            </a>
+            <a
+              href={personalInfo.leetcode}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs transition-colors"
+              style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--terminal-yellow)'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)'; }}
+            >
+              LeetCode
             </a>
             <span
               className="text-xs"
