@@ -42,11 +42,11 @@ export const aboutData = {
     { label: "Internships", value: "1", color: "blue" },
   ],
   funFacts: [
-    "Full-Stack Development Enthusiast",
     "DSA Practitioner",
-    "Avid Series Watcher",
     "Always Exploring New Tech",
-    "Cricket & F1 Fan",
+    "F1 Fan",
+    "Avid Series Watcher",
+    "Passionate Gamer",
   ],
 };
 
