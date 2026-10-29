@@ -162,6 +162,42 @@ export const skillsData = {
 
 export const projectsData = [
   {
+    id: "resilio",
+    name: "Resilio",
+    tagline: "Infrastructure Monitoring and Auto-Recovery System",
+    shortDescription:
+      "A Python-based infrastructure monitoring system that tracks CPU, memory, disk, process, and network health, classifies operational states, and executes automated recovery actions with verification.",
+    description:
+      "Resilio is a modular infrastructure monitoring and auto-recovery system built in Python. It continuously collects system metrics across CPU, memory, disk, process, and network resources, classifies each into HEALTHY, WARNING, or CRITICAL states using configurable thresholds, and triggers targeted recovery actions when degradation is detected. A verification step confirms recovery success before resuming normal monitoring. The system is fully containerized with Docker and tested via pytest with a GitHub Actions CI pipeline.",
+    category: "Systems",
+    tech: ["Python", "psutil", "pytest", "Docker", "GitHub Actions", "python-dotenv"],
+    features: [
+      "Multi-resource monitoring: CPU, memory, disk, process, and network collectors reporting real-time system metrics via psutil",
+      "Health classification engine categorizing each resource as HEALTHY, WARNING, or CRITICAL based on configurable thresholds",
+      "Recovery manager executing targeted corrective actions for CPU, memory, disk, process, and network issues",
+      "Recovery verification confirming that corrective actions restored the resource to a healthy state before resuming monitoring",
+      "Monitoring pipeline orchestrating the full collect → classify → recover → verify cycle across all resource types",
+      "Containerized execution via Docker and Docker Compose for reproducible deployments",
+      "Automated testing with pytest and continuous integration through GitHub Actions",
+    ],
+    problemSolved:
+      "Manual infrastructure monitoring is reactive and error-prone — operators often detect degradation only after it causes downtime. Resilio automates the detection-to-recovery loop, providing continuous health assessment and corrective action without manual intervention.",
+    approach:
+      "Built a modular architecture where each resource type has a dedicated monitor, and a centralized health classifier evaluates collected metrics against configurable thresholds. The recovery manager maps each resource and severity level to a specific corrective action, and a verification step confirms recovery before the pipeline resumes normal operation.",
+    architecture:
+      "A pipeline-driven Python application composed of resource-specific monitor modules (CPU, memory, disk, process, network), a threshold-based health classifier, a recovery manager with per-resource recovery strategies, and a verification layer. Configuration is managed via environment variables with python-dotenv. The system is containerized with Docker and tested with pytest.",
+    challenges:
+      "Designing recovery actions that are safe to execute automatically without operator confirmation required careful scoping — each recovery strategy targets only well-understood, reversible operations. Ensuring the verification step accurately distinguishes genuine recovery from transient metric fluctuations was addressed through post-recovery health re-evaluation.",
+    futureImprovements:
+      "Alerting integrations (email, Slack), persistent metric storage for historical trend analysis, and a web-based dashboard for real-time monitoring visualization.",
+    github: "https://github.com/mitheshshettyy/Resilio",
+    demo: null,
+    status: "Completed",
+    date: "Oct 2026",
+    stars: 0,
+    featured: true,
+  },
+  {
     id: "school-erp",
     name: "School ERP",
     tagline: "Production-ready full-stack institutional ERP with automated grading, fee processing, and role-based portals",

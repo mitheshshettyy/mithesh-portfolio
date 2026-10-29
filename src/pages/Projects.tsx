@@ -2,8 +2,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { projectsData, personalInfo } from '../data/portfolioData';
 
-type FilterCategory = 'All' | 'Frontend' | 'Full-Stack' | 'AI/ML';
-const filters: FilterCategory[] = ['All', 'Frontend', 'Full-Stack', 'AI/ML'];
+type FilterCategory = 'All' | 'Systems' | 'Full-Stack' | 'Frontend' | 'AI/ML';
+const filters: FilterCategory[] = ['All', 'Systems', 'Full-Stack', 'Frontend', 'AI/ML'];
 
 type Project = typeof projectsData[0];
 
