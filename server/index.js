@@ -83,6 +83,15 @@ app.get('/api/projects', (req, res) => {
 
   const projects = [
     {
+      id: 'resilio',
+      name: 'Resilio',
+      category: 'Systems',
+      featured: true,
+      tech: ['Python', 'psutil', 'pytest', 'Docker', 'GitHub Actions', 'python-dotenv'],
+      stars: 0,
+      status: 'Completed',
+    },
+    {
       id: 'complexify',
       name: 'Complexify',
       category: 'AI/ML',
