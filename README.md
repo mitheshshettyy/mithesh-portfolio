@@ -37,7 +37,7 @@ The frontend is powered by **Vite** and styled with **Tailwind CSS v4**, while a
 
 * **Three.js Interactive Canvas**: A background particle field that responds dynamically to cursor movements and window dimensions.
 * **GSAP Motion & Animations**: Entrance reveals, page route transitions, timeline animations, and a retro system boot sequence screen (`BootScreen`).
-* **Projects Showcase**: Filterable project gallery (Full-Stack, AI/ML, Frontend) with detailed modal views, live demo links, repository URLs, and search capabilities.
+* **Projects Showcase**: Filterable project gallery (Systems, Full-Stack, AI/ML, Frontend) with detailed modal views, live demo links, repository URLs, and search capabilities.
 * **Resume Viewer**: Direct in-app PDF preview with custom toolbar controls and single-click download functionality.
 
 ### Secure Backend & Infrastructure
