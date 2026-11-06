@@ -90,6 +90,9 @@ Desktop.ini
 *.p12
 *.pfx
 
+# ── Generated Verification Files ─────────────────────────────
+public/.well-known/discord
+
 # ── Uploads ──────────────────────────────────────────────────
 uploads/
 server/uploads/
